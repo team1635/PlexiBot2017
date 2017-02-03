@@ -1,39 +1,54 @@
 package org.usfirst.frc.team1635.robot;
 
-import edu.wpi.first.wpilibj.buttons.Button;
+import org.usfirst.frc.team1635.robot.commands.MoveServoActuatorIn;
+import org.usfirst.frc.team1635.robot.commands.MoveServoActuatorOut;
+//import org.usfirst.frc.team1635.robot.commands.PullPistonIn;
+//import org.usfirst.frc.team1635.robot.commands.PushPistonOut;
+import org.usfirst.frc.team1635.robot.commands.ShakeRobotWithButton;
+import org.usfirst.frc.team1635.util.XboxControllerButton;
 
-import org.usfirst.frc.team1635.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	//// CREATING BUTTONS
-	// One type of button is a joystick button which is any button on a
-	//// joystick.
-	// You create one by telling it which joystick it's on and which button
-	// number it is.
-	// Joystick stick = new Joystick(port);
-	// Button button = new JoystickButton(stick, buttonNumber);
+	XboxController gameController = new XboxController(RobotMap.driverControllerPort);
 
-	// There are a few additional built in buttons you can use. Additionally,
-	// by subclassing Button you can create custom triggers and bind those to
-	// commands the same as any other Button.
+	Button aButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kA);
+	Button bButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kB);
+    Button yButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kY);
+    Button xButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kX);
+    public OI() {
+    	//aButton.whenPressed(new PushPistonOut());
+    	//bButton.whenPressed(new PullPistonIn());
+    	aButton.whenPressed(new MoveServoActuatorOut());
+    	bButton.whenPressed(new MoveServoActuatorIn());
+    	yButton.whenPressed(new ShakeRobotWithButton());
+    	//xButton.whenPressed(new ActuateWithParameters());
+    }
+    
+    public XboxController StartController() { 
+    	return gameController; 
+    }
+    
+    public double getActuatorSpeed() {    	
+    	return gameController.getX(GenericHID.Hand.kLeft);
+    }
+    
+    public double getLeftSpeed() {
+    	return gameController.getY(GenericHID.Hand.kLeft);
+    }
 
-	//// TRIGGERING COMMANDS WITH BUTTONS
-	// Once you have a button, it's trivial to bind it to a button in one of
-	// three ways:
+    public double getRightSpeed() {
+    	return gameController.getY(GenericHID.Hand.kRight);
+    }
+    
+    public double getServoActuatorSpeed() {
+    	return gameController.getTriggerAxis(GenericHID.Hand.kRight);
+    }
+} 
 
-	// Start the command when the button is pressed and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenPressed(new ExampleCommand());
-
-	// Run the command while the button is being held down and interrupt it once
-	// the button is released.
-	// button.whileHeld(new ExampleCommand());
-
-	// Start the command when the button is released and let it run the command
-	// until it is finished as determined by it's isFinished method.
-	// button.whenReleased(new ExampleCommand());
-}
