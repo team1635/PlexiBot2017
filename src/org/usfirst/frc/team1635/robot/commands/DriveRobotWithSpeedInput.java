@@ -1,12 +1,26 @@
 package org.usfirst.frc.team1635.robot.commands;
 
+//Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;
-
+//------------------------------------------------------------
+// WPILIB Imports 
 import edu.wpi.first.wpilibj.command.Command;
+//------------------------------------------------------------
+
+
+//.---.  ,--.    .-----. .------.  
+///_   | /  .'   /  -.   \|   ___|  
+//|   |.  / -.  '-' _'  ||  '--.   
+//|   || .-.  '    |_  < `---.  '. 
+//|   |' \  |  |.-.  |  |.-   |  | 
+//|   |\  `'  / \ `-'   /| `-'   / 
+//`---' `----'   `----''  `----''  
 
 /**
- *
- */
+* 
+* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
+*
+*/
 public class DriveRobotWithSpeedInput extends Command {
 
     public DriveRobotWithSpeedInput() {

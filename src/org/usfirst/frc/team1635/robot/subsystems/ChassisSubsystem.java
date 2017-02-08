@@ -1,17 +1,33 @@
 package org.usfirst.frc.team1635.robot.subsystems;
 
+// Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.DriveRobotWithSpeedInput;
+//------------------------------------------------------------
 
+// CTRE Imports
 import com.ctre.CANTalon;
+//------------------------------------------------------------
 
+// WPILIB Imports 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+//------------------------------------------------------------
+
+//.---.  ,--.    .-----. .------.  
+///_   | /  .'   /  -.   \|   ___|  
+//|   |.  / -.  '-' _'  ||  '--.   
+//|   || .-.  '    |_  < `---.  '. 
+//|   |' \  |  |.-.  |  |.-   |  | 
+//|   |\  `'  / \ `-'   /| `-'   / 
+//`---' `----'   `----''  `----''  
 
 /**
+ * 
+ * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
  *
  */
 public class ChassisSubsystem extends Subsystem {
@@ -35,11 +51,13 @@ public class ChassisSubsystem extends Subsystem {
 		backLeftMotor.enableBrakeMode(false);
 		backRightMotor.enableBrakeMode(false);
 
-		drive = new RobotDrive(forwardLeftMotor, backLeftMotor,
-				forwardRightMotor, backRightMotor);
-		drive.setSafetyEnabled(false); //TODO: Figure why we need this
+		drive = new RobotDrive(forwardLeftMotor, backLeftMotor, forwardRightMotor, backRightMotor);
+		drive.setSafetyEnabled(false); // TODO: Figure why we need this
 	}
+	
+	// Subsystem Functions (These are called through Commands)
 
+//------------------------------------------------------------
 	public double getAverageDistance() {
 		return convertVoltageToDistance(sonar.getAverageVoltage());
 	}

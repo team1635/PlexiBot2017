@@ -1,8 +1,23 @@
 package org.usfirst.frc.team1635.util;
 
+//WPILIB imports
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+//------------------------------------------------------------
 
+//.---.  ,--.    .-----. .------.  
+///_   | /  .'   /  -.   \|   ___|  
+//|   |.  / -.  '-' _'  ||  '--.   
+//|   || .-.  '    |_  < `---.  '. 
+//|   |' \  |  |.-.  |  |.-   |  | 
+//|   |\  `'  / \ `-'   /| `-'   / 
+//`---' `----'   `----''  `----''  
+
+/**
+* 
+* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
+*
+*/
 public class XboxControllerButton extends JoystickButton {
 
 	public enum Name {
@@ -19,6 +34,7 @@ public class XboxControllerButton extends JoystickButton {
 		
 		int getNumber() {
 			return number;
+			
 		}
 	}
 	

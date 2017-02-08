@@ -19,9 +19,19 @@ import edu.wpi.first.wpilibj.vision.VisionThread;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+//.---.  ,--.    .-----. .------.  
+///_   | /  .'   /  -.   \|   ___|  
+//|   |.  / -.  '-' _'  ||  '--.   
+//|   || .-.  '    |_  < `---.  '. 
+//|   |' \  |  |.-.  |  |.-   |  | 
+//|   |\  `'  / \ `-'   /| `-'   / 
+//`---' `----'   `----''  `----''  
+
 /**
- *
- */
+* 
+* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
+*
+*/
 public class VisionSubsystem extends Subsystem {
 	public final Object visionLock = new Object();
 	private int centerX;
@@ -29,17 +39,16 @@ public class VisionSubsystem extends Subsystem {
 	public VisionSubsystem() {
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
-		camera.setFPS(24); // TODO: I don't think this works. SmartDashboard is
-							// seeing 30 FPS
 
 		CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 320, 240);
 		CvSource secondStream = CameraServer.getInstance().putVideo("FirstStage", 320, 240);
-		//CvSink cameraStream = CameraServer.getInstance().getVideo();
-		//Mat oneFrame = new Mat();
-		//cameraStream.grabFrame(oneFrame);
-		//Imgcodecs.imwrite("/tmp/picture0", oneFrame);
+		// CvSink cameraStream = CameraServer.getInstance().getVideo();
+		// Mat oneFrame = new Mat();
+		// cameraStream.grabFrame(oneFrame);
+		// Imgcodecs.imwrite("/tmp/picture0", oneFrame);
 
-//		VisionThread visionThread = new VisionThread(camera, new VisionPipelineExample(), pipeline -> {
+		// VisionThread visionThread = new VisionThread(camera, new
+		// VisionPipelineExample(), pipeline -> {
 		VisionThread visionThread = new VisionThread(camera, new BobPipeline(), pipeline -> {
 			secondStream.putFrame(pipeline.hsvThresholdOutput());
 			if (!pipeline.filterContoursOutput().isEmpty()) {
@@ -49,18 +58,20 @@ public class VisionSubsystem extends Subsystem {
 				synchronized (visionLock) {
 					centerX = r.x + (r.width / 2);
 				}
-//				outputStream.putFrame(pipeline.hslThresholdOutput());
+				// outputStream.putFrame(pipeline.hslThresholdOutput());
 				outputStream.putFrame(pipeline.hsvThresholdOutput());
 				System.out.println("Vision: CenterX = " + centerX);
 				SmartDashboard.putNumber("polyCnt", polyCnt);
 			} else {
-//				System.out.println("Vision: No target in sight");
+				// System.out.println("Vision: No target in sight");
 			}
 		});
-		
+
 		visionThread.start();
-		
+
 	}
+	
+	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
