@@ -1,13 +1,16 @@
 package org.usfirst.frc.team1635.robot.subsystems;
 
-
 //WPILIB imports
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+
 //Local Package Imports
 import org.usfirst.frc.team1635.robot.RobotMap;
+import org.omg.CORBA.ExceptionList;
+import org.omg.IOP.ExceptionDetailMessage;
 import org.usfirst.frc.team1635.robot.OI;
 import org.usfirst.frc.team1635.robot.Robot;
+import org.usfirst.frc.team1635.robot.commands.ClimberWithController;
 
 //------------------------------------------------------------
 //CTRE Imports
@@ -23,37 +26,60 @@ import com.ctre.CANTalon;
 //`---' `----'   `----''  `----''  
 
 /**
-* 
-* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
-*
-*/
+ * 
+ * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
+ *
+ */
 public class RollerClimbSubsystem extends Subsystem {
-	CANTalon rollerTalon; 
-	
-   public RollerClimbSubsystem(){ 
-	   super(); 
-	   rollerTalon = new CANTalon(RobotMap.rollerClimbMotorCANPort); 
-	   
-	   
-	   
-   }
-   
-   public void rollerWithController(){ 
-	 boolean isStartPressed = Robot.oi.StartController().getStartButton();
-	 boolean isBackPressed = Robot.oi.StartController().getBackButton(); 
-	 
-	 while(isStartPressed ==true){ 
-		 // todo: Moving Forward while start is pressed
-	 }
-	 while(isBackPressed ==true){ 
-		 //todo : Moving Backwards while back is pressed
-	 }
-	 
-   }
-  
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
-}
+	CANTalon rollerTalon;
 
+	public RollerClimbSubsystem() {
+		super();
+		rollerTalon = new CANTalon(RobotMap.rollerClimbMotorCANPort);
+
+	}
+
+	
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+		setDefaultCommand(new ClimberWithController());
+	}
+	
+	public void rollerWithController() {
+		boolean isStartPressed = Robot.oi.StartController().getStartButton();
+		boolean isBackPressed = Robot.oi.StartController().getBackButton();
+		double output = 0.0;
+
+		if (isStartPressed && isBackPressed == true) {
+			output = 0.0;
+			// Climb should not activate when the Startbutton
+			// And backButtons are pressed
+		}
+
+		if (isBackPressed == true) {
+			output = -1; 
+		// Retracts the climber
+		}
+		if (isStartPressed == true){ 
+			output = 1; 
+		// Activates the climber	
+		}
+
+	}
+
+	public void operateRoller(double finalInput) {
+		rollerTalon.set(finalInput);
+	}
+	public void stopRoller() {
+		rollerTalon.set(0);
+	}
+
+	public double ObtainTalonLastSetValue() { 
+		double getTalonValue = rollerTalon.get();
+		return getTalonValue;
+	}
+
+	
+	
+}
