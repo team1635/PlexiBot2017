@@ -53,22 +53,29 @@ public class RollerClimbSubsystem extends Subsystem {
 
 		if (isStartPressed && isBackPressed == true) {
 			output = 0.0;
+			operateRollerParams(output);
 			// Climb should not activate when the Startbutton
 			// And backButtons are pressed
 		}
 
 		if (isBackPressed == true) {
 			output = -1; 
+			operateRollerParams(output);
 		// Retracts the climber
+		}
+		else{ 
+			output = 0.0; 
+			operateRollerParams(output);
 		}
 		if (isStartPressed == true){ 
 			output = 1; 
+			operateRollerParams(output);
 		// Activates the climber	
 		}
 
 	}
 
-	public void operateRoller(double finalInput) {
+	public void operateRollerParams(double finalInput) {
 		rollerTalon.set(finalInput);
 	}
 	public void stopRoller() {

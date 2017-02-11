@@ -38,11 +38,10 @@ public class OI {
 	Button xButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kX);
 
 	public OI() {
-		// aButton.whenPressed(new PushPistonOut());
-		// bButton.whenPressed(new PullPistonIn());
+		// Assign Commands to certain buttons while testing here. 
 		
 		yButton.whenPressed(new ShakeRobotWithButton());
-		// xButton.whenPressed(new ActuateWithParameters());
+	
 	}
 
 	

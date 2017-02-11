@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
+import org.usfirst.frc.team1635.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.RollerClimbSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.VisionSubsystem;
 //------------------------------------------------------------
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 	// .class files ) 
 	public static final ChassisSubsystem chassisSystem = new ChassisSubsystem();
 	public static final RollerClimbSubsystem rollerClimbSystem = new RollerClimbSubsystem();
+	public static final HopperSubsystem hopperSystem = new HopperSubsystem(); 
 	public static OI oi;
 	public static VisionSubsystem visionSystem;
 	Command autonomousCommand;

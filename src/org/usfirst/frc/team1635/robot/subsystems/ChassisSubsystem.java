@@ -37,6 +37,7 @@ public class ChassisSubsystem extends Subsystem {
 	private CANTalon backLeftMotor;
 	private CANTalon backRightMotor;
 	private RobotDrive drive;
+	boolean onTarget;
 
 	public ChassisSubsystem() {
 		super();
@@ -54,10 +55,16 @@ public class ChassisSubsystem extends Subsystem {
 		drive = new RobotDrive(forwardLeftMotor, backLeftMotor, forwardRightMotor, backRightMotor);
 		drive.setSafetyEnabled(false); // TODO: Figure why we need this
 	}
-	
+
 	// Subsystem Functions (These are called through Commands)
 
-//------------------------------------------------------------
+	// ------------------------------------------------------------
+	@Override
+	protected void initDefaultCommand() {
+		setDefaultCommand(new DriveRobotWithSpeedInput());
+
+	}
+
 	public double getAverageDistance() {
 		return convertVoltageToDistance(sonar.getAverageVoltage());
 	}
@@ -79,12 +86,6 @@ public class ChassisSubsystem extends Subsystem {
 		return voltage * 80.34714286;
 	}
 
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveRobotWithSpeedInput());
-
-	}
-
 	public void drive() {
 		drive.tankDrive(Robot.oi.getLeftSpeed(), Robot.oi.getRightSpeed());
 
@@ -99,21 +100,33 @@ public class ChassisSubsystem extends Subsystem {
 
 	}
 
-	public void driveForwardParams(double left, double right) {
+	public void shakeRobotForwardParams(double left, double right) {
 		drive.tankDrive(left, right);
 	}
 
-	public void driveBackwardsParams(double left, double right) {
+	public void shakeRobotBackwardsParams(double left, double right) {
 		drive.tankDrive(left, right);
 	}
 
 	public void shakeRobot() {
-		driveForwardParams(0.5, 0.5);
+		shakeRobotForwardParams(0.5, 0.5);
 		Timer.delay(0.1);
 		stop();
 		Timer.delay(0.2);
-		driveBackwardsParams(-0.5, -0.5);
+		shakeRobotBackwardsParams(-0.5, -0.5);
 		Timer.delay(0.1);
 		stop();
 	}
+
+	// Functions used to manage commands
+	// ------------------------------------------------------------
+	public void resetOnTarget() {
+		onTarget = false;
+	}
+
+	public boolean isOnTarget() {
+		return onTarget;
+	}
+	// ------------------------------------------------------------
+
 }
