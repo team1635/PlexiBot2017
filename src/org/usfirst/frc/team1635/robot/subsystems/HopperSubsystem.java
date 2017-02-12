@@ -3,10 +3,12 @@ package org.usfirst.frc.team1635.robot.subsystems;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.*;
+import org.usfirst.frc.team1635.util.XboxControllerButton;
 
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
@@ -33,13 +35,13 @@ public class HopperSubsystem extends Subsystem {
 	public HopperSubsystem() {
 		super();
 		hopperActuator = new CANTalon(RobotMap.actuatorMotorCANPort);
-		limitSwitchOne = new DigitalInput(0);
-		limitSwitchTwo = new DigitalInput(0);
+		limitSwitchOne = new DigitalInput(RobotMap.topLimitSwitchDioPort);
+		limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
 	}
 
-	public void controllerExtendHopper() {
-		boolean xbutton = Robot.oi.StartController().getXButton();
-		boolean bButton = Robot.oi.StartController().getAButton();
+	public void controllerExtendHopper(XboxController FirstButton, XboxController SecondButton) {
+	boolean xbutton = FirstButton.getXButton();
+	boolean bButton = SecondButton.getBButton();
 
 		if (xbutton == true) {
 			hopperActuator.set(-0.4);
@@ -66,6 +68,13 @@ public class HopperSubsystem extends Subsystem {
 	public void hopperStop() {
 		hopperActuator.set(0);
 	}
+	
+
+	public boolean isSwitchClosed(DigitalInput limitSwitch) {
+		return !(limitSwitch.get());
+	}
+	
+	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.

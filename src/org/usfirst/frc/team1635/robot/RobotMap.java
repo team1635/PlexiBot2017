@@ -36,6 +36,7 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// Digital Input/Output Ports ( DIO)
 	public static int topLimitSwitchDioPort = 0;
+	public static int bottomLimitSwitchDioPort = 0;
 
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
