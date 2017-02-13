@@ -27,46 +27,46 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
  *
  */
-public class HopperSubsystem extends Subsystem {
+public class ElevatorSubsystem extends Subsystem {
 
-	CANTalon hopperActuator;
+	CANTalon elevatorActuator;
 	DigitalInput limitSwitchOne, limitSwitchTwo;
 
-	public HopperSubsystem() {
+	public ElevatorSubsystem() {
 		super();
-		hopperActuator = new CANTalon(RobotMap.actuatorMotorCANPort);
+		elevatorActuator = new CANTalon(RobotMap.elevatorMotorCANPort);
 		limitSwitchOne = new DigitalInput(RobotMap.topLimitSwitchDioPort);
 		limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
 	}
 
-	public void controllerExtendHopper(XboxController FirstButton, XboxController SecondButton) {
-	boolean xbutton = FirstButton.getXButton();
-	boolean bButton = SecondButton.getBButton();
+	public void controlElevator() {
+	boolean xbutton = Robot.oi.StartController().getXButton();
+	boolean bButton = Robot.oi.StartController().getBButton();
 
 		if (xbutton == true) {
-			hopperActuator.set(-0.4);
+			elevatorActuator.set(-0.4);
 		} else if (bButton == true) {
-			hopperActuator.set(0.5);
+			elevatorActuator.set(0.5);
 		} else {
-			hopperStop();
+			elevatorStop();
 		}
 	}
 
-	public void operateHopperParams(double speed) {
-		hopperActuator.set(speed);
+	public void operateElevatorParams(double speed) {
+		elevatorActuator.set(speed);
 
 	}
 	
-	public void hopperUpParams(double speedValue){ 
-		hopperActuator.set(speedValue);
+	public void elevatorUpParams(double speedValue){ 
+		elevatorActuator.set(speedValue);
 	}
 	
-	public void hopperDownParams(double speedValue){ 
-		hopperActuator.set(speedValue);
+	public void elevatorDownParams(double speedValue){ 
+		elevatorActuator.set(speedValue);
 	}
 
-	public void hopperStop() {
-		hopperActuator.set(0);
+	public void elevatorStop() {
+		elevatorActuator.set(0);
 	}
 	
 

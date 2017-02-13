@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
-import org.usfirst.frc.team1635.robot.subsystems.HopperSubsystem;
+import org.usfirst.frc.team1635.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.RollerClimbSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.VisionSubsystem;
 //------------------------------------------------------------
@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	// .class files ) 
 	public static final ChassisSubsystem chassisSystem = new ChassisSubsystem();
 	public static final RollerClimbSubsystem rollerClimbSystem = new RollerClimbSubsystem();
-	public static final HopperSubsystem hopperSystem = new HopperSubsystem(); 
+	public static final ElevatorSubsystem elevatorSystem = new ElevatorSubsystem(); 
 	public static OI oi;
 	public static VisionSubsystem visionSystem;
 	Command autonomousCommand;
@@ -58,12 +58,8 @@ public class Robot extends IterativeRobot {
 
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData(chassisSystem);
-		SmartDashboard.putNumber("hue_min", 0.0);
-		SmartDashboard.putNumber("hue_max", 178.0);
-		SmartDashboard.putNumber("sat_min", 0.0);
-		SmartDashboard.putNumber("sat_max", 42.0);
-		SmartDashboard.putNumber("val_min", 211.0);
-		SmartDashboard.putNumber("val_max", 255.0);
+		SmartDashboard.putNumber("Value Of TalonSR", Robot.rollerClimbSystem.obtainTalonSRLastValue());
+		SmartDashboard.putNumber("Value Of TalonSR 2 ", Robot.rollerClimbSystem.obtainTalonSRx2LastValue()); 
 	}
 
 	public void disabledPeriodic() {

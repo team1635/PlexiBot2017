@@ -2,6 +2,8 @@ package org.usfirst.frc.team1635.robot.subsystems;
 
 //WPILIB imports
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Talon;
 
 
 //Local Package Imports
@@ -12,10 +14,6 @@ import org.usfirst.frc.team1635.robot.OI;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.commands.ClimberWithController;
 
-//------------------------------------------------------------
-//CTRE Imports
-import com.ctre.CANTalon;
-//------------------------------------------------------------
 
 //.---.  ,--.    .-----. .------.  
 ///_   | /  .'   /  -.   \|   ___|  
@@ -31,11 +29,13 @@ import com.ctre.CANTalon;
  *
  */
 public class RollerClimbSubsystem extends Subsystem {
-	CANTalon rollerTalon;
+	Talon  rollerTalonSR;
+	Talon rollerTalonSRx2; 
 
 	public RollerClimbSubsystem() {
 		super();
-		rollerTalon = new CANTalon(RobotMap.rollerClimbMotorCANPort);
+		rollerTalonSR = new Talon (RobotMap.rollerClimbMotorPwmPort);
+		rollerTalonSRx2 = new Talon(RobotMap.rollerClimbMotor2PwmPort); 
 
 	}
 
@@ -76,15 +76,23 @@ public class RollerClimbSubsystem extends Subsystem {
 	}
 
 	public void operateRollerParams(double finalInput) {
-		rollerTalon.set(finalInput);
+		rollerTalonSR.set(finalInput);
+		rollerTalonSRx2.set(finalInput);
 	}
 	public void stopRoller() {
-		rollerTalon.set(0);
+		rollerTalonSR.set(0);
+		rollerTalonSRx2.set(0);
 	}
 
-	public double ObtainTalonLastSetValue() { 
-		double getTalonValue = rollerTalon.get();
-		return getTalonValue;
+	public double obtainTalonSRLastValue() { 
+		double getTalonSRValue = rollerTalonSR.get();
+		return getTalonSRValue;
+		
+	}
+	
+	public double obtainTalonSRx2LastValue(){ 
+		double getTalonSRx2Value = rollerTalonSRx2.get(); 
+		return getTalonSRx2Value; 
 	}
 
 	

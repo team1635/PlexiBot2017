@@ -32,8 +32,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class ChassisSubsystem extends Subsystem {
 	private AnalogInput sonar;
-	private CANTalon forwardLeftMotor;
-	private CANTalon forwardRightMotor;
+	private CANTalon frontLeftMotor;
+	private CANTalon frontRightMotor;
 	private CANTalon backLeftMotor;
 	private CANTalon backRightMotor;
 	private RobotDrive drive;
@@ -42,17 +42,17 @@ public class ChassisSubsystem extends Subsystem {
 	public ChassisSubsystem() {
 		super();
 		sonar = new AnalogInput(RobotMap.sonarPort);
-		forwardLeftMotor = new CANTalon(RobotMap.forwardLeftMotorCANPort);
-		forwardRightMotor = new CANTalon(RobotMap.forwardRightMotorCANPort);
+		frontLeftMotor = new CANTalon(RobotMap.frontLeftMotorCANPort);
+		frontRightMotor = new CANTalon(RobotMap.frontRightMotorCANPort);
 		backLeftMotor = new CANTalon(RobotMap.backLeftMotorCANPort);
 		backRightMotor = new CANTalon(RobotMap.backRightMotorCANPort);
 
-		forwardLeftMotor.enableBrakeMode(false);
-		forwardRightMotor.enableBrakeMode(false);
+		frontLeftMotor.enableBrakeMode(false);
+		frontRightMotor.enableBrakeMode(false);
 		backLeftMotor.enableBrakeMode(false);
 		backRightMotor.enableBrakeMode(false);
 
-		drive = new RobotDrive(forwardLeftMotor, backLeftMotor, forwardRightMotor, backRightMotor);
+		drive = new RobotDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
 		drive.setSafetyEnabled(false); // TODO: Figure why we need this
 	}
 

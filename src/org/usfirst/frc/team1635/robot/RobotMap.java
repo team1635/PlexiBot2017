@@ -2,7 +2,6 @@
 package org.usfirst.frc.team1635.robot;
 //------------------------------------------------------------
 
-
 //.---.  ,--.    .-----. .------.  
 ///_   | /  .'   /  -.   \|   ___|  
 //|   |.  / -.  '-' _'  ||  '--.   
@@ -12,26 +11,28 @@ package org.usfirst.frc.team1635.robot;
 //`---' `----'   `----''  `----''  
 
 /**
-* 
-* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
-*
-*/
+ * 
+ * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
+ *
+ */
 public class RobotMap {
 	// ------------------------------------------------------------
 	// CAN IDs/Ports
-	public static int actuatorMotorCANPort = 1;	
-	public static int rollerClimbMotorCANPort = 0;
-	public static int forwardLeftMotorCANPort = 5;
-	public static int forwardRightMotorCANPort = 2;
-	public static int backLeftMotorCANPort = 6;
-	public static int backRightMotorCANPort = 3;
+	public static int elevatorMotorCANPort = 3;
+	public static int elevatorRollerMotorCANPort = 2;
+	public static int frontLeftMotorCANPort = 4;
+	public static int frontRightMotorCANPort = 6;
+	public static int backLeftMotorCANPort = 1;
+	public static int backRightMotorCANPort = 5;
+	
 	// ------------------------------------------------------------
 	// Pulse Width Modulation Ports (PWM)
-	public static int servoActuatorPwmPort = 0;
+	public static int rollerClimbMotorPwmPort = 0;
+	public static int rollerClimbMotor2PwmPort = 0;
 	// ------------------------------------------------------------
 	// Analog Ports (Analog)
 	public static int sonarPort = 0;
-	public static int potentiometerAnalogPort = 0; 
+	public static int potentiometerAnalogPort = 0;
 
 	// ------------------------------------------------------------
 	// Digital Input/Output Ports ( DIO)
@@ -39,13 +40,15 @@ public class RobotMap {
 	public static int bottomLimitSwitchDioPort = 0;
 
 	// ------------------------------------------------------------
+	// Pnumatics Control Module Ports (PCM)
+	public static int compressorPort = 0;
+	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;
-
 	// ------------------------------------------------------------
-	// 
+	//
 	// ~~ RobotMapChangeLog ~~
-	
+
 	// Syntax : Changed actuatorMotorCANPort = OldNumber >> NewNumber
 	// Example: Changed actuatorMotorCANPort = 1 >> 2
 	//
