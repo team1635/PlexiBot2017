@@ -31,7 +31,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class ChassisSubsystem extends Subsystem {
-	private AnalogInput sonar;
 	private CANTalon frontLeftMotor;
 	private CANTalon frontRightMotor;
 	private CANTalon backLeftMotor;
@@ -41,7 +40,6 @@ public class ChassisSubsystem extends Subsystem {
 
 	public ChassisSubsystem() {
 		super();
-		sonar = new AnalogInput(RobotMap.sonarPort);
 		frontLeftMotor = new CANTalon(RobotMap.frontLeftMotorCANPort);
 		frontRightMotor = new CANTalon(RobotMap.frontRightMotorCANPort);
 		backLeftMotor = new CANTalon(RobotMap.backLeftMotorCANPort);
@@ -52,7 +50,8 @@ public class ChassisSubsystem extends Subsystem {
 		backLeftMotor.enableBrakeMode(false);
 		backRightMotor.enableBrakeMode(false);
 
-		drive = new RobotDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+		//drive = new RobotDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+		drive = new RobotDrive(backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 		drive.setSafetyEnabled(false); // TODO: Figure why we need this
 	}
 
@@ -61,31 +60,9 @@ public class ChassisSubsystem extends Subsystem {
 	// ------------------------------------------------------------
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveRobotWithSpeedInput());
+		setDefaultCommand(new DriveRobotWithSpeedInput()); }
 
-	}
-
-	public double getAverageDistance() {
-		return convertVoltageToDistance(sonar.getAverageVoltage());
-	}
-
-	public double getDistance() {
-		return convertVoltageToDistance(sonar.getVoltage());
-	}
-
-	public double getAverageVoltage() { // debug
-		return sonar.getAverageVoltage();
-	}
-
-	public double getVoltage() { // debug
-		return sonar.getVoltage();
-	}
-
-	private double convertVoltageToDistance(double voltage) {
-		// return voltage / .0049 * 0.393701; //The 10 doesn't belong there
-		return voltage * 80.34714286;
-	}
-
+		
 	public void drive() {
 		drive.tankDrive(Robot.oi.getLeftSpeed(), Robot.oi.getRightSpeed());
 

@@ -8,6 +8,7 @@ import org.usfirst.frc.team1635.util.XboxControllerButton;
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
@@ -29,14 +30,16 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
  */
 public class ElevatorSubsystem extends Subsystem {
 
-	CANTalon elevatorActuator;
-	DigitalInput limitSwitchOne, limitSwitchTwo;
+	CANTalon elevatorActuator ,elevatorRoller; 
+	//DigitalInput limitSwitchOne, limitSwitchTwo;
 
 	public ElevatorSubsystem() {
 		super();
 		elevatorActuator = new CANTalon(RobotMap.elevatorMotorCANPort);
-		limitSwitchOne = new DigitalInput(RobotMap.topLimitSwitchDioPort);
-		limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
+		elevatorRoller = new CANTalon(RobotMap.elevatorRollerMotorCANPort);
+		//limitSwitchOne = new DigitalInput(RobotMap.topLimitSwitchDioPort);
+		//limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
+		
 	}
 
 	public void controlElevator() {
@@ -70,16 +73,24 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 	
 
-	public boolean isSwitchClosed(DigitalInput limitSwitch) {
-		return !(limitSwitch.get());
+	public void elevatorRollerControl(){ 
+		boolean RB = Robot.oi.StartController().getBumper(Hand.kRight);
+		if(RB == true){ 
+			elevatorRoller.set(1);
+		}
+		else{ 
+			elevatorRoller.set(0);
+		}
 	}
+	
 	
 	
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new HopperWithController());
+		setDefaultCommand(new ControlElevator());
+		
 
 	}
 }

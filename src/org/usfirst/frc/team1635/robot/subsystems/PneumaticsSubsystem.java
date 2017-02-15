@@ -16,6 +16,7 @@ public class PneumaticsSubsystem extends Subsystem {
  public PneumaticsSubsystem(){ 
 	  super();
 	  compressor = new Compressor(RobotMap.compressorPort); 
+	  dbSolenoid = new DoubleSolenoid(1, 0); 
 	
   }
 

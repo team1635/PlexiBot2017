@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.ElevatorSubsystem;
+import org.usfirst.frc.team1635.robot.subsystems.PneumaticsSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.RollerClimbSubsystem;
-import org.usfirst.frc.team1635.robot.subsystems.VisionSubsystem;
 //------------------------------------------------------------
 
 
@@ -34,10 +34,10 @@ public class Robot extends IterativeRobot {
 	// ~ Subsystem instantiation ~ (Basically creating an object from the Subsystem
 	// .class files ) 
 	public static final ChassisSubsystem chassisSystem = new ChassisSubsystem();
-	public static final RollerClimbSubsystem rollerClimbSystem = new RollerClimbSubsystem();
-	public static final ElevatorSubsystem elevatorSystem = new ElevatorSubsystem(); 
+	//public static final PneumaticsSubsystem pneumaticsSystem = new PneumaticsSubsystem(); 
+	public static  RollerClimbSubsystem rollerClimbSystem = new RollerClimbSubsystem();
+	public static  ElevatorSubsystem elevatorSystem = new ElevatorSubsystem(); 
 	public static OI oi;
-	public static VisionSubsystem visionSystem;
 	Command autonomousCommand;
 	
 
@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		oi = new OI();
-		visionSystem = new VisionSubsystem();
+		
 		// smartDashboardCmdExe = new SendableChooser();
 		// instantiate the command used for the autonomous period
 		// autonomousCommand = new ExampleCommand();
@@ -57,9 +57,7 @@ public class Robot extends IterativeRobot {
 		// SmartDashboard.putData(actuator);
 
 		SmartDashboard.putData(Scheduler.getInstance());
-		SmartDashboard.putData(chassisSystem);
-		SmartDashboard.putNumber("Value Of TalonSR", Robot.rollerClimbSystem.obtainTalonSRLastValue());
-		SmartDashboard.putNumber("Value Of TalonSR 2 ", Robot.rollerClimbSystem.obtainTalonSRx2LastValue()); 
+	 
 	}
 
 	public void disabledPeriodic() {
@@ -102,14 +100,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Voltage", chassisSystem.getVoltage());
-		SmartDashboard.putNumber("Averge Voltage", chassisSystem.getAverageVoltage());
-		SmartDashboard.putNumber("Distance", chassisSystem.getDistance());
-		SmartDashboard.putNumber("Averge Distance", chassisSystem.getAverageDistance());
-		SmartDashboard.putNumber("Distance Value", chassisSystem.getDistance());
-		SmartDashboard.putNumber("Averge Distance Value", chassisSystem.getAverageDistance());
+		
 
-		// SmartDashboard.putBoolean("Top Switch", actuator.getTopSwitch());
+	
 	}
 
 	/**

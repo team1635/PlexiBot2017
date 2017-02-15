@@ -18,17 +18,18 @@ package org.usfirst.frc.team1635.robot;
 public class RobotMap {
 	// ------------------------------------------------------------
 	// CAN IDs/Ports
-	public static int elevatorMotorCANPort = 3;
-	public static int elevatorRollerMotorCANPort = 2;
-	public static int frontLeftMotorCANPort = 4;
+	public static int elevatorMotorCANPort =3;  
+	public static int elevatorRollerMotorCANPort =2;
+				//Drive 
+	public static int frontLeftMotorCANPort = 4; 
 	public static int frontRightMotorCANPort = 6;
 	public static int backLeftMotorCANPort = 1;
-	public static int backRightMotorCANPort = 5;
+	public static int backRightMotorCANPort = 5; 
 	
 	// ------------------------------------------------------------
 	// Pulse Width Modulation Ports (PWM)
-	public static int rollerClimbMotorPwmPort = 0;
-	public static int rollerClimbMotor2PwmPort = 0;
+	public static int rollerClimbMotorPwmPort = 1; 
+	public static int rollerClimbMotor2PwmPort = 2;
 	// ------------------------------------------------------------
 	// Analog Ports (Analog)
 	public static int sonarPort = 0;
@@ -42,15 +43,11 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// Pnumatics Control Module Ports (PCM)
 	public static int compressorPort = 0;
+	public static int solenoidOnePort = 4; 
+	public static int solenoidTwoPort = 5; 
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;
 	// ------------------------------------------------------------
-	//
-	// ~~ RobotMapChangeLog ~~
-
-	// Syntax : Changed actuatorMotorCANPort = OldNumber >> NewNumber
-	// Example: Changed actuatorMotorCANPort = 1 >> 2
-	//
-	//
+	
 }

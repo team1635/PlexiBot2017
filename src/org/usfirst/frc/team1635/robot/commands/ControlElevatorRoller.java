@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class HopperWithController extends Command {
+public class ControlElevatorRoller extends Command {
 
-    public HopperWithController() {
+    public ControlElevatorRoller() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.elevatorSystem);
@@ -21,7 +21,7 @@ public class HopperWithController extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevatorSystem.controlElevator();
+    Robot.elevatorSystem.elevatorRollerControl();
     }
 
     // Make this return true when this Command no longer needs to run execute()

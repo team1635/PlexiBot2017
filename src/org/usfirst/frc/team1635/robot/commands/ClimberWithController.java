@@ -21,7 +21,7 @@ public class ClimberWithController extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.rollerClimbSystem.rollerWithController();
+		Robot.rollerClimbSystem.rollerClimbWithController();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -31,7 +31,7 @@ public class ClimberWithController extends Command {
 
 	// Called once after isFinished returns true
 	protected void end() {
-		Robot.rollerClimbSystem.stopRoller();
+		
 	}
 
 	// Called when another command which requires one or more of the same
