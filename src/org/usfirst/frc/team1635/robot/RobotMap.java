@@ -43,8 +43,8 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// Pnumatics Control Module Ports (PCM)
 	public static int compressorPort = 0;
-	public static int solenoidOnePort = 4; 
-	public static int solenoidTwoPort = 5; 
+	public static int gearSolenoidPort = 5; 
+	public static int gearShifterPort = 4; 
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;

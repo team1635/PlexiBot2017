@@ -40,7 +40,7 @@ public class OI {
 	public OI() {
 		// Assign Commands to certain buttons while testing here. 
 		
-		yButton.whenPressed(new ShakeRobotWithButton());
+		
 	
 	}
 

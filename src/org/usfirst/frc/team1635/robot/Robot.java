@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	// ~ Subsystem instantiation ~ (Basically creating an object from the Subsystem
 	// .class files ) 
 	public static final ChassisSubsystem chassisSystem = new ChassisSubsystem();
-	//public static final PneumaticsSubsystem pneumaticsSystem = new PneumaticsSubsystem(); 
+	public static final PneumaticsSubsystem pneumaticsSystem = new PneumaticsSubsystem(); 
 	public static  RollerClimbSubsystem rollerClimbSystem = new RollerClimbSubsystem();
 	public static  ElevatorSubsystem elevatorSystem = new ElevatorSubsystem(); 
 	public static OI oi;

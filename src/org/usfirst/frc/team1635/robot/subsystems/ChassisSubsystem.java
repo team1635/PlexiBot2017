@@ -12,8 +12,11 @@ import com.ctre.CANTalon;
 
 // WPILIB Imports 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 //------------------------------------------------------------
 
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //|   |' \  |  |.-.  |  |.-   |  | 
 //|   |\  `'  / \ `-'   /| `-'   / 
 //`---' `----'   `----''  `----''  
+
 
 /**
  * 
@@ -36,6 +40,7 @@ public class ChassisSubsystem extends Subsystem {
 	private CANTalon backLeftMotor;
 	private CANTalon backRightMotor;
 	private RobotDrive drive;
+
 	boolean onTarget;
 
 	public ChassisSubsystem() {
@@ -50,27 +55,29 @@ public class ChassisSubsystem extends Subsystem {
 		backLeftMotor.enableBrakeMode(false);
 		backRightMotor.enableBrakeMode(false);
 
-		//drive = new RobotDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+		// drive = new RobotDrive(frontLeftMotor, backLeftMotor,
+		// frontRightMotor, backRightMotor);
 		drive = new RobotDrive(backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 		drive.setSafetyEnabled(false); // TODO: Figure why we need this
+
 	}
 
-	// Subsystem Functions (These are called through Commands)
-
+	// Whatever command you set as default will run when the enable button is
+	// pressed in Driver Station
 	// ------------------------------------------------------------
-	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveRobotWithSpeedInput()); }
+		setDefaultCommand(new DriveRobotWithSpeedInput());
+	}
 
-		
+	// Functions Utilizing the Xbox Controller's Buttons or Axes
+	// ------------------------------------------------------------
 	public void drive() {
 		drive.tankDrive(Robot.oi.getLeftSpeed(), Robot.oi.getRightSpeed());
 
 	}
 
-	public void stop() {
-		drive.tankDrive(0.0, 0.0);
-	}
+	// Functions Dedicated for Automous Mode or General Purpose Commands
+	// ------------------------------------------------------------
 
 	public void driveWithParams(double left, double right) {
 		drive.tankDrive(left, right);
@@ -83,6 +90,10 @@ public class ChassisSubsystem extends Subsystem {
 
 	public void shakeRobotBackwardsParams(double left, double right) {
 		drive.tankDrive(left, right);
+	}
+
+	public void stop() {
+		drive.tankDrive(0.0, 0.0);
 	}
 
 	public void shakeRobot() {
@@ -104,6 +115,5 @@ public class ChassisSubsystem extends Subsystem {
 	public boolean isOnTarget() {
 		return onTarget;
 	}
-	// ------------------------------------------------------------
 
 }

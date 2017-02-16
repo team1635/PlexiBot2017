@@ -24,7 +24,7 @@ public class ShakeRobotWithButton extends Command {
     public ShakeRobotWithButton() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	//requires(Robot.chassisSystem);
+    	requires(Robot.chassisSystem);
     	
     }
 
@@ -36,7 +36,7 @@ public class ShakeRobotWithButton extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//Robot.chassisSystem.shakeRobot();
+    	Robot.chassisSystem.shakeRobot();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -46,7 +46,7 @@ public class ShakeRobotWithButton extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	//Robot.chassisSystem.stop();
+    	Robot.chassisSystem.stop();
     }
 
     // Called when another command which requires one or more of the same
