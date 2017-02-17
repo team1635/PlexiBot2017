@@ -7,6 +7,7 @@ import org.usfirst.frc.team1635.util.XboxControllerButton;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,14 +32,16 @@ import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 public class ElevatorSubsystem extends Subsystem {
 
 	CANTalon elevatorActuator, elevatorRoller;
-	// DigitalInput limitSwitchOne, limitSwitchTwo;
+	DigitalInput limitSwitchTop, limitSwitchTwo;
+	AnalogPotentiometer analogPot;
 
 	public ElevatorSubsystem() {
 		super();
 		elevatorActuator = new CANTalon(RobotMap.elevatorMotorCANPort);
 		elevatorRoller = new CANTalon(RobotMap.elevatorRollerMotorCANPort);
-		// limitSwitchOne = new DigitalInput(RobotMap.topLimitSwitchDioPort);
-		// limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
+		limitSwitchTop = new DigitalInput(RobotMap.topLimitSwitchDioPort);
+		limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
+		analogPot = new AnalogPotentiometer(RobotMap.potentiometerAnalogPort, 3600.0 / 5);
 
 	}
 
@@ -55,12 +58,12 @@ public class ElevatorSubsystem extends Subsystem {
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void controlElevator() {
-		boolean abutton = Robot.oi.StartController().getAButton();
-		boolean xButton = Robot.oi.StartController().getXButton();
+		boolean leftBumper = Robot.oi.StartController().getBumper(Hand.kLeft);
+		boolean rightBumper = Robot.oi.StartController().getBumper(Hand.kRight);
 
-		if (abutton == true) {
+		if (leftBumper == true) {
 			elevatorActuator.set(-0.4);
-		} else if (xButton == true) {
+		} else if (rightBumper == true) {
 			elevatorActuator.set(0.5);
 		} else {
 			elevatorStop();
@@ -68,17 +71,21 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void elevatorRollerControl() {
-		boolean RB = Robot.oi.StartController().getBumper(Hand.kRight);
-		if (RB == true) {
+		boolean RT = Robot.oi.StartController().getXButton();
+		if (RT == true) {
 			elevatorRoller.set(1);
 		} else {
 			elevatorRoller.set(0);
 		}
 	}
-	
 
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
+	public double getPotentiometerValue() {
+		double potVal = analogPot.get();
+		return potVal;
+	}
+
 	public void operateElevatorParams(double speed) {
 		elevatorActuator.set(speed);
 

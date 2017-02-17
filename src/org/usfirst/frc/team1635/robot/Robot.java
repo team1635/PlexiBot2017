@@ -49,14 +49,15 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		
-		// smartDashboardCmdExe = new SendableChooser();
+	
 		// instantiate the command used for the autonomous period
-		// autonomousCommand = new ExampleCommand();
-		// smartDashboardCmdExe.addObject("ShakeRobot", new
-		// ShakeRobotWithButton());
-		// SmartDashboard.putData(actuator);
-
+		// autonomousCommand = new ExampleCommand()
+		SmartDashboard.putData(chassisSystem);
+		SmartDashboard.putData(elevatorSystem);
+		SmartDashboard.putData(pneumaticsSystem);
+		SmartDashboard.putData(rollerClimbSystem);
 		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
 	 
 	}
 

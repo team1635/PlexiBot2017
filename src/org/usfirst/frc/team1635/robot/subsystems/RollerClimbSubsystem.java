@@ -3,6 +3,7 @@ package org.usfirst.frc.team1635.robot.subsystems;
 //WPILIB imports
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Talon;
 
 //Local Package Imports
@@ -49,9 +50,8 @@ public class RollerClimbSubsystem extends Subsystem {
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void rollerClimbWithController() {
-		boolean isStartPressed = Robot.oi.StartController().getStartButton();
-
-		if (isStartPressed == true) {
+		boolean isLTPressed = Robot.oi.StartController().getAButton();
+		if (isLTPressed == true) {
 			rollerTalonSR.set(-1);
 			rollerTalonSRx2.set(-1);
 		} else {

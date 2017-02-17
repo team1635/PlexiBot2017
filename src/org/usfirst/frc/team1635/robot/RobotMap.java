@@ -33,17 +33,17 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// Analog Ports (Analog)
 	public static int sonarPort = 0;
-	public static int potentiometerAnalogPort = 0;
+	public static int potentiometerAnalogPort = 1;
 
 	// ------------------------------------------------------------
 	// Digital Input/Output Ports ( DIO)
-	public static int topLimitSwitchDioPort = 0;
+	public static int topLimitSwitchDioPort = 1;
 	public static int bottomLimitSwitchDioPort = 0;
 
 	// ------------------------------------------------------------
 	// Pnumatics Control Module Ports (PCM)
 	public static int compressorPort = 0;
-	public static int gearSolenoidPort = 5; 
+	public static int gearSolenoidPort = 6; //was 5 
 	public static int gearShifterPort = 4; 
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
