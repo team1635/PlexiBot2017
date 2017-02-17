@@ -2,7 +2,7 @@ package org.usfirst.frc.team1635.robot.subsystems;
 
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
-import org.usfirst.frc.team1635.robot.commands.ControlGearSolenoid;
+import org.usfirst.frc.team1635.robot.commands.ControlPneumatics;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -34,7 +34,7 @@ public class PneumaticsSubsystem extends Subsystem {
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
-		setDefaultCommand(new ControlGearSolenoid());
+		setDefaultCommand(new ControlPneumatics());
 	}
 
 	// Functions Utilizing the Xbox Controller's Buttons or Axes

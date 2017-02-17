@@ -12,7 +12,7 @@ import org.omg.CORBA.ExceptionList;
 import org.omg.IOP.ExceptionDetailMessage;
 import org.usfirst.frc.team1635.robot.OI;
 import org.usfirst.frc.team1635.robot.Robot;
-import org.usfirst.frc.team1635.robot.commands.ClimberWithController;
+import org.usfirst.frc.team1635.robot.commands.ControlWinch;
 
 //.---.  ,--.    .-----. .------.  
 ///_   | /  .'   /  -.   \|   ___|  
@@ -27,11 +27,11 @@ import org.usfirst.frc.team1635.robot.commands.ClimberWithController;
  * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
  *
  */
-public class RollerClimbSubsystem extends Subsystem {
+public class WinchClimbSubsystem extends Subsystem {
 	Talon rollerTalonSR;
 	Talon rollerTalonSRx2;
 
-	public RollerClimbSubsystem() {
+	public WinchClimbSubsystem() {
 		super();
 		rollerTalonSR = new Talon(RobotMap.rollerClimbMotorPwmPort);
 		rollerTalonSRx2 = new Talon(RobotMap.rollerClimbMotor2PwmPort);
@@ -43,31 +43,32 @@ public class RollerClimbSubsystem extends Subsystem {
 	// ------------------------------------------------------------
 	public void initDefaultCommand() {
 
-		setDefaultCommand(new ClimberWithController());
+		setDefaultCommand(new ControlWinch());
 
 	}
 
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
-	public void rollerClimbWithController() {
-		boolean isLTPressed = Robot.oi.StartController().getAButton();
-		if (isLTPressed == true) {
+	public void operateWinch() {
+	
+		if ( Robot.oi.StartController().getAButton()) {
 			rollerTalonSR.set(-1);
 			rollerTalonSRx2.set(-1);
-		} else {
-			stopRoller();
+		} 
+		else if(!Robot.oi.StartController().getAButton()){
+			stopWinch();
 		}
 	}
 
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
-	public void operateRollerParams(double finalInput) {
+	public void operateWinchParams(double finalInput) {
 		System.out.println("RollerWithParamsActivated");
 		rollerTalonSR.set(finalInput);
 		// rollerTalonSRx2.set(finalInput);
 	}
 
-	public void stopRoller() {
+	public void stopWinch() {
 		rollerTalonSR.set(0);
 		rollerTalonSRx2.set(0);
 	}

@@ -58,12 +58,9 @@ public class ElevatorSubsystem extends Subsystem {
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void controlElevator() {
-		boolean leftBumper = Robot.oi.StartController().getBumper(Hand.kLeft);
-		boolean rightBumper = Robot.oi.StartController().getBumper(Hand.kRight);
-
-		if (leftBumper == true) {
+		if (Robot.oi.StartController().getBumper(Hand.kLeft)) {
 			elevatorActuator.set(-0.4);
-		} else if (rightBumper == true) {
+		} else if (Robot.oi.StartController().getBumper(Hand.kRight)) {
 			elevatorActuator.set(0.5);
 		} else {
 			elevatorStop();
@@ -71,8 +68,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void elevatorRollerControl() {
-		boolean RT = Robot.oi.StartController().getXButton();
-		if (RT == true) {
+		if (Robot.oi.StartController().getXButton()) {
 			elevatorRoller.set(1);
 		} else {
 			elevatorRoller.set(0);
@@ -89,14 +85,6 @@ public class ElevatorSubsystem extends Subsystem {
 	public void operateElevatorParams(double speed) {
 		elevatorActuator.set(speed);
 
-	}
-
-	public void elevatorUpParams(double speedValue) {
-		elevatorActuator.set(speedValue);
-	}
-
-	public void elevatorDownParams(double speedValue) {
-		elevatorActuator.set(speedValue);
 	}
 
 	public void elevatorStop() {

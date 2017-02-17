@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1635.robot;
 
 //Local Package Imports
-import org.usfirst.frc.team1635.robot.commands.ShakeRobotWithButton;
 import org.usfirst.frc.team1635.util.XboxControllerButton;
 //------------------------------------------------------------
 
@@ -38,13 +37,12 @@ public class OI {
 	Button xButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kX);
 
 	public OI() {
-		// Assign Commands to certain buttons while testing here. 
-		
-		
-	
+		// Assign Commands to certain buttons while testing here
+		// Example.
+		// aButton.whenPressed(new Command());
+
 	}
 
-	
 	// OI Functions ( These are passed through different methods as parameters
 	// sometimes)
 
@@ -53,19 +51,4 @@ public class OI {
 		return gameController;
 	}
 
-	public double getActuatorSpeed() {
-		return gameController.getX(GenericHID.Hand.kLeft);
-	}
-
-	public double getLeftSpeed() {
-		return gameController.getY(GenericHID.Hand.kLeft);
-	}
-
-	public double getRightSpeed() {
-		return gameController.getY(GenericHID.Hand.kRight);
-	}
-
-	public double getServoActuatorSpeed() {
-		return gameController.getTriggerAxis(GenericHID.Hand.kRight);
-	}
 }

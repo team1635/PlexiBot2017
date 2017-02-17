@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.ElevatorSubsystem;
 import org.usfirst.frc.team1635.robot.subsystems.PneumaticsSubsystem;
-import org.usfirst.frc.team1635.robot.subsystems.RollerClimbSubsystem;
 //------------------------------------------------------------
+import org.usfirst.frc.team1635.robot.subsystems.WinchClimbSubsystem;
 
 
 
@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	// .class files ) 
 	public static final ChassisSubsystem chassisSystem = new ChassisSubsystem();
 	public static final PneumaticsSubsystem pneumaticsSystem = new PneumaticsSubsystem(); 
-	public static  RollerClimbSubsystem rollerClimbSystem = new RollerClimbSubsystem();
+	public static  WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
 	public static  ElevatorSubsystem elevatorSystem = new ElevatorSubsystem(); 
 	public static OI oi;
 	Command autonomousCommand;
@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(chassisSystem);
 		SmartDashboard.putData(elevatorSystem);
 		SmartDashboard.putData(pneumaticsSystem);
-		SmartDashboard.putData(rollerClimbSystem);
+		SmartDashboard.putData(winchSystem);
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
 	 

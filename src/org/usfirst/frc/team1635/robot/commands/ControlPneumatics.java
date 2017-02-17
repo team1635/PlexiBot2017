@@ -1,32 +1,18 @@
 package org.usfirst.frc.team1635.robot.commands;
 
-//Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;
-//------------------------------------------------------------
-// WPILIB Imports 
+
 import edu.wpi.first.wpilibj.command.Command;
-//------------------------------------------------------------
-
-
-//.---.  ,--.    .-----. .------.  
-///_   | /  .'   /  -.   \|   ___|  
-//|   |.  / -.  '-' _'  ||  '--.   
-//|   || .-.  '    |_  < `---.  '. 
-//|   |' \  |  |.-.  |  |.-   |  | 
-//|   |\  `'  / \ `-'   /| `-'   / 
-//`---' `----'   `----''  `----''  
 
 /**
-* 
-* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
-*
-*/
-public class DriveRobotWithSpeedInput extends Command {
+ *
+ */
+public class ControlPneumatics extends Command {
 
-    public DriveRobotWithSpeedInput() {
+    public ControlPneumatics() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.chassisSystem);
-       
+        // eg. requires(chassis);\
+    	requires(Robot.pneumaticsSystem);
     }
 
     // Called just before this Command runs the first time
@@ -35,8 +21,8 @@ public class DriveRobotWithSpeedInput extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.chassisSystem.drive();
-    	
+    Robot.pneumaticsSystem.controlGearPiston();
+    Robot.pneumaticsSystem.shiftDriveGears();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -46,7 +32,6 @@ public class DriveRobotWithSpeedInput extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.chassisSystem.stop();
     }
 
     // Called when another command which requires one or more of the same

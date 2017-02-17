@@ -3,7 +3,7 @@ package org.usfirst.frc.team1635.robot.subsystems;
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
-import org.usfirst.frc.team1635.robot.commands.DriveRobotWithSpeedInput;
+import org.usfirst.frc.team1635.robot.commands.ControlDrive;
 //------------------------------------------------------------
 
 // CTRE Imports
@@ -12,6 +12,7 @@ import com.ctre.CANTalon;
 
 // WPILIB Imports 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -27,7 +28,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 //|   |' \  |  |.-.  |  |.-   |  | 
 //|   |\  `'  / \ `-'   /| `-'   / 
 //`---' `----'   `----''  `----''  
-
 
 /**
  * 
@@ -66,17 +66,25 @@ public class ChassisSubsystem extends Subsystem {
 	// pressed in Driver Station
 	// ------------------------------------------------------------
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveRobotWithSpeedInput());
+		setDefaultCommand(new ControlDrive());
 	}
 
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void drive() {
-		drive.tankDrive(Robot.oi.getLeftSpeed(), Robot.oi.getRightSpeed());
+		drive.tankDrive(getLeftSpeed(), getRightSpeed());
 
 	}
+	
+	public double getLeftSpeed() {
+		return Robot.oi.StartController().getY(GenericHID.Hand.kLeft);
+	}
 
-	// Functions Dedicated for Automous Mode or General Purpose Commands
+	public double getRightSpeed() {
+		return Robot.oi.StartController().getY(GenericHID.Hand.kRight);
+	}
+
+	// Functions Dedicated for Autonomous Mode or General Purpose Commands
 	// ------------------------------------------------------------
 
 	public void driveWithParams(double left, double right) {
@@ -84,26 +92,8 @@ public class ChassisSubsystem extends Subsystem {
 
 	}
 
-	public void shakeRobotForwardParams(double left, double right) {
-		drive.tankDrive(left, right);
-	}
-
-	public void shakeRobotBackwardsParams(double left, double right) {
-		drive.tankDrive(left, right);
-	}
-
 	public void stop() {
 		drive.tankDrive(0.0, 0.0);
-	}
-
-	public void shakeRobot() {
-		shakeRobotForwardParams(0.5, 0.5);
-		Timer.delay(0.1);
-		stop();
-		Timer.delay(0.2);
-		shakeRobotBackwardsParams(-0.5, -0.5);
-		Timer.delay(0.1);
-		stop();
 	}
 
 	// Functions used to manage commands

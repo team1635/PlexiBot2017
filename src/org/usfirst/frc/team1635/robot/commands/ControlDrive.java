@@ -1,18 +1,32 @@
 package org.usfirst.frc.team1635.robot.commands;
 
+//Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;
-
+//------------------------------------------------------------
+// WPILIB Imports 
 import edu.wpi.first.wpilibj.command.Command;
+//------------------------------------------------------------
+
+
+//.---.  ,--.    .-----. .------.  
+///_   | /  .'   /  -.   \|   ___|  
+//|   |.  / -.  '-' _'  ||  '--.   
+//|   || .-.  '    |_  < `---.  '. 
+//|   |' \  |  |.-.  |  |.-   |  | 
+//|   |\  `'  / \ `-'   /| `-'   / 
+//`---' `----'   `----''  `----''  
 
 /**
- *
- */
-public class ControlElevatorRoller extends Command {
+* 
+* @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
+*
+*/
+public class ControlDrive extends Command {
 
-    public ControlElevatorRoller() {
+    public ControlDrive() {
         // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.elevatorSystem);
+        requires(Robot.chassisSystem);
+       
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +35,8 @@ public class ControlElevatorRoller extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    Robot.elevatorSystem.elevatorRollerControl();
+    	Robot.chassisSystem.drive();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -31,6 +46,7 @@ public class ControlElevatorRoller extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.chassisSystem.stop();
     }
 
     // Called when another command which requires one or more of the same
