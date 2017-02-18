@@ -19,13 +19,14 @@ public class PneumaticsSubsystem extends Subsystem {
 	Compressor compressor;
 	Solenoid gearSolenoid;
 	Solenoid gearShifter;
+	Solenoid flapsSolenoid;
 
 	public PneumaticsSubsystem() {
 		super();
 		compressor = new Compressor(RobotMap.compressorPort);
 		gearSolenoid = new Solenoid(RobotMap.gearSolenoidPort);
 		gearShifter = new Solenoid(RobotMap.gearShifterPort);
-
+		flapsSolenoid = new Solenoid(RobotMap.flapsPort);
 	}
 
 	// Whatever command you set as default will run when the enable button is
@@ -62,6 +63,10 @@ public class PneumaticsSubsystem extends Subsystem {
 
 	public void retractPiston() {
 		gearSolenoid.set(false);
+	}
+	
+	public void moveFlaps() {
+		if (Robot.oi.)
 	}
 
 }

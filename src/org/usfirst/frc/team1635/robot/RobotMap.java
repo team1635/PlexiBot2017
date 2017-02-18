@@ -45,6 +45,8 @@ public class RobotMap {
 	public static int compressorPort = 0;
 	public static int gearSolenoidPort = 6;  
 	public static int gearShifterPort = 4; 
+	public static int flapsPort = 7;
+	
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;

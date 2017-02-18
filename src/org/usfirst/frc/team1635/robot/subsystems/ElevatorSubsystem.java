@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ElevatorSubsystem extends Subsystem {
 
 	CANTalon elevatorActuator, elevatorRoller;
-	DigitalInput limitSwitchTop, limitSwitchTwo;
+	DigitalInput limitSwitchTop, limitSwitchBottom;
 	AnalogPotentiometer analogPot;
 
 	public ElevatorSubsystem() {
@@ -42,7 +42,7 @@ public class ElevatorSubsystem extends Subsystem {
 		elevatorActuator = new CANTalon(RobotMap.elevatorMotorCANPort);
 		elevatorRoller = new CANTalon(RobotMap.elevatorRollerMotorCANPort);
 		limitSwitchTop = new DigitalInput(RobotMap.topLimitSwitchDioPort);
-		limitSwitchTwo = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
+		limitSwitchBottom = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
 		analogPot = new AnalogPotentiometer(RobotMap.potentiometerAnalogPort, 3600.0 / 5);
 
 	}
@@ -61,13 +61,11 @@ public class ElevatorSubsystem extends Subsystem {
 	// ------------------------------------------------------------
 	public void controlElevator() {
 
-		if (Robot.oi.StartController().getBumper(Hand.kLeft)) {
+		if (Robot.oi.StartController().getBumper(Hand.kLeft) && ()!this.getBottomLimit()){
 			elevatorActuator.set(-0.5);
-			//Timer.delay(1.60);
+			//Timer.delay(1.60); 
 			//limitElevator();
-		}
-	
-	else if(Robot.oi.StartController().getBumper(Hand.kRight)){
+		}  else if(Robot.oi.StartController().getBumper(Hand.kRight)) {
 		elevatorActuator.set(0.5);
 		//Timer.delay(1.60);
 	}
@@ -97,6 +95,8 @@ public class ElevatorSubsystem extends Subsystem {
 
 	public void log() {
 		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
+		SmartDashboard.putBoolean("Bottom Stop", this.getBottomLimit());
+		SmartDashboard.putBoolean("Top Stop", this.getTopLimit());
 		
 	}
 
@@ -104,7 +104,15 @@ public class ElevatorSubsystem extends Subsystem {
 		double potVal = analogPot.get();
 		return potVal;
 	}
+	
+	public boolean getTopLimit() {
+		return limitSwitchTop.get();
+	}
 
+	public boolean getBottomLimit() {
+		return limitSwitchBottom.get();
+	}
+	
 	public void operateElevatorParams(double speed) {
 		elevatorActuator.set(speed);
 
