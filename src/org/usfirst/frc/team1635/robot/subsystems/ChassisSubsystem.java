@@ -9,12 +9,15 @@ import org.usfirst.frc.team1635.robot.commands.ControlDrive;
 // CTRE Imports
 import com.ctre.CANTalon;
 //------------------------------------------------------------
+import com.kauailabs.navx.frc.AHRS;
 
 // WPILIB Imports 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -40,6 +43,9 @@ public class ChassisSubsystem extends Subsystem {
 	private CANTalon backLeftMotor;
 	private CANTalon backRightMotor;
 	private RobotDrive drive;
+	//SerialPort serial_port;
+	//AHRS imu; 
+	//Port k
 
 	boolean onTarget;
 
@@ -59,7 +65,9 @@ public class ChassisSubsystem extends Subsystem {
 		// frontRightMotor, backRightMotor);
 		drive = new RobotDrive(backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 		drive.setSafetyEnabled(false); // TODO: Figure why we need this
-
+		//byte update_rate_hz = 50;
+		//serial_port =  new SerialPort(57600, SerialPort.Port.kMXP);
+		//imu =  new AHRS(
 	}
 
 	// Whatever command you set as default will run when the enable button is
@@ -96,6 +104,9 @@ public class ChassisSubsystem extends Subsystem {
 		drive.tankDrive(0.0, 0.0);
 	}
 
+	public void turn60Degs(){ 
+		
+	}
 	// Functions used to manage commands
 	// ------------------------------------------------------------
 	public void resetOnTarget() {

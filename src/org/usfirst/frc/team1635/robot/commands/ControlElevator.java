@@ -23,6 +23,7 @@ public class ControlElevator extends Command {
     protected void execute() {
     Robot.elevatorSystem.controlElevator();
     Robot.elevatorSystem.elevatorRollerControl();
+    Robot.elevatorSystem.log();
     }
 
     // Make this return true when this Command no longer needs to run execute()

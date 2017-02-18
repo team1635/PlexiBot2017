@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(pneumaticsSystem);
 		SmartDashboard.putData(winchSystem);
 		SmartDashboard.putData(Scheduler.getInstance());
-		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
+		
 	 
 	}
 

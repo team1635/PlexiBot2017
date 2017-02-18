@@ -33,7 +33,7 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// Analog Ports (Analog)
 	public static int sonarPort = 0;
-	public static int potentiometerAnalogPort = 1;
+	public static int potentiometerAnalogPort = 2;
 
 	// ------------------------------------------------------------
 	// Digital Input/Output Ports ( DIO)

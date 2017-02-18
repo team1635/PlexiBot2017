@@ -6,6 +6,9 @@ import org.usfirst.frc.team1635.util.XboxControllerButton;
 
 // WPILIB Imports
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 //------------------------------------------------------------
@@ -30,7 +33,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 public class OI {
 	XboxController gameController = new XboxController(RobotMap.driverControllerPort);
-
+	Joystick notXboxClassController = new Joystick(0);
 	Button aButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kA);
 	Button bButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kB);
 	Button yButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kY);
@@ -51,4 +54,11 @@ public class OI {
 		return gameController;
 	}
 
+	public Joystick StartJoystick() {
+		return notXboxClassController;
+	}
+
+	public double getRightTriggerValue() {
+		return notXboxClassController.getRawAxis(3);
+	}
 }
