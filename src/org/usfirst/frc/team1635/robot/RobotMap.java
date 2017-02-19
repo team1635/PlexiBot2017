@@ -37,9 +37,10 @@ public class RobotMap {
 
 	// ------------------------------------------------------------
 	// Digital Input/Output Ports ( DIO)
-	public static int topLimitSwitchDioPort = 1;
-	public static int bottomLimitSwitchDioPort = 0;
-
+	public static int topLimitSwitchDioPort = 0;
+	public static int bottomLimitSwitchDioPort = 1;
+	public static int limitSwitchDEBUGPort2 = 2; 
+	public static int limitSwitchDEBUGPort3= 3; 
 	// ------------------------------------------------------------
 	// Pnumatics Control Module Ports (PCM)
 	public static int compressorPort = 0;

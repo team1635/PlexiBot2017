@@ -58,6 +58,17 @@ public class PneumaticsSubsystem extends Subsystem {
 			gearSolenoid.set(false);
 		}
 	}
+	
+	public void controlFlaps(){ 
+		if(Robot.oi.StartController().getStartButton()){ 
+			moveFlapsDown();
+			Timer.delay(0.1);
+			
+		}else{ 
+			moveFlapsUp();
+			
+		}
+	}
 
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
@@ -71,16 +82,6 @@ public class PneumaticsSubsystem extends Subsystem {
 
 	public void retractPiston() {
 		gearSolenoid.set(false);
-	}
-
-	public void moveFlapsForElevator() {
-		if (Robot.elevatorSystem.isElevatorDown = false) {
-			flapsSolenoid.set(true);
-		}
-		if (Robot.elevatorSystem.isElevatorDown = true) {
-			flapsSolenoid.set(false);
-		}
-		
 	}
 
 	public void moveFlapsForGears(){ 

@@ -2,42 +2,32 @@ package org.usfirst.frc.team1635.robot.commands;
 
 import org.usfirst.frc.team1635.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class LoadBalls extends Command {
+public class DeadToUs extends Command {
 
-    public LoadBalls() {
+    public DeadToUs() {
         requires(Robot.elevatorSystem);
         requires(Robot.pneumaticsSystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.pneumaticsSystem.moveFlapsDown();
-    	Timer.delay(.3);
+    	
+    	Robot.pneumaticsSystem.moveFlapsUp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (Robot.elevatorSystem.getBottomLimit()) {
-    		Robot.elevatorSystem.elevatorStop();
-    	} else {
-    	    Robot.elevatorSystem.operateElevatorParams(-0.1);
-    	}
+    	Robot.elevatorSystem.operateElevatorParams(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	boolean hitBottom = Robot.elevatorSystem.getBottomLimit();
-    	System.out.println("Debug: Checking for Bottom");
-    	if (hitBottom) {
-    		System.out.println("Debug:Hit Bottom");
-    	}
-        return hitBottom;
+        return Robot.elevatorSystem.getTopLimit();
     }
 
     // Called once after isFinished returns true

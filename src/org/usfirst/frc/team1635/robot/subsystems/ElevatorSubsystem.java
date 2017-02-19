@@ -35,9 +35,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ElevatorSubsystem extends Subsystem {
 
 	CANTalon elevatorActuator, elevatorRoller;
-	DigitalInput limitSwitchTop, limitSwitchBottom;
+	DigitalInput limitSwitchTop, limitSwitchBottom, limitswitchDEBUG2, limitSwitchDEBUG3;
 	AnalogPotentiometer analogPot;
-	boolean isElevatorDown; // True is Down, False is Up
+	private boolean flapsDown;
 
 	public ElevatorSubsystem() {
 		super();
@@ -45,6 +45,8 @@ public class ElevatorSubsystem extends Subsystem {
 		elevatorRoller = new CANTalon(RobotMap.elevatorRollerMotorCANPort);
 		limitSwitchTop = new DigitalInput(RobotMap.topLimitSwitchDioPort);
 		limitSwitchBottom = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
+		limitswitchDEBUG2 = new DigitalInput(RobotMap.limitSwitchDEBUGPort2);
+		limitSwitchDEBUG3 = new DigitalInput(RobotMap.limitSwitchDEBUGPort3);
 		analogPot = new AnalogPotentiometer(RobotMap.potentiometerAnalogPort, 3600.0 / 5);
 
 	}
@@ -63,34 +65,24 @@ public class ElevatorSubsystem extends Subsystem {
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void controlElevator() {
-		// Elevator Up = True
-		// Elevator Down = False
 
 		if ((Robot.oi.StartController().getBumper(Hand.kLeft))) {
 			operateElevatorParams(-0.7);
-			// if(this.getPotentiometerValue() == 242){ //TODO:Change number
-			// when we get actual Bottom Pot Value
-			// elevatorStop();
-			// isElevatorDown = true;
-			// }
-			// if(!this.getBottomLimit()){
-			// elevatorStop();
-			// isElevatorDown = true;
-			// }
 
-			// && (this.getBottomLimit()))
 		} else if (Robot.oi.StartController().getBumper(Hand.kRight)) {
 			operateElevatorParams(0.7);
-
-			isElevatorDown = false;
 
 		}
 
 		else {
 			elevatorStop();
 		}
+		if (flapsDown) {
+			Robot.pneumaticsSystem.moveFlapsDown();
 
-		Robot.pneumaticsSystem.moveFlapsForElevator();
+		} else {
+			Robot.pneumaticsSystem.moveFlapsUp();
+		}
 	}
 
 	public void elevatorRollerControl() {
@@ -108,19 +100,25 @@ public class ElevatorSubsystem extends Subsystem {
 		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
 		SmartDashboard.putBoolean("Bottom Stop", this.getBottomLimit());
 		SmartDashboard.putBoolean("Top Stop", this.getTopLimit());
+		SmartDashboard.putBoolean("DEBUG LIMIT SWITCH PORT 2", limitswitchDEBUG2.get());
+		SmartDashboard.putBoolean("DEBUG LIMIT SWITCH PORT 3", limitSwitchDEBUG3.get());
 
 	}
 
 	public void turnRollerOn(boolean TrueOrFalse) {
 		if (TrueOrFalse) {
 			elevatorRoller.set(1);
-		} else if (!TrueOrFalse) {
+			System.out.println("Debug. Roller Should be on");
+		} else
 			elevatorRoller.set(0);
-		}
+		System.out.println("Debug. Roller Should Be off");
 	}
 
+	public void setFlapsDown(boolean flapsDown){ 
+		this.flapsDown = flapsDown; 
+	}
 	public boolean isElevatorAtSweetSpot() {
-		if (Math.abs(getPotentiometerValue() - 388.0) <= 5) {
+		if (Math.abs(getPotentiometerValue() - 384.0) <= 5) { //388 is a bit high, 380 is too low,
 			return true;
 		} else {
 			return false;
@@ -148,27 +146,12 @@ public class ElevatorSubsystem extends Subsystem {
 	public boolean getBottomLimit() {
 		System.out.println(limitSwitchBottom.get());
 		return (!(limitSwitchBottom.get()));
-		
+
 	}
 
 	public void operateElevatorParams(double speed) {
 		elevatorActuator.set(speed);
 
-	}
-
-	// Miguel's method for auto
-	public void lowerElevatorAutomatically() {
-		operateElevatorParams(-0.7);
-		if (this.getPotentiometerValue() == 242) { // TODO:Change number when we
-													// get actual Bottom Pot
-													// Value
-			elevatorStop();
-			isElevatorDown = true;
-		}
-		if (this.getBottomLimit()) {
-			elevatorStop();
-			isElevatorDown = true;
-		}
 	}
 
 	public void elevatorStop() {

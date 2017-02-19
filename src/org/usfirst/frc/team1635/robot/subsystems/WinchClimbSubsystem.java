@@ -51,11 +51,11 @@ public class WinchClimbSubsystem extends Subsystem {
 	// ------------------------------------------------------------
 	public void operateWinch() {
 	
-		if ( Robot.oi.StartController().getAButton()) {
+		if ( Robot.oi.StartController().getBackButton()) {
 			rollerTalonSR.set(-1);
 			rollerTalonSRx2.set(-1);
 		} 
-		else if(!Robot.oi.StartController().getAButton()){
+		else if(!Robot.oi.StartController().getBackButton()){
 			stopWinch();
 		}
 	}
