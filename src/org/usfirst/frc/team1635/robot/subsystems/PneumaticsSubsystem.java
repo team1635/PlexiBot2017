@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -42,21 +43,28 @@ public class PneumaticsSubsystem extends Subsystem {
 	// ------------------------------------------------------------
 	public void shiftDriveGears() {
 		if (Robot.oi.StartController().getStickButton(Hand.kLeft)) {
-			gearShifter.set(false);
-		} else if (Robot.oi.StartController().getStickButton(Hand.kRight)) {
-			gearShifter.set(true);
+			if (gearShifter.get()) {
+				gearShifter.set(false);
+			} else if (gearShifter.get()) {
+				gearShifter.set(true);
+			}
 		}
 	}
 
-	public void controlGearPiston(){ 
-		if(Robot.oi.StartController().getBButton()){
+	public void controlGearPiston() {
+		if (Robot.oi.StartController().getBButton()) {
 			gearSolenoid.set(true);
 			Timer.delay(0.5);
 			gearSolenoid.set(false);
 		}
 	}
+
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
+	public void log(){ 
+		SmartDashboard.putBoolean("FlapState", gearSolenoid.get());
+	}
+	
 	public void extendPiston() {
 		gearSolenoid.set(true);
 	}
@@ -64,9 +72,26 @@ public class PneumaticsSubsystem extends Subsystem {
 	public void retractPiston() {
 		gearSolenoid.set(false);
 	}
-	
-	public void moveFlaps() {
-		if (Robot.oi.)
+
+	public void moveFlapsForElevator() {
+		if (Robot.elevatorSystem.isElevatorDown = false) {
+			flapsSolenoid.set(true);
+		}
+		if (Robot.elevatorSystem.isElevatorDown = true) {
+			flapsSolenoid.set(false);
+		}
+		
 	}
 
+	public void moveFlapsForGears(){ 
+		
+	}
+	public void moveFlapsUp(){ 
+		flapsSolenoid.set(false);
+	}
+	
+	public void moveFlapsDown(){ 
+		flapsSolenoid.set(true);
+		
+	}
 }

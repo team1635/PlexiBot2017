@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1635.robot;
 
+import org.usfirst.frc.team1635.robot.commands.LoadBalls;
+import org.usfirst.frc.team1635.robot.commands.LoadGears;
+import org.usfirst.frc.team1635.robot.commands.ShootBalls;
 //Local Package Imports
 import org.usfirst.frc.team1635.util.XboxControllerButton;
 //------------------------------------------------------------
@@ -43,9 +46,11 @@ public class OI {
 		// Assign Commands to certain buttons while testing here
 		// Example.
 		// aButton.whenPressed(new Command());
-
+		yButton.whenPressed(new LoadGears());
+		aButton.whenPressed(new ShootBalls());
+		xButton.whenPressed(new LoadBalls());
 	}
-
+ 
 	// OI Functions ( These are passed through different methods as parameters
 	// sometimes)
 

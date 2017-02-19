@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1635.robot.subsystems;
 
+import java.math.*;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.*;
@@ -36,6 +37,7 @@ public class ElevatorSubsystem extends Subsystem {
 	CANTalon elevatorActuator, elevatorRoller;
 	DigitalInput limitSwitchTop, limitSwitchBottom;
 	AnalogPotentiometer analogPot;
+	boolean isElevatorDown; // True is Down, False is Up
 
 	public ElevatorSubsystem() {
 		super();
@@ -48,6 +50,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	// Whatever command you set as default will run when the enable button is
+
 	// pressed in Driver Station
 	// ------------------------------------------------------------
 	public void initDefaultCommand() {
@@ -60,19 +63,34 @@ public class ElevatorSubsystem extends Subsystem {
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void controlElevator() {
+		// Elevator Up = True
+		// Elevator Down = False
 
-		if (Robot.oi.StartController().getBumper(Hand.kLeft) && ()!this.getBottomLimit()){
-			elevatorActuator.set(-0.5);
-			//Timer.delay(1.60); 
-			//limitElevator();
-		}  else if(Robot.oi.StartController().getBumper(Hand.kRight)) {
-		elevatorActuator.set(0.5);
-		//Timer.delay(1.60);
-	}
+		if ((Robot.oi.StartController().getBumper(Hand.kLeft))) {
+			operateElevatorParams(-0.7);
+			// if(this.getPotentiometerValue() == 242){ //TODO:Change number
+			// when we get actual Bottom Pot Value
+			// elevatorStop();
+			// isElevatorDown = true;
+			// }
+			// if(!this.getBottomLimit()){
+			// elevatorStop();
+			// isElevatorDown = true;
+			// }
 
-	else{ 
-		elevatorStop();
-	    } 
+			// && (this.getBottomLimit()))
+		} else if (Robot.oi.StartController().getBumper(Hand.kRight)) {
+			operateElevatorParams(0.7);
+
+			isElevatorDown = false;
+
+		}
+
+		else {
+			elevatorStop();
+		}
+
+		Robot.pneumaticsSystem.moveFlapsForElevator();
 	}
 
 	public void elevatorRollerControl() {
@@ -86,36 +104,71 @@ public class ElevatorSubsystem extends Subsystem {
 
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
-
-//	public void limitElevator() {
-//		if (analogPot.get() >= 640 && analogPot.get() <= 655) {
-//			elevatorActuator.set(0);
-//		}
-//	}
-
 	public void log() {
 		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
 		SmartDashboard.putBoolean("Bottom Stop", this.getBottomLimit());
 		SmartDashboard.putBoolean("Top Stop", this.getTopLimit());
-		
+
+	}
+
+	public void turnRollerOn(boolean TrueOrFalse) {
+		if (TrueOrFalse) {
+			elevatorRoller.set(1);
+		} else if (!TrueOrFalse) {
+			elevatorRoller.set(0);
+		}
+	}
+
+	public boolean isElevatorAtSweetSpot() {
+		if (Math.abs(getPotentiometerValue() - 388.0) <= 5) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean isElevatorAtDangerSpot() {
+		if (Math.abs(getPotentiometerValue() - 520.0) <= 5) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	public double getPotentiometerValue() {
 		double potVal = analogPot.get();
 		return potVal;
 	}
-	
+
 	public boolean getTopLimit() {
 		return limitSwitchTop.get();
 	}
 
 	public boolean getBottomLimit() {
-		return limitSwitchBottom.get();
+		System.out.println(limitSwitchBottom.get());
+		return (!(limitSwitchBottom.get()));
+		
 	}
-	
+
 	public void operateElevatorParams(double speed) {
 		elevatorActuator.set(speed);
 
+	}
+
+	// Miguel's method for auto
+	public void lowerElevatorAutomatically() {
+		operateElevatorParams(-0.7);
+		if (this.getPotentiometerValue() == 242) { // TODO:Change number when we
+													// get actual Bottom Pot
+													// Value
+			elevatorStop();
+			isElevatorDown = true;
+		}
+		if (this.getBottomLimit()) {
+			elevatorStop();
+			isElevatorDown = true;
+		}
 	}
 
 	public void elevatorStop() {

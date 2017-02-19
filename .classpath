@@ -7,7 +7,11 @@
 	<classpathentry exported="true" kind="var" path="cscore" sourcepath="cscore.sources"/>
 	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="USERLIBS_DIR/CTRLib.jar"/>
-	<classpathentry kind="var" path="navx-mxp"/>
+	<classpathentry kind="var" path="navx-mxp">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/Miguel%20C/navx-mxp/java/docs/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="USERLIBS_DIR/navx_frc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
