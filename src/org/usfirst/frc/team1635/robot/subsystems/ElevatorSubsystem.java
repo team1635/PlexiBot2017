@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ElevatorSubsystem extends Subsystem {
 
 	CANTalon elevatorActuator, elevatorRoller;
-	DigitalInput limitSwitchTop, limitSwitchBottom, limitswitchDEBUG2, limitSwitchDEBUG3;
+	DigitalInput limitSwitchTop, limitSwitchBottom;
 	AnalogPotentiometer analogPot;
 	private boolean flapsDown;
 
@@ -45,8 +45,6 @@ public class ElevatorSubsystem extends Subsystem {
 		elevatorRoller = new CANTalon(RobotMap.elevatorRollerMotorCANPort);
 		limitSwitchTop = new DigitalInput(RobotMap.topLimitSwitchDioPort);
 		limitSwitchBottom = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
-		limitswitchDEBUG2 = new DigitalInput(RobotMap.limitSwitchDEBUGPort2);
-		limitSwitchDEBUG3 = new DigitalInput(RobotMap.limitSwitchDEBUGPort3);
 		analogPot = new AnalogPotentiometer(RobotMap.potentiometerAnalogPort, 3600.0 / 5);
 
 	}
@@ -67,10 +65,10 @@ public class ElevatorSubsystem extends Subsystem {
 	public void controlElevator() {
 
 		if ((Robot.oi.StartController().getBumper(Hand.kLeft))) {
-			operateElevatorParams(-0.7);
+			setElevatorParams(-0.7);
 
 		} else if (Robot.oi.StartController().getBumper(Hand.kRight)) {
-			operateElevatorParams(0.7);
+			setElevatorParams(0.7);
 
 		}
 
@@ -100,8 +98,6 @@ public class ElevatorSubsystem extends Subsystem {
 		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
 		SmartDashboard.putBoolean("Bottom Stop", this.getBottomLimit());
 		SmartDashboard.putBoolean("Top Stop", this.getTopLimit());
-		SmartDashboard.putBoolean("DEBUG LIMIT SWITCH PORT 2", limitswitchDEBUG2.get());
-		SmartDashboard.putBoolean("DEBUG LIMIT SWITCH PORT 3", limitSwitchDEBUG3.get());
 
 	}
 
@@ -114,11 +110,14 @@ public class ElevatorSubsystem extends Subsystem {
 		System.out.println("Debug. Roller Should Be off");
 	}
 
-	public void setFlapsDown(boolean flapsDown){ 
-		this.flapsDown = flapsDown; 
+	public void setFlapsDown(boolean flapsDown) {
+		this.flapsDown = flapsDown;
 	}
+
 	public boolean isElevatorAtSweetSpot() {
-		if (Math.abs(getPotentiometerValue() - 384.0) <= 5) { //388 is a bit high, 380 is too low,
+		if (Math.abs(getPotentiometerValue() - 384.0) <= 5) { // 388 is a bit
+																// high, 380 is
+																// too low,
 			return true;
 		} else {
 			return false;
@@ -144,12 +143,12 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public boolean getBottomLimit() {
-		System.out.println(limitSwitchBottom.get());
+		
 		return (!(limitSwitchBottom.get()));
 
 	}
 
-	public void operateElevatorParams(double speed) {
+	public void setElevatorParams(double speed) {
 		elevatorActuator.set(speed);
 
 	}

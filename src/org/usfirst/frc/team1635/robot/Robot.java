@@ -7,6 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team1635.robot.commands.DriveStraight;
+import org.usfirst.frc.team1635.robot.commands.RotateToSetPoint;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
@@ -57,6 +60,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(pneumaticsSystem);
 		SmartDashboard.putData(winchSystem);
 		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putData("Rotate", new RotateToSetPoint(90, true));
+		SmartDashboard.putData("Drive With Timeout", new DriveStraight(5));
 		
 	 
 	}

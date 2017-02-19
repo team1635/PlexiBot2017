@@ -18,17 +18,17 @@ package org.usfirst.frc.team1635.robot;
 public class RobotMap {
 	// ------------------------------------------------------------
 	// CAN IDs/Ports
-	public static int elevatorMotorCANPort =3;  
-	public static int elevatorRollerMotorCANPort =2;
-				//Drive 
-	public static int frontLeftMotorCANPort = 4; 
+	public static int elevatorMotorCANPort = 3;
+	public static int elevatorRollerMotorCANPort = 2;
+	// Drive
+	public static int frontLeftMotorCANPort = 4;
 	public static int frontRightMotorCANPort = 6;
 	public static int backLeftMotorCANPort = 1;
-	public static int backRightMotorCANPort = 5; 
-	
+	public static int backRightMotorCANPort = 5;
+
 	// ------------------------------------------------------------
 	// Pulse Width Modulation Ports (PWM)
-	public static int rollerClimbMotorPwmPort = 1; 
+	public static int rollerClimbMotorPwmPort = 1;
 	public static int rollerClimbMotor2PwmPort = 2;
 	// ------------------------------------------------------------
 	// Analog Ports (Analog)
@@ -39,18 +39,17 @@ public class RobotMap {
 	// Digital Input/Output Ports ( DIO)
 	public static int topLimitSwitchDioPort = 0;
 	public static int bottomLimitSwitchDioPort = 1;
-	public static int limitSwitchDEBUGPort2 = 2; 
-	public static int limitSwitchDEBUGPort3= 3; 
+
 	// ------------------------------------------------------------
 	// Pnumatics Control Module Ports (PCM)
 	public static int compressorPort = 0;
-	public static int gearSolenoidPort = 6;  
-	public static int gearShifterPort = 4; 
+	public static int gearSolenoidPort = 6;
+	public static int gearShifterPort = 4;
 	public static int flapsPort = 7;
-	
+
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;
 	// ------------------------------------------------------------
-	
+
 }

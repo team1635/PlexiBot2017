@@ -56,10 +56,10 @@ public class ChassisSubsystem extends Subsystem {
 		backLeftMotor = new CANTalon(RobotMap.backLeftMotorCANPort);
 		backRightMotor = new CANTalon(RobotMap.backRightMotorCANPort);
 
-		frontLeftMotor.enableBrakeMode(false);
-		frontRightMotor.enableBrakeMode(false);
-		backLeftMotor.enableBrakeMode(false);
-		backRightMotor.enableBrakeMode(false);
+		frontLeftMotor.enableBrakeMode(true);
+		frontRightMotor.enableBrakeMode(true);
+		backLeftMotor.enableBrakeMode(true);
+		backRightMotor.enableBrakeMode(true);
 
 		drive = new RobotDrive(backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
 		drive.setSafetyEnabled(false); // TODO: Figure why we need this
@@ -131,6 +131,13 @@ public class ChassisSubsystem extends Subsystem {
 	// Functions For Nav X
 	// ------------------------------------------------------------
 	boolean firstIteration, direction, onTarget;
+	double degrees, DistanceToStop;
+
+	public void setRotation(double deg, boolean dir) {
+		navX.zeroYaw();
+		this.degrees = deg;
+		this.direction = dir;
+	}
 
 	public float getPitchValue() {
 		return navX.getPitch();
@@ -143,7 +150,79 @@ public class ChassisSubsystem extends Subsystem {
 	public float getRollValue() {
 		return navX.getRoll();
 	}
+	
+	public void reset() {
+		navX.zeroYaw();
+	}
 
+	public void turn() {
+		onTarget = false;
+		if (direction) {// turn to the right
+			if (getYawValue() < degrees + 1.0 && getYawValue() > degrees - 1.0) {
+				drive.tankDrive(0, 0);
+				onTarget = true;
+			} else {
+				drive.tankDrive(0.45, -0.45);
+			}
+		} else if (!direction) {// turn to the left
+			double inverted = -degrees;
+			if (getYawValue() < inverted + 1.0 && getYawValue() > inverted - 1.0) {
+				drive.tankDrive(0, 0);
+				onTarget = true;
+			} else {
+				drive.tankDrive(-0.45, 0.45);
+			}
+		}
+	}
+
+	public void correctWhileDriving() {
+		log();
+
+		if (getPitchValue() < 4 && getPitchValue() > -4) {
+			if (getYawValue() > 0) {
+				if (getYawValue() < 1.5 && getYawValue() > 0) {
+					drive.tankDrive(0.85, 0.85);
+				} else if (getYawValue() > 1.5 && getYawValue() < 4) {
+					drive.tankDrive(-0.35, 0.35);
+				} else if (getYawValue() > 4) {
+					drive.tankDrive(-0.45, 0.45);
+				}
+			} else if (getYawValue() < 0) {
+				if (getYawValue() > -1.5 && getYawValue() < 0) {
+					drive.tankDrive(0.85, 0.85);
+				} else if (getYawValue() < -1.5 && getYawValue() > -4) {
+					drive.tankDrive(0.35, -0.35);
+				} else if (getYawValue() < -4) {
+					drive.tankDrive(0.45, -0.45);
+				}
+			}
+		} else {
+			drive.tankDrive(0.75, 0.75);
+		}
+	}
+	
+	public void correctWhileDrivingWOPitch(double driveSpeed) {
+		log();
+
+		if (getYawValue() > 0) {
+			if (getYawValue() < 1.5 && getYawValue() > 0) {
+				drive.tankDrive(driveSpeed, driveSpeed);
+			} else if (getYawValue() > 1.5 && getYawValue() < 4) {
+				drive.tankDrive(-0.35, 0.35);
+			} else if (getYawValue() > 4) {
+				drive.tankDrive(-0.45, 0.45);
+			}
+		} else if (getYawValue() < 0) {
+			if (getYawValue() > -1.5 && getYawValue() < 0) {
+				drive.tankDrive(driveSpeed, driveSpeed);
+			} else if (getYawValue() < -1.5 && getYawValue() > -4) {
+				drive.tankDrive(0.35, -0.35);
+			} else if (getYawValue() < -4) {
+				drive.tankDrive(0.45, -0.45);
+			}
+		}
+
+	}
 	// Functions used to manage commands
 	// ------------------------------------------------------------
 	public void resetOnTarget() {

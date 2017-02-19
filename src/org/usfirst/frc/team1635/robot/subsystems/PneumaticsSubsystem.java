@@ -45,7 +45,7 @@ public class PneumaticsSubsystem extends Subsystem {
 		if (Robot.oi.StartController().getStickButton(Hand.kLeft)) {
 			if (gearShifter.get()) {
 				gearShifter.set(false);
-			} else if (gearShifter.get()) {
+			} else {
 				gearShifter.set(true);
 			}
 		}

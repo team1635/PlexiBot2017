@@ -36,7 +36,7 @@ public class ShootBalls extends Command {
     			Robot.elevatorSystem.elevatorStop();
     			state = 2;
     		} else {
-    			Robot.elevatorSystem.operateElevatorParams(.5);
+    			Robot.elevatorSystem.setElevatorParams(.5);
     		}
     		break;
     	case 2:
@@ -48,7 +48,7 @@ public class ShootBalls extends Command {
     			Robot.elevatorSystem.elevatorStop();
     			state = 4;
     		} else {
-    			Robot.elevatorSystem.operateElevatorParams(.5);
+    			Robot.elevatorSystem.setElevatorParams(.5);
     		}
     		break;
     	default:

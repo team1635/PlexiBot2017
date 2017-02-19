@@ -21,8 +21,8 @@ public class ControlPneumatics extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-   Robot.pneumaticsSystem.controlGearPiston();
-//    Robot.pneumaticsSystem.shiftDriveGears();
+  Robot.pneumaticsSystem.controlGearPiston();
+  Robot.pneumaticsSystem.shiftDriveGears();
   Robot.pneumaticsSystem.log();
   Robot.pneumaticsSystem.controlFlaps();
    

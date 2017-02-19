@@ -27,7 +27,7 @@ public class GusGearIntake extends Command {
     	if (Robot.elevatorSystem.getBottomLimit()) {
     		Robot.elevatorSystem.elevatorStop();
     	} else {
-    	    Robot.elevatorSystem.operateElevatorParams(-0.5);
+    	    Robot.elevatorSystem.setElevatorParams(-0.5);
     	}
     }
 
