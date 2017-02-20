@@ -33,7 +33,7 @@ public class RotateToSetPoint extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return Robot.chassisSystem.isOnTarget();
+		return Robot.chassisSystem.getGoalFlag();
 	}
 
 	// Called once after isFinished returns true

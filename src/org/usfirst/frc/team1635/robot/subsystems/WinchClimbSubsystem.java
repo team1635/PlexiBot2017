@@ -62,7 +62,7 @@ public class WinchClimbSubsystem extends Subsystem {
 
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
-	public void operateWinchParams(double finalInput) {
+	public void setWinchParams(double finalInput) {
 		System.out.println("RollerWithParamsActivated");
 		rollerTalonSR.set(finalInput);
 		// rollerTalonSRx2.set(finalInput);
@@ -73,13 +73,13 @@ public class WinchClimbSubsystem extends Subsystem {
 		rollerTalonSRx2.set(0);
 	}
 
-	public double obtainTalonSRLastValue() {
+	public double getTalonSRLastValue() {
 		double getTalonSRValue = rollerTalonSR.get();
 		return getTalonSRValue;
 
 	}
 
-	public double obtainTalonSRx2LastValue() {
+	public double getTalonSRx2LastValue() {
 		double getTalonSRx2Value = rollerTalonSRx2.get();
 		return getTalonSRx2Value;
 	}

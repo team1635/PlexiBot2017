@@ -17,12 +17,12 @@ public class DeadToUs extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	
-    	Robot.pneumaticsSystem.moveFlapsUp();
+    	Robot.elevatorSystem.moveFlapsUp();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevatorSystem.setElevatorParams(0.5);
+    	Robot.elevatorSystem.setElevatorSpeed(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +32,7 @@ public class DeadToUs extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elevatorSystem.elevatorStop();
+    	Robot.elevatorSystem.stopElevator();
     }
 
     // Called when another command which requires one or more of the same

@@ -130,7 +130,7 @@ public class ChassisSubsystem extends Subsystem {
 
 	// Functions For Nav X
 	// ------------------------------------------------------------
-	boolean firstIteration, direction, onTarget;
+	boolean firstIteration, direction, isGoalReached;
 	double degrees, DistanceToStop;
 
 	public void setRotation(double deg, boolean dir) {
@@ -150,17 +150,22 @@ public class ChassisSubsystem extends Subsystem {
 	public float getRollValue() {
 		return navX.getRoll();
 	}
-	
-	public void reset() {
+
+	public void resetYaw() {
 		navX.zeroYaw();
 	}
 
+	public double convertNavXtoInches() {
+		double inches = navX.getDisplacementX() * 1.116;
+		return inches;
+	}
+
 	public void turn() {
-		onTarget = false;
+		isGoalReached = false;
 		if (direction) {// turn to the right
 			if (getYawValue() < degrees + 1.0 && getYawValue() > degrees - 1.0) {
 				drive.tankDrive(0, 0);
-				onTarget = true;
+				isGoalReached = true;
 			} else {
 				drive.tankDrive(0.45, -0.45);
 			}
@@ -168,7 +173,7 @@ public class ChassisSubsystem extends Subsystem {
 			double inverted = -degrees;
 			if (getYawValue() < inverted + 1.0 && getYawValue() > inverted - 1.0) {
 				drive.tankDrive(0, 0);
-				onTarget = true;
+				isGoalReached = true;
 			} else {
 				drive.tankDrive(-0.45, 0.45);
 			}
@@ -200,37 +205,52 @@ public class ChassisSubsystem extends Subsystem {
 			drive.tankDrive(0.75, 0.75);
 		}
 	}
-	
-	public void correctWhileDrivingWOPitch(double driveSpeed) {
-		log();
 
-		if (getYawValue() > 0) {
-			if (getYawValue() < 1.5 && getYawValue() > 0) {
+	public void correctWhileDrivingWOPitch(double driveSpeed) { // reversed <, > signs 
+		log();
+		if (-getYawValue() < 0) {
+			if (-getYawValue() > 1.5 && -getYawValue() < 0) {
 				drive.tankDrive(driveSpeed, driveSpeed);
-			} else if (getYawValue() > 1.5 && getYawValue() < 4) {
-				drive.tankDrive(-0.35, 0.35);
-			} else if (getYawValue() > 4) {
-				drive.tankDrive(-0.45, 0.45);
-			}
-		} else if (getYawValue() < 0) {
-			if (getYawValue() > -1.5 && getYawValue() < 0) {
-				drive.tankDrive(driveSpeed, driveSpeed);
-			} else if (getYawValue() < -1.5 && getYawValue() > -4) {
+			} else if (-getYawValue() < 1.5 && -getYawValue() > 4) {
 				drive.tankDrive(0.35, -0.35);
-			} else if (getYawValue() < -4) {
+			} else if (-getYawValue() < 4) {
 				drive.tankDrive(0.45, -0.45);
+			}
+		} else if (-getYawValue() > 0) {
+			if (-getYawValue() < -1.5 && -getYawValue() > 0) {
+				drive.tankDrive(driveSpeed, driveSpeed);
+			} else if (-getYawValue() > -1.5 && -getYawValue() < -4) {
+				drive.tankDrive(-0.35, 0.35);
+			} else if (-getYawValue() > -4) {
+				drive.tankDrive(-0.45, 0.45);
 			}
 		}
 
 	}
-	// Functions used to manage commands
-	// ------------------------------------------------------------
-	public void resetOnTarget() {
-		onTarget = false;
+
+	public void NavxDriveToSetPoint() {
+		// double dist = imu.getDisplacementX();
+		double dist = convertNavXtoInches();
+		SmartDashboard.putNumber("autonomous distance", dist);
+
+		if (dist >= DistanceToStop) {
+			drive.tankDrive(0, 0);
+			isGoalReached = true;
+		} else {
+			drive.tankDrive(-0.3, -0.3);
+		}
+	}
+	
+	public void setDistToStop(double dist_) {
+		this.DistanceToStop = dist_;
 	}
 
-	public boolean isOnTarget() {
-		return onTarget;
+	public void resetIsGoalReachFlag() {
+		isGoalReached = false;
+	}
+
+	public boolean getGoalFlag() {
+		return isGoalReached;
 	}
 
 }

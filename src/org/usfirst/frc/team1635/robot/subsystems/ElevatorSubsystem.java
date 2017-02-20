@@ -10,6 +10,7 @@ import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -37,6 +38,7 @@ public class ElevatorSubsystem extends Subsystem {
 	CANTalon elevatorActuator, elevatorRoller;
 	DigitalInput limitSwitchTop, limitSwitchBottom;
 	AnalogPotentiometer analogPot;
+	Solenoid flapsSolenoid;
 	private boolean flapsDown;
 
 	public ElevatorSubsystem() {
@@ -46,6 +48,7 @@ public class ElevatorSubsystem extends Subsystem {
 		limitSwitchTop = new DigitalInput(RobotMap.topLimitSwitchDioPort);
 		limitSwitchBottom = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
 		analogPot = new AnalogPotentiometer(RobotMap.potentiometerAnalogPort, 3600.0 / 5);
+		flapsSolenoid = new Solenoid(RobotMap.flapsPort);
 
 	}
 
@@ -64,22 +67,36 @@ public class ElevatorSubsystem extends Subsystem {
 	// ------------------------------------------------------------
 	public void controlElevator() {
 
-		if ((Robot.oi.StartController().getBumper(Hand.kLeft))) {
-			setElevatorParams(-0.7);
+		if ((Robot.oi.StartController().getTriggerAxis(Hand.kLeft) > .3)) {
+			setElevatorSpeed(-0.7);
+			
 
-		} else if (Robot.oi.StartController().getBumper(Hand.kRight)) {
-			setElevatorParams(0.7);
+		} else if (Robot.oi.StartController().getTriggerAxis(Hand.kRight) > .3) {
+			setElevatorSpeed(0.7);
+			if(isElevatorAtSweetSpot()){ 
+				stopElevator();
+				Timer.delay(0.3);
+				System.out.println("Debug. SweetSpot Triggered");
+			}
+			if(isElevatorAtDangerSpot() && !getFlapState()){ 
+				stopElevator();
+				setFlapsDown(true);
+				Timer.delay(0.3);
+				System.out.println("Debug. DangerZone Triggered");
+			}
+			
 
 		}
-
+		
 		else {
-			elevatorStop();
+			stopElevator();
 		}
+
 		if (flapsDown) {
-			Robot.pneumaticsSystem.moveFlapsDown();
+			moveFlapsDown();
 
 		} else {
-			Robot.pneumaticsSystem.moveFlapsUp();
+			moveFlapsUp();
 		}
 	}
 
@@ -92,6 +109,17 @@ public class ElevatorSubsystem extends Subsystem {
 		}
 	}
 
+	public void controlFlaps() {
+		if (Robot.oi.StartController().getStartButton()) {
+			moveFlapsDown();
+			Timer.delay(0.1);
+
+		} else {
+			moveFlapsUp();
+
+		}
+	}
+
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
 	public void log() {
@@ -101,8 +129,8 @@ public class ElevatorSubsystem extends Subsystem {
 
 	}
 
-	public void turnRollerOn(boolean TrueOrFalse) {
-		if (TrueOrFalse) {
+	public void setRollerState(boolean status) {
+		if (status) {
 			elevatorRoller.set(1);
 			System.out.println("Debug. Roller Should be on");
 		} else
@@ -114,6 +142,22 @@ public class ElevatorSubsystem extends Subsystem {
 		this.flapsDown = flapsDown;
 	}
 
+	public void moveFlapsForGears() {
+
+	}
+
+	public void moveFlapsUp() {
+		flapsSolenoid.set(false);
+	}
+
+	public void moveFlapsDown() {
+		flapsSolenoid.set(true);
+
+	}
+
+	public boolean getFlapState(){ 
+		return flapsDown;
+	}
 	public boolean isElevatorAtSweetSpot() {
 		if (Math.abs(getPotentiometerValue() - 384.0) <= 5) { // 388 is a bit
 																// high, 380 is
@@ -143,17 +187,17 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public boolean getBottomLimit() {
-		
+
 		return (!(limitSwitchBottom.get()));
 
 	}
 
-	public void setElevatorParams(double speed) {
+	public void setElevatorSpeed(double speed) {
 		elevatorActuator.set(speed);
 
 	}
 
-	public void elevatorStop() {
+	public void stopElevator() {
 		elevatorActuator.set(0);
 	}
 

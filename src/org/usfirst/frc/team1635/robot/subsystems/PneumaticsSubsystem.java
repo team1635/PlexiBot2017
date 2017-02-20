@@ -20,14 +20,14 @@ public class PneumaticsSubsystem extends Subsystem {
 	Compressor compressor;
 	Solenoid gearSolenoid;
 	Solenoid gearShifter;
-	Solenoid flapsSolenoid;
+	
 
 	public PneumaticsSubsystem() {
 		super();
 		compressor = new Compressor(RobotMap.compressorPort);
 		gearSolenoid = new Solenoid(RobotMap.gearSolenoidPort);
 		gearShifter = new Solenoid(RobotMap.gearShifterPort);
-		flapsSolenoid = new Solenoid(RobotMap.flapsPort);
+		
 	}
 
 	// Whatever command you set as default will run when the enable button is
@@ -42,14 +42,15 @@ public class PneumaticsSubsystem extends Subsystem {
 	// Functions Utilizing the Xbox Controller's Buttons or Axes
 	// ------------------------------------------------------------
 	public void shiftDriveGears() {
-		if (Robot.oi.StartController().getStickButton(Hand.kLeft)) {
-			if (gearShifter.get()) {
-				gearShifter.set(false);
-			} else {
+		if (Robot.oi.StartController().getBumper(Hand.kRight)) {
 				gearShifter.set(true);
+				Timer.delay(0.05);
+			} else if(Robot.oi.StartController().getBumper(Hand.kLeft)){
+				gearShifter.set(false);
+				Timer.delay(0.05);
 			}
 		}
-	}
+	
 
 	public void controlGearPiston() {
 		if (Robot.oi.StartController().getBButton()) {
@@ -59,16 +60,7 @@ public class PneumaticsSubsystem extends Subsystem {
 		}
 	}
 	
-	public void controlFlaps(){ 
-		if(Robot.oi.StartController().getStartButton()){ 
-			moveFlapsDown();
-			Timer.delay(0.1);
-			
-		}else{ 
-			moveFlapsUp();
-			
-		}
-	}
+	
 
 	// Functions Dedicated for Automous Mode or General Purpose Commands
 	// ------------------------------------------------------------
@@ -76,23 +68,12 @@ public class PneumaticsSubsystem extends Subsystem {
 		SmartDashboard.putBoolean("FlapState", gearSolenoid.get());
 	}
 	
-	public void extendPiston() {
+	public void extendGearPiston() {
 		gearSolenoid.set(true);
 	}
 
-	public void retractPiston() {
+	public void retractGearPiston() {
 		gearSolenoid.set(false);
 	}
 
-	public void moveFlapsForGears(){ 
-		
-	}
-	public void moveFlapsUp(){ 
-		flapsSolenoid.set(false);
-	}
-	
-	public void moveFlapsDown(){ 
-		flapsSolenoid.set(true);
-		
-	}
 }

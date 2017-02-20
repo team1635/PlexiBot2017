@@ -1,6 +1,10 @@
 
 package org.usfirst.frc.team1635.robot;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 // WPILIB Imports
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,7 +12,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team1635.robot.commands.DriveStraight;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
 import org.usfirst.frc.team1635.robot.commands.RotateToSetPoint;
 //------------------------------------------------------------
 // Local Package Imports
@@ -44,7 +50,8 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand;
 	
 
-	
+	Mat vidSource = new Mat();
+	Mat output = new Mat();
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -61,10 +68,26 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(winchSystem);
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData("Rotate", new RotateToSetPoint(90, true));
-		SmartDashboard.putData("Drive With Timeout", new DriveStraight(5));
+		SmartDashboard.putData("Drive With Timeout", new TimeoutDriveWithCorrection(5));
 		
-	 
-	}
+	
+			new Thread(() -> {
+				UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+				camera.setResolution(320, 240);
+				camera.setFPS(24);
+
+				CvSink cvSink = CameraServer.getInstance().getVideo();
+				CvSource outputStream = CameraServer.getInstance().putVideo("CameraSource", 320, 240);
+				
+				while (true) {
+					cvSink.grabFrame(vidSource);
+					Imgproc.cvtColor(vidSource, output, Imgproc.COLOR_BGR2GRAY);
+					outputStream.putFrame(output);
+				}
+
+			}).start();
+		}
+	
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();

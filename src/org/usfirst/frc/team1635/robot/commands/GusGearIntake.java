@@ -17,17 +17,17 @@ public class GusGearIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.elevatorSystem.turnRollerOn(false);
-    	Robot.pneumaticsSystem.moveFlapsDown();
+    	Robot.elevatorSystem.setRollerState(false);
+    	Robot.elevatorSystem.moveFlapsDown();
     	Timer.delay(.3);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (Robot.elevatorSystem.getBottomLimit()) {
-    		Robot.elevatorSystem.elevatorStop();
+    		Robot.elevatorSystem.stopElevator();
     	} else {
-    	    Robot.elevatorSystem.setElevatorParams(-0.5);
+    	    Robot.elevatorSystem.setElevatorSpeed(-0.5);
     	}
     }
 
@@ -43,7 +43,7 @@ public class GusGearIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elevatorSystem.elevatorStop();
+    	Robot.elevatorSystem.stopElevator();
     	Robot.elevatorSystem.setFlapsDown(false);
     	
     }

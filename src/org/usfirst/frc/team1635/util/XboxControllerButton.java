@@ -25,6 +25,7 @@ public class XboxControllerButton extends JoystickButton {
 		kB (2),
 		kX (3),
 		kY (4);
+	
 		
 		private final int number;
 		

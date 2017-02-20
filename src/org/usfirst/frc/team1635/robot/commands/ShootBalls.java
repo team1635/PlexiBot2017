@@ -29,26 +29,26 @@ public class ShootBalls extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.elevatorSystem.turnRollerOn(true);
+        Robot.elevatorSystem.setRollerState(true);
     	switch (state) {
     	case 1:  
     		if (Robot.elevatorSystem.isElevatorAtDangerSpot()) {
-    			Robot.elevatorSystem.elevatorStop();
+    			Robot.elevatorSystem.stopElevator();
     			state = 2;
     		} else {
-    			Robot.elevatorSystem.setElevatorParams(.5);
+    			Robot.elevatorSystem.setElevatorSpeed(.5);
     		}
     		break;
     	case 2:
-    		Robot.pneumaticsSystem.moveFlapsDown();
+    		Robot.elevatorSystem.moveFlapsDown();
     		state = 3;
     		break;
     	case 3:
     		if (Robot.elevatorSystem.isElevatorAtSweetSpot()) {
-    			Robot.elevatorSystem.elevatorStop();
+    			Robot.elevatorSystem.stopElevator();
     			state = 4;
     		} else {
-    			Robot.elevatorSystem.setElevatorParams(.5);
+    			Robot.elevatorSystem.setElevatorSpeed(.5);
     		}
     		break;
     	default:
@@ -64,7 +64,7 @@ public class ShootBalls extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elevatorSystem.elevatorStop();
+    	Robot.elevatorSystem.stopElevator();
     	Robot.elevatorSystem.setFlapsDown(true);
     }
 
