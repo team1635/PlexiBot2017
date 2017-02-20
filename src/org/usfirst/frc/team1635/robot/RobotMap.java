@@ -51,5 +51,6 @@ public class RobotMap {
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;
 	// ------------------------------------------------------------
-
+	// Command Vars
+	public static double timeOutDriveWithCorrectionSpd = 0.4; 
 }

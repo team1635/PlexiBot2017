@@ -24,8 +24,6 @@ import org.usfirst.frc.team1635.robot.subsystems.PneumaticsSubsystem;
 //------------------------------------------------------------
 import org.usfirst.frc.team1635.robot.subsystems.WinchClimbSubsystem;
 
-
-
 // .---.  ,--.    .-----. .------.  
 // /_   | /  .'   /  -.   \|   ___|  
 // |   |.  / -.  '-' _'  ||  '--.   
@@ -40,28 +38,26 @@ import org.usfirst.frc.team1635.robot.subsystems.WinchClimbSubsystem;
  *
  */
 public class Robot extends IterativeRobot {
-	// ~ Subsystem instantiation ~ (Basically creating an object from the Subsystem
-	// .class files ) 
+	// ~ Subsystem instantiation ~ (Basically creating an object from the
+	// Subsystem
+	// .class files )
 	public static final ChassisSubsystem chassisSystem = new ChassisSubsystem();
-	public static final PneumaticsSubsystem pneumaticsSystem = new PneumaticsSubsystem(); 
-	public static  WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
-	public static  ElevatorSubsystem elevatorSystem = new ElevatorSubsystem(); 
+	public static final PneumaticsSubsystem pneumaticsSystem = new PneumaticsSubsystem();
+	public static WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
+	public static ElevatorSubsystem elevatorSystem = new ElevatorSubsystem();
 	public static OI oi;
 	Command autonomousCommand;
-	
 
 	Mat vidSource = new Mat();
 	Mat output = new Mat();
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
 		oi = new OI();
-		
-	
-		// instantiate the command used for the autonomous period
-		// autonomousCommand = new ExampleCommand()
+
 		SmartDashboard.putData(chassisSystem);
 		SmartDashboard.putData(elevatorSystem);
 		SmartDashboard.putData(pneumaticsSystem);
@@ -69,25 +65,23 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData("Rotate", new RotateToSetPoint(90, true));
 		SmartDashboard.putData("Drive With Timeout", new TimeoutDriveWithCorrection(5));
-		
-	
-			new Thread(() -> {
-				UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-				camera.setResolution(320, 240);
-				camera.setFPS(24);
 
-				CvSink cvSink = CameraServer.getInstance().getVideo();
-				CvSource outputStream = CameraServer.getInstance().putVideo("CameraSource", 320, 240);
-				
-				while (true) {
-					cvSink.grabFrame(vidSource);
-					Imgproc.cvtColor(vidSource, output, Imgproc.COLOR_BGR2GRAY);
-					outputStream.putFrame(output);
-				}
+		new Thread(() -> {
+			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+			camera.setResolution(320, 240);
+			camera.setFPS(24);
 
-			}).start();
-		}
-	
+			CvSink cvSink = CameraServer.getInstance().getVideo();
+			CvSource outputStream = CameraServer.getInstance().putVideo("CameraSource", 320, 240);
+
+			while (true) {
+				cvSink.grabFrame(vidSource);
+				Imgproc.cvtColor(vidSource, output, Imgproc.COLOR_BGR2GRAY);
+				outputStream.putFrame(output);
+			}
+
+		}).start();
+	}
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
@@ -129,9 +123,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
 
-	
 	}
 
 	/**

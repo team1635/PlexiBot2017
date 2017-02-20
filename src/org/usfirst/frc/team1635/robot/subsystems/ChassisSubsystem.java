@@ -253,4 +253,9 @@ public class ChassisSubsystem extends Subsystem {
 		return isGoalReached;
 	}
 
+	public void driveStraight(double speed){ 
+		double speedCorrection = .01 * getYawValue(); 
+		drive.tankDrive(speed - speedCorrection, speed + speedCorrection);
+		
+	}
 }
