@@ -10,13 +10,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RotateToSetPoint extends Command {
 	private double rotation;
 	
-	
-
 	/**
 	 * true- clockwise, false - counterclockwise
 	 */
 	public RotateToSetPoint(double rot) {
-
 		requires(Robot.chassisSystem);
 		rotation = rot; 
 	}
@@ -24,12 +21,8 @@ public class RotateToSetPoint extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		Robot.chassisSystem.resetYaw();
-		Robot.chassisSystem.enableTurnToSetPoint(rotation);
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		Robot.chassisSystem.rotateToSetPoint();
+		Robot.chassisSystem.enable();
+		Robot.chassisSystem.setSetpoint(rotation);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

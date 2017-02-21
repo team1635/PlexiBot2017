@@ -66,7 +66,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(Scheduler.getInstance());
 		SmartDashboard.putData("Drive With Timeout", new TimeoutDriveWithCorrection(2.5));
 		SmartDashboard.putData("Time out DriveParams", new TimeoutTankDriveParams(2.5));
-		//SmartDashboard.putData("Turn With PID", new RotateToSetPoint(90f));
+		SmartDashboard.putData("Turn With PID", new RotateToSetPoint(90));
 
 		new Thread(() -> {
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
