@@ -16,7 +16,9 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
 import org.usfirst.frc.team1635.robot.commands.TimeoutTankDriveParams;
+import org.usfirst.frc.team1635.robot.commands.ZeroOutNavX;
 import org.usfirst.frc.team1635.robot.commands.RotateToSetPoint;
+import org.usfirst.frc.team1635.robot.commands.RotateToSetPointLi;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
@@ -64,10 +66,21 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(pneumaticsSystem);
 		SmartDashboard.putData(winchSystem);
 		SmartDashboard.putData(Scheduler.getInstance());
-		SmartDashboard.putData("Drive With Timeout", new TimeoutDriveWithCorrection(2.5));
-		SmartDashboard.putData("Time out DriveParams", new TimeoutTankDriveParams(2.5));
+		
+		SmartDashboard.putData("Right: Drive To Turn", new TimeoutDriveWithCorrection(2.8)); //  2.8 perfect for driving straight
+		SmartDashboard.putData("Right: Turn Left", new RotateToSetPointLi(55, false)); //True ClockWise, False Counter ClockWise 
+		SmartDashboard.putData("Right: Drive To Gear Holder ", new TimeoutDriveWithCorrection(2.5));
+		
+		SmartDashboard.putData("Center : Drive To Gear Holder", new TimeoutDriveWithCorrection(2.6)); 
+		
+		SmartDashboard.putData("Left : Drive To Turn", new TimeoutDriveWithCorrection(1));
+		SmartDashboard.putData("Left: Turn Right", new RotateToSetPointLi(55, true));
+		SmartDashboard.putData("Left: Drive to Gear Holder", new TimeoutTankDriveParams(2)); 
+		
 		SmartDashboard.putData("Turn With PID", new RotateToSetPoint(90));
-
+		SmartDashboard.putData("Zero Out Nav X", new ZeroOutNavX());
+		
+		
 		new Thread(() -> {
 			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 			camera.setResolution(320, 240);

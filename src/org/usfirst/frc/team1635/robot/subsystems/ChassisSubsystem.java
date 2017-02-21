@@ -49,7 +49,7 @@ public class ChassisSubsystem extends PIDSubsystem {
 	private static final double kI = 0;
 	private static final double kD = 0;
 	double kToleranceDegrees = 2.0f;
-	
+
 	public ChassisSubsystem() {
 		super(kP, kI, kD);
 		setInputRange(-180.0f, 180.0f);
@@ -122,10 +122,10 @@ public class ChassisSubsystem extends PIDSubsystem {
 		SmartDashboard.putNumber("NavXPitch", getPitchValue());
 		SmartDashboard.putNumber("NavXyaw", getYawValue());
 		SmartDashboard.putNumber("NavXRoll", getRollValue());
-	}
-
-	public boolean isDoneTurning(){ 
-		return true; //turnControllerPID.onTarget(); 
+		SmartDashboard.putNumber("NavXDisplacement X", getXDisplacementValue());
+		SmartDashboard.putNumber("NavXDisplacement Y", getYDisplacementValue());
+		SmartDashboard.putNumber("NavXDisplacement X No Inches", getXDisplacementNoInches());
+		SmartDashboard.putNumber("NavxDisplacement Y No Inches", getYDisplacementValueNoInches());
 	}
 
 	public void driveWithParams(double left, double right) {
@@ -154,13 +154,58 @@ public class ChassisSubsystem extends PIDSubsystem {
 		return navX.getRoll();
 	}
 
+	public double getXDisplacementValue() {
+		double inches = navX.getDisplacementX() * 1.116;
+		return inches;
+	}
+
+	public float getXDisplacementNoInches() {
+		float displacement = navX.getDisplacementX();
+		return displacement;
+	}
+
+	public float getYDisplacementValueNoInches() {
+		float displacement = navX.getDisplacementY();
+		return displacement;
+	}
+
+	public double getYDisplacementValue() {
+		double inches = navX.getDisplacementY() * 1.116;
+		return inches;
+	}
+
 	public void resetYaw() {
 		navX.reset();
 	}
 
-	public double convertNavXtoInches() {
-		double inches = navX.getDisplacementX() * 1.116;
-		return inches;
+	public void resetDisplacement() {
+		navX.resetDisplacement();
+	}
+
+	public void setRotation(double deg, boolean dir) {
+		resetYaw();
+		this.degrees = deg;
+		this.direction = dir;
+	}
+
+	public void AngularRotation() {
+		isGoalReached = false;
+		if (direction) {// turn to the right
+			if (getYawValue() < degrees + 1.0 && getYawValue() > degrees - 1.0) {
+				drive.tankDrive(0, 0);
+				isGoalReached = true;
+			} else {
+				drive.tankDrive(0.4, -0.4);
+			}
+		} else if (!direction) {// turn to the left
+			double inverted = -degrees;
+			if (getYawValue() < inverted + 1.0 && getYawValue() > inverted - 1.0) {
+				drive.tankDrive(0, 0);
+				isGoalReached = true;
+			} else {
+				drive.tankDrive(-0.4, 0.4);
+			}
+		}
 	}
 
 	public void setDistToStop(double dist_) {
@@ -176,6 +221,7 @@ public class ChassisSubsystem extends PIDSubsystem {
 	}
 
 	public void driveStraight(double speed) {
+
 		double speedCorrection = .01 * getYawValue();
 		drive.tankDrive(speed - speedCorrection, speed + speedCorrection);
 	}
@@ -187,7 +233,7 @@ public class ChassisSubsystem extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		drive.arcadeDrive(0.0, turnSpeed * output);		
+		drive.arcadeDrive(0.0, turnSpeed * output);
 	}
 
 }

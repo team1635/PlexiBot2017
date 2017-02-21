@@ -120,10 +120,10 @@ public class ElevatorSubsystem extends Subsystem {
 		}
 	}
 
-	// Functions Dedicated for Automous Mode or General Purpose Commands
+	// Functions Dedicated for Autonomous Mode or General Purpose Commands
 	// ------------------------------------------------------------
 	public void log() {
-		SmartDashboard.putNumber("Potentiometer Value", Robot.elevatorSystem.getPotentiometerValue());
+		SmartDashboard.putNumber("Potentiometer Value", this.getPotentiometerValue());
 		SmartDashboard.putBoolean("Bottom Stop", this.getBottomLimit());
 		SmartDashboard.putBoolean("Top Stop", this.getTopLimit());
 
