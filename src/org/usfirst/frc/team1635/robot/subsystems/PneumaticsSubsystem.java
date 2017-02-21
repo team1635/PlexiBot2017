@@ -67,7 +67,16 @@ public class PneumaticsSubsystem extends Subsystem {
 	public void log(){ 
 		SmartDashboard.putBoolean("FlapState", gearSolenoid.get());
 	}
+
+	public void setHighGear(){ 
+		gearShifter.set(false);
+		Timer.delay(0.1);
+	}
 	
+	public void setLowGear(){ 
+		gearShifter.set(true);
+		Timer.delay(0.1);
+	}
 	public void extendGearPiston() {
 		gearSolenoid.set(true);
 	}

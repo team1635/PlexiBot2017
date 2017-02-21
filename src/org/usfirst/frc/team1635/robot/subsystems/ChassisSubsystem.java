@@ -16,6 +16,8 @@ import com.kauailabs.navx.frc.AHRS.SerialDataType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -40,15 +42,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
  *
  */
-public class ChassisSubsystem extends Subsystem {
+public class ChassisSubsystem extends Subsystem implements PIDOutput {
 	private CANTalon frontLeftMotor;
 	private CANTalon frontRightMotor;
 	private CANTalon backLeftMotor;
 	private CANTalon backRightMotor;
 	private RobotDrive drive;
-	// SerialPort serial_port;
+	PIDController turnControllerPID;
 	AHRS navX;
 
+	double turnSpeed = .45;
+	double kP = 0;
+	double kI = 0;
+	double KD = 0;
+	double KF = 0;
+	double kToleranceDegrees = 2.0f;
+	double rotateToAngleRate;
+	
 	public ChassisSubsystem() {
 		super();
 		frontLeftMotor = new CANTalon(RobotMap.frontLeftMotorCANPort);
@@ -62,11 +72,16 @@ public class ChassisSubsystem extends Subsystem {
 		backRightMotor.enableBrakeMode(true);
 
 		drive = new RobotDrive(backLeftMotor, frontLeftMotor, backRightMotor, frontRightMotor);
-		drive.setSafetyEnabled(false); // TODO: Figure why we need this
 
+		System.out.println("In ChassisSubsystem constructor: before turnController instantiation");
+		//turnControllerPID = new PIDController(kP, kI, KD, KF, navX, this);
+		System.out.println("In ChassisSubsystem constructor: after turnController instantiation");
+		//turnControllerPID.setInputRange(-180.0f, 180.0f);
+		//turnControllerPID.setOutputRange(-1.0, 1.0);
+		//turnControllerPID.setAbsoluteTolerance(kToleranceDegrees);
+		//turnControllerPID.setContinuous(true);
+		//LiveWindow.addActuator("ChassisSubsystem", "turnControllerPID", turnControllerPID);
 		try {
-			SerialPort serial_port = new SerialPort(57600, SerialPort.Port.kMXP);
-
 			byte update_rate_hz = 50;
 			// navX = new IMU(serial_port,update_rate_hz);
 			// navX = new IMUAdvanced(serial_port,update_rate_hz);
@@ -119,6 +134,25 @@ public class ChassisSubsystem extends Subsystem {
 		SmartDashboard.putNumber("NavXRoll", getRollValue());
 	}
 
+	@Override
+	public void pidWrite(double output) {
+		rotateToAngleRate = output;
+
+	}
+
+	public void enableTurnToSetPoint(double deg) {
+		//turnControllerPID.enable();
+		//turnControllerPID.setSetpoint(deg);
+	}
+
+	public boolean isDoneTurning(){ 
+		return true; //turnControllerPID.onTarget(); 
+	}
+	public void rotateToSetPoint() {
+
+		drive.arcadeDrive(0.0, turnSpeed * rotateToAngleRate);
+	}
+
 	public void driveWithParams(double left, double right) {
 		drive.tankDrive(left, right);
 
@@ -152,7 +186,7 @@ public class ChassisSubsystem extends Subsystem {
 	}
 
 	public void resetYaw() {
-		navX.zeroYaw();
+		navX.reset();
 	}
 
 	public double convertNavXtoInches() {
@@ -160,87 +194,6 @@ public class ChassisSubsystem extends Subsystem {
 		return inches;
 	}
 
-	public void turn() {
-		isGoalReached = false;
-		if (direction) {// turn to the right
-			if (getYawValue() < degrees + 1.0 && getYawValue() > degrees - 1.0) {
-				drive.tankDrive(0, 0);
-				isGoalReached = true;
-			} else {
-				drive.tankDrive(0.45, -0.45);
-			}
-		} else if (!direction) {// turn to the left
-			double inverted = -degrees;
-			if (getYawValue() < inverted + 1.0 && getYawValue() > inverted - 1.0) {
-				drive.tankDrive(0, 0);
-				isGoalReached = true;
-			} else {
-				drive.tankDrive(-0.45, 0.45);
-			}
-		}
-	}
-
-	public void correctWhileDriving() {
-		log();
-
-		if (getPitchValue() < 4 && getPitchValue() > -4) {
-			if (getYawValue() > 0) {
-				if (getYawValue() < 1.5 && getYawValue() > 0) {
-					drive.tankDrive(0.85, 0.85);
-				} else if (getYawValue() > 1.5 && getYawValue() < 4) {
-					drive.tankDrive(-0.35, 0.35);
-				} else if (getYawValue() > 4) {
-					drive.tankDrive(-0.45, 0.45);
-				}
-			} else if (getYawValue() < 0) {
-				if (getYawValue() > -1.5 && getYawValue() < 0) {
-					drive.tankDrive(0.85, 0.85);
-				} else if (getYawValue() < -1.5 && getYawValue() > -4) {
-					drive.tankDrive(0.35, -0.35);
-				} else if (getYawValue() < -4) {
-					drive.tankDrive(0.45, -0.45);
-				}
-			}
-		} else {
-			drive.tankDrive(0.75, 0.75);
-		}
-	}
-
-	public void correctWhileDrivingWOPitch(double driveSpeed) { // reversed <, > signs 
-		log();
-		if (-getYawValue() < 0) {
-			if (-getYawValue() > 1.5 && -getYawValue() < 0) {
-				drive.tankDrive(driveSpeed, driveSpeed);
-			} else if (-getYawValue() < 1.5 && -getYawValue() > 4) {
-				drive.tankDrive(0.35, -0.35);
-			} else if (-getYawValue() < 4) {
-				drive.tankDrive(0.45, -0.45);
-			}
-		} else if (-getYawValue() > 0) {
-			if (-getYawValue() < -1.5 && -getYawValue() > 0) {
-				drive.tankDrive(driveSpeed, driveSpeed);
-			} else if (-getYawValue() > -1.5 && -getYawValue() < -4) {
-				drive.tankDrive(-0.35, 0.35);
-			} else if (-getYawValue() > -4) {
-				drive.tankDrive(-0.45, 0.45);
-			}
-		}
-
-	}
-
-	public void NavxDriveToSetPoint() {
-		// double dist = imu.getDisplacementX();
-		double dist = convertNavXtoInches();
-		SmartDashboard.putNumber("autonomous distance", dist);
-
-		if (dist >= DistanceToStop) {
-			drive.tankDrive(0, 0);
-			isGoalReached = true;
-		} else {
-			drive.tankDrive(-0.3, -0.3);
-		}
-	}
-	
 	public void setDistToStop(double dist_) {
 		this.DistanceToStop = dist_;
 	}
@@ -253,9 +206,10 @@ public class ChassisSubsystem extends Subsystem {
 		return isGoalReached;
 	}
 
-	public void driveStraight(double speed){ 
-		double speedCorrection = .01 * getYawValue(); 
+	public void driveStraight(double speed) {
+		double speedCorrection = .01 * getYawValue();
 		drive.tankDrive(speed - speedCorrection, speed + speedCorrection);
-		
+
 	}
+
 }

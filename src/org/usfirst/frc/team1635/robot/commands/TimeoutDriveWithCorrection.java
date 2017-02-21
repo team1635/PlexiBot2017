@@ -21,7 +21,9 @@ public class TimeoutDriveWithCorrection extends Command {
 
 
     protected void initialize() {
-    	
+    	Robot.chassisSystem.resetYaw();
+    	Timer.delay(0.1);
+    	Robot.pneumaticsSystem.setLowGear();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,7 +35,6 @@ public class TimeoutDriveWithCorrection extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        System.out.println("is timed out" + this.timeSinceInitialized());
     	return isTimedOut();
         
     }

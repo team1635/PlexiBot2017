@@ -52,5 +52,5 @@ public class RobotMap {
 	public static int driverControllerPort = 0;
 	// ------------------------------------------------------------
 	// Command Vars
-	public static double timeOutDriveWithCorrectionSpd = 0.4; 
+	public static double timeOutDriveWithCorrectionSpd = 0.7;
 }
