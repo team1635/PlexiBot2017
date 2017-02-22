@@ -152,7 +152,7 @@ public class ElevatorSubsystem extends Subsystem {
 
 	public void moveFlapsDown() {
 		flapsSolenoid.set(true);
-
+		Timer.delay(0.3);
 	}
 
 	public boolean getFlapState(){ 

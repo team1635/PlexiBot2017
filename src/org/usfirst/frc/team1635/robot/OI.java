@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1635.robot;
 
 import org.usfirst.frc.team1635.robot.commands.GusGearIntake;
+import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
 import org.usfirst.frc.team1635.robot.commands.DeadToUs;
 import org.usfirst.frc.team1635.robot.commands.ShootBalls;
 //Local Package Imports
@@ -49,6 +50,7 @@ public class OI {
 		yButton.whenPressed(new DeadToUs());
 		aButton.whenPressed(new ShootBalls());
 		xButton.whenPressed(new GusGearIntake());
+		bButton.whenPressed(new PopGearWithFlapsDown());
 	}
  
 	// OI Functions ( These are passed through different methods as parameters

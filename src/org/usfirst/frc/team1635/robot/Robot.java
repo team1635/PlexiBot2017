@@ -10,15 +10,23 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.awt.dnd.Autoscroll;
+
+import javax.swing.text.StyleContext.SmallAttributeSet;
 
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
 import org.usfirst.frc.team1635.robot.commands.TimeoutTankDriveParams;
 import org.usfirst.frc.team1635.robot.commands.ZeroOutNavX;
-import org.usfirst.frc.team1635.robot.commands.RotateToSetPoint;
-import org.usfirst.frc.team1635.robot.commands.RotateToSetPointLi;
+import org.usfirst.frc.team1635.autonomous.AutonomousLeft;
+import org.usfirst.frc.team1635.autonomous.AutonomousRight;
+import org.usfirst.frc.team1635.robot.commands.PopGear;
+import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
+import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
@@ -49,11 +57,9 @@ public class Robot extends IterativeRobot {
 	public static WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
 	public static ElevatorSubsystem elevatorSystem = new ElevatorSubsystem();
 	public static OI oi;
-	Command autonomousCommand;
-
-	Mat vidSource = new Mat();
-	Mat output = new Mat();
-
+	Command autonomousCommand , autoLeft,  autoRight;
+	SendableChooser chooser; 
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -68,34 +74,29 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData(Scheduler.getInstance());
 		
 		SmartDashboard.putData("Right: Drive To Turn", new TimeoutDriveWithCorrection(2.8)); //  2.8 perfect for driving straight
-		SmartDashboard.putData("Right: Turn Left", new RotateToSetPointLi(55, false)); //True ClockWise, False Counter ClockWise 
+		SmartDashboard.putData("Right: Turn Left", new TurnToSetPointLi(55, false)); //True ClockWise, False Counter ClockWise 
 		SmartDashboard.putData("Right: Drive To Gear Holder ", new TimeoutDriveWithCorrection(2.5));
 		
 		SmartDashboard.putData("Center : Drive To Gear Holder", new TimeoutDriveWithCorrection(2.6)); 
 		
-		SmartDashboard.putData("Left : Drive To Turn", new TimeoutDriveWithCorrection(1));
-		SmartDashboard.putData("Left: Turn Right", new RotateToSetPointLi(55, true));
-		SmartDashboard.putData("Left: Drive to Gear Holder", new TimeoutTankDriveParams(2)); 
+		SmartDashboard.putData("Left : Drive To Turn", new TimeoutDriveWithCorrection(2.43));
+		SmartDashboard.putData("Left: Turn Right", new TurnToSetPointLi(56, true));
+		SmartDashboard.putData("Left: Drive to Gear Holder", new TimeoutTankDriveParams(2.41)); 
 		
-		SmartDashboard.putData("Turn With PID", new RotateToSetPoint(90));
+		SmartDashboard.putData("Pop Gear With Flaps Down" , new PopGearWithFlapsDown());
 		SmartDashboard.putData("Zero Out Nav X", new ZeroOutNavX());
 		
+		SmartDashboard.putData("Autonomous Left", new AutonomousLeft());
+		SmartDashboard.putData("Autnomous Right", new AutonomousRight());
 		
-		new Thread(() -> {
-			UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-			camera.setResolution(320, 240);
-			camera.setFPS(24);
-
-			CvSink cvSink = CameraServer.getInstance().getVideo();
-			CvSource outputStream = CameraServer.getInstance().putVideo("CameraSource", 320, 240);
-
-			while (true) {
-				cvSink.grabFrame(vidSource);
-				Imgproc.cvtColor(vidSource, output, Imgproc.COLOR_BGR2GRAY);
-				outputStream.putFrame(output);
-			}
-
-		}).start();
+		chooser = new SendableChooser();
+		chooser.addDefault("AutonomousLeft", autoLeft);
+		chooser.addObject("AutonomousRight" , autoRight);
+		
+		SmartDashboard.putData("Auto mode", chooser);
+		
+		autoLeft = new AutonomousLeft(); 
+		autoRight =  new AutonomousRight(); 
 	}
 
 	public void disabledPeriodic() {

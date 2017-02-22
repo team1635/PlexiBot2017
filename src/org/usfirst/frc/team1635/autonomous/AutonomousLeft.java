@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1635.autonomous;
 
-import org.usfirst.frc.team1635.robot.Robot;
-import org.usfirst.frc.team1635.robot.commands.RotateToSetPoint;
+import org.usfirst.frc.team1635.robot.RobotMap;
+import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -9,15 +9,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class AutonomousLift extends CommandGroup {
+public class AutonomousLeft extends CommandGroup {
 
-	public AutonomousLift() {
+	public AutonomousLeft() {
 
-		requires(Robot.chassisSystem);
-
-		addSequential(new TimeoutDriveWithCorrection(2));
-		addSequential((new RotateToSetPoint(-62)));
-		addSequential(new TimeoutDriveWithCorrection(1));
+		addSequential(new TimeoutDriveWithCorrection(RobotMap.autoLeftDriveToTurn));
+		addSequential(new TurnToSetPointLi(RobotMap.autoLeftTurnRight, true));
+		addSequential(new TimeoutDriveWithCorrection(RobotMap.autoLeftDriveToGearHolder));
 		// To run multiple commands at the same time,
 		// use addParallel()
 		// e.g. addParallel(new Command1());

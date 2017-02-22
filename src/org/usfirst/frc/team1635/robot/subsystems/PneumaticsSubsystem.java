@@ -3,6 +3,7 @@ package org.usfirst.frc.team1635.robot.subsystems;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.ControlPneumatics;
+import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -53,11 +54,9 @@ public class PneumaticsSubsystem extends Subsystem {
 	
 
 	public void controlGearPiston() {
-		if (Robot.oi.StartController().getBButton()) {
-			gearSolenoid.set(true);
-			Timer.delay(0.5);
-			gearSolenoid.set(false);
-		}
+//		if (Robot.oi.StartController().getBButton()) {
+//			
+//		}
 	}
 	
 	
@@ -68,6 +67,12 @@ public class PneumaticsSubsystem extends Subsystem {
 		SmartDashboard.putBoolean("FlapState", gearSolenoid.get());
 	}
 
+	public void popGear(){ 
+		extendGearPiston();
+		Timer.delay(0.5);
+		retractGearPiston();
+		
+	}
 	public void setHighGear(){ 
 		gearShifter.set(false);
 		Timer.delay(0.1);
