@@ -20,8 +20,10 @@ import javax.swing.text.StyleContext.SmallAttributeSet;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
+import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrectionSlow;
 import org.usfirst.frc.team1635.robot.commands.TimeoutTankDriveParams;
 import org.usfirst.frc.team1635.robot.commands.ZeroOutNavX;
+import org.usfirst.frc.team1635.autonomous.AutoCenter;
 import org.usfirst.frc.team1635.autonomous.AutonomousLeft;
 import org.usfirst.frc.team1635.autonomous.AutonomousRight;
 import org.usfirst.frc.team1635.robot.commands.PopGear;
@@ -77,7 +79,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Right: Turn Left", new TurnToSetPointLi(55, false)); //True ClockWise, False Counter ClockWise 
 		SmartDashboard.putData("Right: Drive To Gear Holder ", new TimeoutDriveWithCorrection(2.5));
 		
-		SmartDashboard.putData("Center : Drive To Gear Holder", new TimeoutDriveWithCorrection(2.6)); 
+		SmartDashboard.putData("Center : Drive To Gear Holder", new TimeoutDriveWithCorrectionSlow(5.7,RobotMap.timeOutDriveCorrectionSlow ));
+		SmartDashboard.putData("AutoCenter", new AutoCenter());
 		
 		SmartDashboard.putData("Left : Drive To Turn", new TimeoutDriveWithCorrection(2.43));
 		SmartDashboard.putData("Left: Turn Right", new TurnToSetPointLi(56, true));

@@ -3,6 +3,7 @@ package org.usfirst.frc.team1635.robot.commands;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.subsystems.PneumaticsSubsystem;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,7 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PopGear extends Command {
 
+
 	public PopGear() {
+	
+		
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.pneumaticsSystem);
@@ -18,8 +22,8 @@ public class PopGear extends Command {
 	}
 
 	// Called just before this Command runs the first time
+	
 	protected void initialize() {
-
 		Robot.pneumaticsSystem.popGear();
 
 	}

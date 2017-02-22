@@ -53,6 +53,8 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// Command Vars
 	public static double timeOutDriveWithCorrectionSpd = 0.7;
+	public static double timeOutDriveCorrectionSlow = .52; 
+	
 	
 	public static double autoLeftDriveToTurn = 2.35; //Seconds 
 	public static double autoLeftTurnRight = 56;//Degs 
