@@ -55,15 +55,23 @@ public class RobotMap {
 	public static double timeOutDriveWithCorrectionSpd = 0.7;
 	public static double timeOutDriveCorrectionSlow = .52; 
 	
+	//2.8 went long
+	//2.0 was a little short, just a little
+	//2.15 was a little short
+	//2.2 was short
+	public static double autoCenterDriveTime = 2.3; //Seconds 
 	
-	public static double autoLeftDriveToTurn = 2.35; //Seconds 
+//	public static double autoLeftDriveToTurn = 2.35; //Seconds 
+	public static double autoLeftDriveToTurn = autoCenterDriveTime;
 	public static double autoLeftTurnRight = 56;//Degs 
-	public static double autoLeftDriveToGearHolder = 2.41; // Seconds 
+	//2.41 was too long
+	public static double autoLeftDriveToGearHolder = 2.3; // Seconds 
 	
-	public static double autoRightDriveToTurn = 2.8; //Seconds 
+//	public static double autoRightDriveToTurn = 2.8; //Seconds
+	public static double autoRightDriveToTurn = autoCenterDriveTime; //Seconds	
 	public static double autoRightTurnLeft = 55;//Degs  
 	public static double autoRightDriveToGearHolder = 2.5; //Seconds
-	
+		
 	public static double autoWiggleBackSpeed = -0.45;
 	public static double autoWiggleForwardSpeed = 0.6;
 	public static double autoWiggleMoveTime = 0.13;
