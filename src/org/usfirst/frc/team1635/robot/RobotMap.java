@@ -59,17 +59,18 @@ public class RobotMap {
 	//2.0 was a little short, just a little
 	//2.15 was a little short
 	//2.2 was short
-	public static double autoCenterDriveTime = 2.3; //Seconds 
+	//2.3 in was short in practice match 3
+	//2.4 spring ended up on the right side of the slot from the right auto. increasing
+	public static double autoCenterDriveTime = 2.5; //Seconds
 	
-//	public static double autoLeftDriveToTurn = 2.35; //Seconds 
 	public static double autoLeftDriveToTurn = autoCenterDriveTime;
-	public static double autoLeftTurnRight = 56;//Degs 
+	public static double autoLeftTurnRight = 55;//Degs 
 	//2.41 was too long
 	public static double autoLeftDriveToGearHolder = 2.3; // Seconds 
 	
     // 2.8 is what we used in the lab
 	public static double autoRightDriveToTurn = autoCenterDriveTime; //Seconds	
-	public static double autoRightTurnLeft = 55; //Degs  
+	public static double autoRightTurnLeft = autoLeftTurnRight; //Degs  
 	public static double autoRightDriveToGearHolder = 2.5; //Seconds
 		
 	//-.45 too slow on carpet .55 sloe .65 slow
