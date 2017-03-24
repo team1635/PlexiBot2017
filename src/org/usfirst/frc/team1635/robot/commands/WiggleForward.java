@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1635.robot.commands;
 
 import org.usfirst.frc.team1635.robot.Robot;
-
+import org.usfirst.frc.team1635.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,7 +16,7 @@ public class WiggleForward extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	setTimeout(1); //was 6 for the other one
+    	setTimeout(RobotMap.wiggleTime); //was 6 for the other one
     }
 
     // Called repeatedly when this Command is scheduled to run
