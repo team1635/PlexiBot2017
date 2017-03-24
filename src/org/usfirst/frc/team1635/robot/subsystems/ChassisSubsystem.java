@@ -109,10 +109,14 @@ public class ChassisSubsystem extends Subsystem {
 		SmartDashboard.putNumber("NavXPitch", getPitchValue());
 		SmartDashboard.putNumber("NavXyaw", getYawValue());
 		SmartDashboard.putNumber("NavXRoll", getRollValue());
-		//SmartDashboard.putNumber("NavXDisplacement X", getXDisplacementValue());
-		//SmartDashboard.putNumber("NavXDisplacement Y", getYDisplacementValue());
-		//SmartDashboard.putNumber("NavXDisplacement X No Inches", getXDisplacementNoInches());
-		//SmartDashboard.putNumber("NavxDisplacement Y No Inches", getYDisplacementValueNoInches());
+		// SmartDashboard.putNumber("NavXDisplacement X",
+		// getXDisplacementValue());
+		// SmartDashboard.putNumber("NavXDisplacement Y",
+		// getYDisplacementValue());
+		// SmartDashboard.putNumber("NavXDisplacement X No Inches",
+		// getXDisplacementNoInches());
+		// SmartDashboard.putNumber("NavxDisplacement Y No Inches",
+		// getYDisplacementValueNoInches());
 	}
 
 	public void driveWithParams(double left, double right) {
@@ -168,12 +172,12 @@ public class ChassisSubsystem extends Subsystem {
 	public void resetDisplacement() {
 		navX.resetDisplacement();
 	}
-	
+
 	public double getVisionDistance() {
-		double distance = SmartDashboard.getNumber("VisionDistance", 0.0); //mispelled
+		double distance = SmartDashboard.getNumber("VisionDistance", 0.0); // mispelled
 		return distance;
 	}
-	
+
 	public double getVisionError() {
 		double error = SmartDashboard.getNumber("VisionError", 0.0);
 		return error;
@@ -222,48 +226,50 @@ public class ChassisSubsystem extends Subsystem {
 		double speedCorrection = .01 * getYawValue();
 		drive.tankDrive(speed - speedCorrection, speed + speedCorrection);
 	}
-	
+
 	public void wiggleForward() {
-		
-		drive.tankDrive(RobotMap.autoWiggleBackSpeed, RobotMap.autoWiggleForwardSpeed); //5 was slow
-		Timer.delay(RobotMap.autoWiggleMoveTime); //1 was too little //2 was way much
+
+		drive.tankDrive(RobotMap.autoWiggleBackSpeed, RobotMap.autoWiggleForwardSpeed); // 5
+																						// was
+																						// slow
+		Timer.delay(RobotMap.autoWiggleMoveTime); // 1 was too little //2 was
+													// way much
 		stop();
 		Timer.delay(RobotMap.autoWiggleStopTime);
 		drive.tankDrive(RobotMap.autoWiggleForwardSpeed, RobotMap.autoWiggleBackSpeed);
 		Timer.delay(RobotMap.autoWiggleMoveTime);
 		stop();
 	}
-	
+
 	public void driveWithVision() {
-		//When perfectly in target the bottom left corner of the left strip
-		//is about -50 (i.e. to the right) of the center, so we are adjusting
-		//to make sure we are aiming for 0;
+		// When perfectly in target the bottom left corner of the left strip
+		// is about -50 (i.e. to the right) of the center, so we are adjusting
+		// to make sure we are aiming for 0;
 		double error = getVisionError();
 		System.out.println("Error we received from the pi = " + error);
 		error = error + RobotMap.autoErrorCorrection;
 		System.out.println("Error after we corrected it = " + error);
 		double direction = 0;
-		
-		//We don't want to compensate direction for very small errors.
+
+		// We don't want to compensate direction for very small errors.
 		if (Math.abs(error) > RobotMap.autoErrorTolerance) {
-			//direction = error * -1.0 / Math.abs(error); //kept going the wrong way
+			// direction = error * -1.0 / Math.abs(error); //kept going the
+			// wrong way
 			direction = error / Math.abs(error);
 		} else {
-			direction = 0; //keep going straight
+			direction = 0; // keep going straight
 		}
-		
+
 		System.out.println("after correction and tolerance filter error = " + error);
 		System.out.println("direction = " + direction);
 		double rotateSpeed = RobotMap.autoRotateSpeed * direction;
-		System.out.println("robot spining at rotateSpeed = " + rotateSpeed );
+		System.out.println("robot spining at rotateSpeed = " + rotateSpeed);
 		drive.arcadeDrive(RobotMap.autoSpeed, rotateSpeed);
 	}
-	
+
 	public boolean inTarget() {
 		System.out.println("VisionDistance = " + getVisionDistance());
 		return (getVisionDistance() > RobotMap.inTargetDistance);
 	}
-
-
 
 }
