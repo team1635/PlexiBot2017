@@ -1,5 +1,5 @@
-#HelloRobot
-Q: What's HelloRobot ? 
+#PlexiBot
+Q: What's PlexiBot ? 
 
 A: It's a robot for testing 2017 FRC hardware with the WPiLib Java library and the CTRE Library.
 
