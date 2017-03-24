@@ -2,6 +2,7 @@ package org.usfirst.frc.team1635.autonomous;
 
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
+import org.usfirst.frc.team1635.robot.commands.WiggleForwardWithButton;
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -19,6 +20,8 @@ public class AutonomousRight extends CommandGroup {
     	addSequential(new TimeoutDriveWithCorrection(RobotMap.autoRightDriveToTurn));
     	addSequential(new  TurnToSetPointLi(RobotMap.autoRightTurnLeft, false));
     	addSequential(new TimeoutDriveWithCorrection(RobotMap.autoRightDriveToGearHolder));
+		addSequential(new WiggleForwardWithButton());
+
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());

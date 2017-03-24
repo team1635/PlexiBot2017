@@ -67,9 +67,9 @@ public class RobotMap {
 	//2.41 was too long
 	public static double autoLeftDriveToGearHolder = 2.3; // Seconds 
 	
-//	public static double autoRightDriveToTurn = 2.8; //Seconds
+    // 2.8 is what we used in the lab
 	public static double autoRightDriveToTurn = autoCenterDriveTime; //Seconds	
-	public static double autoRightTurnLeft = 55;//Degs  
+	public static double autoRightTurnLeft = 55; //Degs  
 	public static double autoRightDriveToGearHolder = 2.5; //Seconds
 		
 	public static double autoWiggleBackSpeed = -0.45;
@@ -80,6 +80,7 @@ public class RobotMap {
 	public static double autoErrorCorrection =  20.0;
 	public static double autoErrorTolerance = 7.0;
 	public static double autoRotateSpeed = 0.35;
+	public static double autoRotateSpeedLi = 0.4;
 	public static double autoSpeed = 0.45;  
 
 	public static double inTargetDistance = 47;

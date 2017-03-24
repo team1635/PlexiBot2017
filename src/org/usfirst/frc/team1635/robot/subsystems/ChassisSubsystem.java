@@ -196,7 +196,8 @@ public class ChassisSubsystem extends Subsystem {
 				drive.tankDrive(0, 0);
 				isGoalReached = true;
 			} else {
-				drive.tankDrive(0.4, -0.4);
+				//drive.tankDrive(0.4, -0.4);
+				drive.tankDrive(RobotMap.autoRotateSpeedLi, RobotMap.autoRotateSpeedLi * -1.0);
 			}
 		} else if (!direction) {// turn to the left
 			double inverted = -degrees;
@@ -204,7 +205,8 @@ public class ChassisSubsystem extends Subsystem {
 				drive.tankDrive(0, 0);
 				isGoalReached = true;
 			} else {
-				drive.tankDrive(-0.4, 0.4);
+				//drive.tankDrive(-0.4, 0.4);
+				drive.tankDrive(RobotMap.autoRotateSpeedLi * -1.0, RobotMap.autoRotateSpeedLi);
 			}
 		}
 	}
