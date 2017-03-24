@@ -22,7 +22,7 @@ public class ControlElevator extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.elevatorSystem.controlElevator();
-		// Robot.elevatorSystem.elevatorRollerControl();
+		Robot.elevatorSystem.elevatorRollerControl();
 		Robot.elevatorSystem.log();
 	}
 

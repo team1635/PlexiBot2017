@@ -62,5 +62,17 @@ public class RobotMap {
 	
 	public static double autoRightDriveToTurn = 2.8; //Seconds 
 	public static double autoRightTurnLeft = 55;//Degs  
-	public static double autoRightDriveToGearHolder = 2.5; //Seconds 
+	public static double autoRightDriveToGearHolder = 2.5; //Seconds
+	
+	public static double autoWiggleBackSpeed = -0.45;
+	public static double autoWiggleForwardSpeed = 0.6;
+	public static double autoWiggleMoveTime = 0.13;
+	public static double autoWiggleStopTime = 0.2;
+	
+	public static double autoErrorCorrection =  20.0;
+	public static double autoErrorTolerance = 7.0;
+	public static double autoRotateSpeed = 0.35;
+	public static double autoSpeed = 0.45;  
+
+	public static double inTargetDistance = 47;
 }

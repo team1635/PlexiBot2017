@@ -7,6 +7,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 // WPILIB Imports
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -26,6 +27,7 @@ import org.usfirst.frc.team1635.robot.commands.ZeroOutNavX;
 import org.usfirst.frc.team1635.autonomous.AutoCenter;
 import org.usfirst.frc.team1635.autonomous.AutonomousLeft;
 import org.usfirst.frc.team1635.autonomous.AutonomousRight;
+import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
 import org.usfirst.frc.team1635.robot.commands.PopGear;
 import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
 import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
@@ -62,12 +64,19 @@ public class Robot extends IterativeRobot {
 	Command autonomousCommand , autoLeft,  autoRight, autoCenter; 
 	SendableChooser chooser; 
 	
+    boolean forwardCameraOn = true;
+    boolean processImage = true;
+
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
 		oi = new OI();
+
+		forwardCameraOn = true;
+		processImage = false;
 
 		SmartDashboard.putData(chassisSystem);
 		SmartDashboard.putData(elevatorSystem);
@@ -96,7 +105,7 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("AutonomousLeft", autoLeft);
 		chooser.addObject("AutonomousRight" , autoRight);
 		chooser.addObject("Autonomous Center", autoCenter );
-		
+		chooser.addObject("AutoVision Center", new DriveWithVision());
 		
 		SmartDashboard.putData("Autonomous Mode", chooser);
 		
@@ -111,6 +120,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		processImage = true;
+		forwardCameraOn = true;
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
@@ -124,6 +135,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		processImage = false;
+		forwardCameraOn = true;
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -144,6 +157,19 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+        Scheduler.getInstance().run();
+        if (Robot.oi.gameController.getBButton()) {
+        	Timer.delay(0.2);
+        	forwardCameraOn = !(forwardCameraOn);
+        }
+        SmartDashboard.putBoolean("forwardCameraOn", forwardCameraOn);
+
+//        if (Robot.oi.gameController.getXButton()) {
+//        	Timer.delay(0.2);
+//        	processImage = !(processImage);
+//        }
+//    	SmartDashboard.putBoolean("processImage", processImage);
+		
 		Scheduler.getInstance().run();
 
 	}
