@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1635.autonomous;
 
 import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
-import org.usfirst.frc.team1635.robot.commands.WiggleForwardWithButton;
+import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -13,7 +13,7 @@ public class AutonomousVisionCenter extends CommandGroup {
 	public AutonomousVisionCenter() {
 
 		addSequential(new DriveWithVision());
-		addSequential(new WiggleForwardWithButton());
+		addSequential(new WiggleForward());
 		// To run multiple commands at the same time,
 		// use addParallel()
 		// e.g. addParallel(new Command1());

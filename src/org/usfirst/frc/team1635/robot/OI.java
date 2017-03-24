@@ -3,7 +3,7 @@ package org.usfirst.frc.team1635.robot;
 import org.usfirst.frc.team1635.robot.commands.GusGearIntake;
 import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
 import org.usfirst.frc.team1635.robot.commands.ShootBalls;
-import org.usfirst.frc.team1635.robot.commands.WiggleForwardWithButton;
+import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 //Local Package Imports
 import org.usfirst.frc.team1635.util.XboxControllerButton;
 import org.usfirst.frc.team1635.util.DPadButton;
@@ -50,7 +50,7 @@ public class OI {
 	DPadButton dPadRight = new DPadButton(gameController, DPadButton.Direction.Right);
 
 	public OI() {
-    	aButton.whenPressed(new WiggleForwardWithButton());
+    	aButton.whenPressed(new WiggleForward());
     	//Don't use B - we switch camera with it.
 
 		dPadUp.whenPressed(new ShootBalls());

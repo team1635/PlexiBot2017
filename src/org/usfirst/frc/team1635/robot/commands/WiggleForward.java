@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class WiggleForwardWithButton extends Command {
+public class WiggleForward extends Command {
 
-    public WiggleForwardWithButton() {
+    public WiggleForward() {
     	requires(Robot.chassisSystem);
     }
 
