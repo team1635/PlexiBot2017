@@ -31,7 +31,7 @@ public class TimeoutDriveWithCorrectionSlow extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.chassisSystem.log();
-    	Robot.chassisSystem.driveStraight(speed);
+    	Robot.chassisSystem.driveStraightBob(speed);
    
     }
 

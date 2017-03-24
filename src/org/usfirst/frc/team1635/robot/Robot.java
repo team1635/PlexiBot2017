@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 	public static WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
 	public static ElevatorSubsystem elevatorSystem = new ElevatorSubsystem();
 	public static OI oi;
-	Command autonomousCommand , autoLeft,  autoRight;
+	Command autonomousCommand , autoLeft,  autoRight, autoCenter; 
 	SendableChooser chooser; 
 	
 	/**
@@ -95,11 +95,14 @@ public class Robot extends IterativeRobot {
 		chooser = new SendableChooser();
 		chooser.addDefault("AutonomousLeft", autoLeft);
 		chooser.addObject("AutonomousRight" , autoRight);
+		chooser.addObject("Autonomous Center", autoCenter );
 		
-		SmartDashboard.putData("Auto mode", chooser);
+		
+		SmartDashboard.putData("Autonomous Mode", chooser);
 		
 		autoLeft = new AutonomousLeft(); 
 		autoRight =  new AutonomousRight(); 
+		autoCenter = new AutoCenter(); 
 	}
 
 	public void disabledPeriodic() {

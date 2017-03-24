@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
  *
  */
-public class ChassisSubsystem extends PIDSubsystem {
+public class ChassisSubsystem extends Subsystem {
 	private CANTalon frontLeftMotor;
 	private CANTalon frontRightMotor;
 	private CANTalon backLeftMotor;
@@ -44,20 +44,7 @@ public class ChassisSubsystem extends PIDSubsystem {
 	private RobotDrive drive;
 	AHRS navX;
 
-	double turnSpeed = .45;
-	private static final double kP = 0;
-	private static final double kI = 0;
-	private static final double kD = 0;
-	double kToleranceDegrees = 2.0f;
-
 	public ChassisSubsystem() {
-		super(kP, kI, kD);
-		setInputRange(-180.0f, 180.0f);
-		setOutputRange(-1.0, 1.0);
-		setAbsoluteTolerance(kToleranceDegrees);
-		PIDController myController = this.getPIDController();
-		myController.setContinuous(true);
-		LiveWindow.addActuator("ChassisSubsystem", "turnControllerPID", myController);
 
 		frontLeftMotor = new CANTalon(RobotMap.frontLeftMotorCANPort);
 		frontRightMotor = new CANTalon(RobotMap.frontRightMotorCANPort);
@@ -122,10 +109,10 @@ public class ChassisSubsystem extends PIDSubsystem {
 		SmartDashboard.putNumber("NavXPitch", getPitchValue());
 		SmartDashboard.putNumber("NavXyaw", getYawValue());
 		SmartDashboard.putNumber("NavXRoll", getRollValue());
-		SmartDashboard.putNumber("NavXDisplacement X", getXDisplacementValue());
-		SmartDashboard.putNumber("NavXDisplacement Y", getYDisplacementValue());
-		SmartDashboard.putNumber("NavXDisplacement X No Inches", getXDisplacementNoInches());
-		SmartDashboard.putNumber("NavxDisplacement Y No Inches", getYDisplacementValueNoInches());
+		//SmartDashboard.putNumber("NavXDisplacement X", getXDisplacementValue());
+		//SmartDashboard.putNumber("NavXDisplacement Y", getYDisplacementValue());
+		//SmartDashboard.putNumber("NavXDisplacement X No Inches", getXDisplacementNoInches());
+		//SmartDashboard.putNumber("NavxDisplacement Y No Inches", getYDisplacementValueNoInches());
 	}
 
 	public void driveWithParams(double left, double right) {
@@ -220,20 +207,10 @@ public class ChassisSubsystem extends PIDSubsystem {
 		return isGoalReached;
 	}
 
-	public void driveStraight(double speed) {
+	public void driveStraightBob(double speed) {
 
 		double speedCorrection = .01 * getYawValue();
 		drive.tankDrive(speed - speedCorrection, speed + speedCorrection);
-	}
-
-	@Override
-	protected double returnPIDInput() {
-		return navX.pidGet();
-	}
-
-	@Override
-	protected void usePIDOutput(double output) {
-		drive.arcadeDrive(0.0, turnSpeed * output);
 	}
 
 }
