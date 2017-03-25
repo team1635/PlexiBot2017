@@ -3,6 +3,7 @@ package org.usfirst.frc.team1635.robot.commands;
 import org.usfirst.frc.team1635.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -15,6 +16,7 @@ public class DriveWithVision extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("DriveWithVision begin");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -30,6 +32,9 @@ public class DriveWithVision extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassisSystem.stop();
+    	System.out.println("DriveWithVision Done");
+		SmartDashboard.putBoolean("processImage", false);
+
     }
 
     // Called when another command which requires one or more of the same

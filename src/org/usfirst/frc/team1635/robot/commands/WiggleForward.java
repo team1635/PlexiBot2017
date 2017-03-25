@@ -17,6 +17,7 @@ public class WiggleForward extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	setTimeout(RobotMap.wiggleTime); //was 6 for the other one
+    	System.out.println("WiggleForward begin");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,6 +33,7 @@ public class WiggleForward extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.chassisSystem.stop();
+    	System.out.println("WiggleForward stop");
     }
 
     // Called when another command which requires one or more of the same

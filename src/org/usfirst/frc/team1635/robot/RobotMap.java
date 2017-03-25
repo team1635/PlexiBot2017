@@ -93,7 +93,8 @@ public class RobotMap {
 
 	//.45 was too slow
 	//.65 is too fast
-	public static double autoSpeed = 0.50;  
+	//public static double autoSpeed = 0.50; //was slow
+	public static double autoSpeed = 0.55;
 	//practice robot had 20 when the error on goal was about 50
 	//on competition robot when we go all the way left we are 51 to the left of center
 	//when we go centered we are -25 to the right of center
@@ -111,5 +112,6 @@ public class RobotMap {
 
 	//public static double inTargetDistance = 47; too short
 	//public static double inTargetDistance = 65; //over corrects at the end
-	public static double inTargetDistance = 43; //too short
+//	public static double inTargetDistance = 43; //way too short
+	public static double inTargetDistance = 51; //too short
 }
