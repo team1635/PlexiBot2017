@@ -99,7 +99,9 @@ public class RobotMap {
 	//on competition robot when we go all the way left we are 51 to the left of center
 	//when we go centered we are -25 to the right of center
 	//when we go all the way right we are -79 to the right of the center
-	public static double autoErrorCorrection =  20.0;
+	//20 was all the way right
+	//40 was even further
+	public static double autoErrorCorrection =  0.0;
 	public static double autoErrorTolerance = 7.0;
 //	public static double autoRotateSpeed = 0.35;  //might be way to slow on comp robot
 //	0.45 was too fast to match .65 approach speed
