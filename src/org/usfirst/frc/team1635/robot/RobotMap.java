@@ -87,20 +87,21 @@ public class RobotMap {
 	//.3 t00 sh0rt
 	//.2 doesn't advance enough
 	public static double autoWiggleMoveTime = 0.25;
-	
 	public static double autoWiggleStopTime = 0.2;
-	
+
+	//.45 was too slow
+	public static double autoSpeed = 0.65;  
 	//practice robot had 20 when the error on goal was about 50
 	//on competition robot when we go all the way left we are 51 to the left of center
 	//when we go centered we are -25 to the right of center
 	//when we go all the way right we are -79 to the right of the center
 	public static double autoErrorCorrection =  20.0;
 	public static double autoErrorTolerance = 7.0;
-	public static double autoRotateSpeed = 0.35;  //might be way to slow on comp robot
-	
+//	public static double autoRotateSpeed = 0.35;  //might be way to slow on comp robot
+	public static double autoRotateSpeed = 0.45;
 	//.4 was slow
 	public static double autoRotateSpeedLi = 0.6;
-	public static double autoSpeed = 0.45;  
 
-	public static double inTargetDistance = 47;
+	//public static double inTargetDistance = 47; too short
+	public static double inTargetDistance = 65;
 }
