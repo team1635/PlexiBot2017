@@ -50,6 +50,8 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// DriverStation Ports(DSP)
 	public static int driverControllerPort = 0;
+	public static int driverControllerPort2 = 1;
+	
 	// ------------------------------------------------------------
 	// Command Vars
 	public static double timeOutDriveWithCorrectionSpd = 0.7;
@@ -101,7 +103,11 @@ public class RobotMap {
 	public static double autoRotateSpeed = 0.45;
 	//.4 was slow
 	public static double autoRotateSpeedLi = 0.6;
+	
+	public static double autoVisionStraightSpeed = autoSpeed;
+	public static double autoVisionStraightTime = 0.3;
 
 	//public static double inTargetDistance = 47; too short
-	public static double inTargetDistance = 65;
+	//public static double inTargetDistance = 65; //over corrects at the end
+	public static double inTargetDistance = 43; //too short
 }

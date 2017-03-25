@@ -16,6 +16,7 @@ public class AutoCenter extends CommandGroup {
 	public AutoCenter() {
 		//had 5.7 too faR
 		//4.0 TOO FAR
+		                      //execution Time, Speed
 		addSequential(new TimeoutDriveWithCorrectionSlow(RobotMap.autoCenterDriveTime, RobotMap.timeOutDriveCorrectionSlow));
 		addSequential(new WiggleForward());
 	}

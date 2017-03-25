@@ -34,6 +34,7 @@ import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
 import org.usfirst.frc.team1635.robot.commands.PopGear;
 import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
 import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
+import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
@@ -112,6 +113,11 @@ public class Robot extends IterativeRobot {
 		//
 		// SmartDashboard.putData("Autonomous Left", new AutonomousLeft());
 		// SmartDashboard.putData("Autnomous Right", new AutonomousRight());
+		
+		SmartDashboard.putData("DriveWithVision", new DriveWithVision());
+		SmartDashboard.putData("DriveWithConnSlow", new TimeoutDriveWithCorrectionSlow(RobotMap.autoVisionStraightSpeed, RobotMap.timeOutDriveCorrectionSlow));
+		SmartDashboard.putData("WiggleForward", new WiggleForward());
+
 		autoLeft = new AutonomousLeft();
 		autoRight = new AutonomousRight();
 		autoCenter = new AutoCenter();
