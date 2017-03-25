@@ -90,9 +90,14 @@ public class RobotMap {
 	
 	public static double autoWiggleStopTime = 0.2;
 	
+	//practice robot had 20 when the error on goal was about 50
+	//on competition robot when we go all the way left we are 51 to the left of center
+	//when we go centered we are -25 to the right of center
+	//when we go all the way right we are -79 to the right of the center
 	public static double autoErrorCorrection =  20.0;
 	public static double autoErrorTolerance = 7.0;
-	public static double autoRotateSpeed = 0.35;
+	public static double autoRotateSpeed = 0.35;  //might be way to slow on comp robot
+	
 	//.4 was slow
 	public static double autoRotateSpeedLi = 0.6;
 	public static double autoSpeed = 0.45;  
