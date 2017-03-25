@@ -55,7 +55,7 @@ public class OI {
 
 		dPadUp.whenPressed(new ShootBalls());
 		dPadDown.whenPressed(new GusGearIntake());
-		dPadLeft.whenPressed(new PopGearWithFlapsDown());
+//		dPadLeft.whenPressed(new PopGearWithFlapsDown());
 	}
 
 	// OI Functions ( These are passed through different methods as parameters

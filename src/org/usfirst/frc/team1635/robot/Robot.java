@@ -28,6 +28,8 @@ import org.usfirst.frc.team1635.autonomous.AutoCenter;
 import org.usfirst.frc.team1635.autonomous.AutonomousLeft;
 import org.usfirst.frc.team1635.autonomous.AutonomousRight;
 import org.usfirst.frc.team1635.autonomous.AutonomousVisionCenter;
+import org.usfirst.frc.team1635.autonomous.AutonomousVisionLeft;
+import org.usfirst.frc.team1635.autonomous.AutonomousVisionRight;
 import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
 import org.usfirst.frc.team1635.robot.commands.PopGear;
 import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
@@ -62,7 +64,8 @@ public class Robot extends IterativeRobot {
 	public static WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
 	public static ElevatorSubsystem elevatorSystem = new ElevatorSubsystem();
 	public static OI oi;
-	Command autonomousCommand, autoLeft, autoRight, autoCenter, autoVisionCenter;
+	Command autonomousCommand, autoLeft, autoRight, autoCenter, autoVisionCenter, autonomousVisionLeft,
+			autonomousVisionRight;
 	SendableChooser chooser;
 
 	boolean forwardCameraOn = true;
@@ -113,12 +116,16 @@ public class Robot extends IterativeRobot {
 		autoRight = new AutonomousRight();
 		autoCenter = new AutoCenter();
 		autoVisionCenter = new AutonomousVisionCenter();
+		autonomousVisionLeft = new AutonomousVisionLeft();
+		autonomousVisionRight = new AutonomousVisionRight();
 
 		chooser = new SendableChooser();
 		chooser.addDefault("AutonomousLeft", autoLeft);
 		chooser.addObject("AutonomousRight", autoRight);
 		chooser.addObject("Autonomous Center", autoCenter);
+		chooser.addObject("AutoVision Left", autonomousVisionLeft);
 		chooser.addObject("AutoVision Center", autoVisionCenter);
+		chooser.addObject("AutoVision Right", autonomousVisionRight);
 
 		SmartDashboard.putData("Autonomous Mode", chooser);
 
