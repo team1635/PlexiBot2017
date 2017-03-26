@@ -99,7 +99,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void elevatorRollerControl() {
-		if (Robot.oi.globalX) {
+		if (Robot.oi.StartController().getXButton()) {
 			elevatorRoller.set(1);
 
 		} else {
@@ -108,7 +108,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void controlFlaps() {
-		if (Robot.oi.globalStartButton) {
+		if (Robot.oi.StartController().getStartButton()) {
 			moveFlapsDown();
 			Timer.delay(0.1);
 

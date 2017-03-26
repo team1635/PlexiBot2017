@@ -46,22 +46,13 @@ public class OI {
 	Button yButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kY);
 	Button xButton = new XboxControllerButton(gameController, XboxControllerButton.Name.kX);
 
-	Button aButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kA);
-	Button bButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kB);
-	Button yButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kY);
-	Button xButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kX);
-
 	DPadButton dPadUp = new DPadButton(gameController, DPadButton.Direction.Up);
 	DPadButton dPadDown = new DPadButton(gameController, DPadButton.Direction.Down);
 	DPadButton dPadLeft = new DPadButton(gameController, DPadButton.Direction.Left);
 	DPadButton dPadRight = new DPadButton(gameController, DPadButton.Direction.Right);
 
-	DPadButton dPadUp2 = new DPadButton(gameController2, DPadButton.Direction.Up);
-	DPadButton dPadDown2 = new DPadButton(gameController2, DPadButton.Direction.Down);
-	DPadButton dPadLeft2 = new DPadButton(gameController2, DPadButton.Direction.Left);
-	DPadButton dPadRight2 = new DPadButton(gameController2, DPadButton.Direction.Right);
-	// -----------------------------------------------------------------------------------
-	// For DualControllers
+// -----------------------------------------------------------------------------------
+// For DualControllers
 	public boolean globalA;
 	public boolean globalB;
 	public boolean globalX;
@@ -71,7 +62,20 @@ public class OI {
 	public boolean globalBackButton;
 	public boolean globalStartButton;
 
+	// Used For Running a Command on button click
+	DPadButton dPadUp2 = new DPadButton(gameController2, DPadButton.Direction.Up);
+	DPadButton dPadDown2 = new DPadButton(gameController2, DPadButton.Direction.Down);
+	DPadButton dPadLeft2 = new DPadButton(gameController2, DPadButton.Direction.Left);
+	DPadButton dPadRight2 = new DPadButton(gameController2, DPadButton.Direction.Right);
+	Button aButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kA);
+	Button bButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kB);
+	Button yButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kY);
+	Button xButton2 = new XboxControllerButton(gameController2, XboxControllerButton.Name.kX);
+
 	public void masterToSecondary(XboxController master, XboxController secondary) {
+		// Axes Will be controlled by driver
+		// Just put this inside the execute() function within a default command.
+		// Commands runs at 30-50hz it will always listen for the buttons.
 		this.globalA = master.getAButton() || secondary.getAButton();
 		this.globalB = master.getBButton() || secondary.getBButton();
 		this.globalY = master.getYButton() || secondary.getYButton();
@@ -80,10 +84,9 @@ public class OI {
 		this.globalRightBumper = master.getBumper(Hand.kRight) || secondary.getBumper(Hand.kRight);
 		this.globalBackButton = master.getBackButton() || secondary.getBackButton();
 		this.globalStartButton = master.getStartButton() || secondary.getStartButton();
-
 	}
-	
-//---------------------------------------------------------------------------------------	
+
+// ---------------------------------------------------------------------------------------
 
 	public OI() {
 		aButton.whenPressed(new WiggleForward());
