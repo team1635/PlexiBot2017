@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1635.autonomous;
 
 import org.usfirst.frc.team1635.robot.RobotMap;
-import org.usfirst.frc.team1635.robot.commands.PopGear;
+
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrectionSlow;
 import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 

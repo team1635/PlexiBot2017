@@ -31,8 +31,6 @@ import org.usfirst.frc.team1635.autonomous.AutonomousVisionCenter;
 import org.usfirst.frc.team1635.autonomous.AutonomousVisionLeft;
 import org.usfirst.frc.team1635.autonomous.AutonomousVisionRight;
 import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
-import org.usfirst.frc.team1635.robot.commands.PopGear;
-import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
 import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
 import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 //------------------------------------------------------------

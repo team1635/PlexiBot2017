@@ -1,7 +1,11 @@
 package org.usfirst.frc.team1635.util;
 
+import org.usfirst.frc.team1635.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The second game pad controller mirrors all the commands on the first game
@@ -9,156 +13,95 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  * @author Bogdan
  */
-public class DualGameController extends GenericHID implements GameController {
+public class DualGameController {
 
-	private GameController masterController;
-	private GameController secondaryController;
-
-	public DualGameController(GameController masterController, GameController secondaryController) {
-		this.masterController = masterController;
-		this.secondaryController = secondaryController;
-	}
+	private XboxController masterController;
+	private XboxController secondaryController;
 
 	public DualGameController(int masterControllerPort, int secondaryControllerPort) {
-		this.masterController = new SingleGameController(masterControllerPort);
-		this.secondaryController = new SingleGameController(secondaryControllerPort);
+		this.masterController = new XboxController(masterControllerPort);
+		this.secondaryController = new XboxController(secondaryControllerPort);
 	}
 
 	public DualGameController() {
-		this(1, 2);
-	}
-
-	public double getLeftJoystickUpDown() {
-		return getRawAxis(2);
-	}
-
-	public double getX(Hand hand) {
-		return getLeftJoystickUpDown();
-	}
-
-	public double getRightJoystickUpDown() {
-		return getRawAxis(5);
-	}
-
-	public double getY(Hand hand) {
-		// TODO: This is probably better mapped to the second axis of the left
-		// joystick.
-		return getRightJoystickUpDown();
-	}
-
-	public double getFrontButtonAxis() {
-		return getRawAxis(3);
-	}
-
-	public double getZ(Hand hand) {
-		return getFrontButtonAxis();
-	}
-
-	public double getTwist() {
-		// TODO figure out which axis is best mapped here.
-		return 0.0;
-	}
-
-	public double getThrottle() {
-		// TODO figure out which axis is best mapped here.
-		return 0.0;
-	}
-
-	public double getRawAxis(int i) {
-		double masterControllerValue = masterController.getRawAxis(i);
-		double returnValue;
-
-		if (masterControllerValue != 0.0) {
-			returnValue = masterControllerValue;
-		} else {
-			returnValue = secondaryController.getRawAxis(i);
-		}
-
-		return returnValue;
+		this(RobotMap.driverControllerPort, RobotMap.driverControllerPort2);
 	}
 
 	public boolean getTrigger(Hand hand) {
-		// TODO figure out which button is best mapped to trigger
-		return false;
+		return masterController.getTrigger(hand);
 	}
-
+	
 	public boolean getTop(Hand hand) {
 		// TODO figure out which button is best mapped to Top
 		return false;
 	}
 
-	public boolean getBumper(Hand hand) {
-		// TODO figure out which button is best mapped to Bumper
-		return false;
+	public boolean	getAButton() {
+		return masterController.getAButton() || secondaryController.getAButton();
 	}
-
-	public boolean getRawButton(int i) {
-		return masterController.getRawButton(i) || secondaryController.getRawButton(i);
+	
+	public boolean	getBackButton() {
+		return masterController.getBackButton() || secondaryController.getBackButton();
 	}
-
-	public boolean getButtonA() {
-		return getRawButton(1);
+	public boolean	getBButton() {
+		return masterController.getBButton() || secondaryController.getBButton();
 	}
+	
+	public boolean	getBumper(GenericHID.Hand hand){
+		return masterController.getBumper(hand) || secondaryController.getBumper(hand);
+	} 
 
-	public boolean getButtonB() {
-		return getRawButton(2);
+	public boolean getBumper() {
+		return getBumper() || this.secondaryController.getBumper();
 	}
-
-	public boolean getButtonX() {
-		return getRawButton(3);
-	}
-
-	public boolean getButtonY() {
-		return getRawButton(4);
-	}
-
-	public boolean getFrontRightButton() {
-		return getRawButton(6);
-	}
-
-	public boolean getFrontLeftButton() {
-		return getRawButton(5);
-	}
-
-	@Override
+	
+	//String	getName()
 	public int getPOV(int pov) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
+	  return masterController.getPOV(pov);
+    }
+	
 	public int getPOVCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return masterController.getPOV();
 	}
-
-	@Override
-	public HIDType getType() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public double getRawAxis(int axis) {
+		return masterController.getRawAxis(axis);
 	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public boolean getRawButton(int button) {
+		return masterController.getRawButton(button) ||
+				secondaryController.getRawButton(button);
 	}
-
-	@Override
-	public void setOutput(int outputNumber, boolean value) {
-		// TODO Auto-generated method stub
-
+	
+	public boolean getStartButton() {
+		return masterController.getStartButton() || 
+				secondaryController.getStartButton();
 	}
-
-	@Override
-	public void setOutputs(int value) {
-		// TODO Auto-generated method stub
-
+	
+	public boolean getStickButton(GenericHID.Hand hand) {
+		return masterController.getStickButton(hand) ||
+				secondaryController.getStickButton();
 	}
+	//boolean	getTop(GenericHID.Hand hand) This is not supported for the XboxController.
+	//boolean	getTrigger(GenericHID.Hand hand) This is not supported for the XboxController.
+	//double	getTriggerAxis(GenericHID.Hand hand) Get the trigger axis value of the controller.
 
-	@Override
-	public void setRumble(RumbleType type, double value) {
-		// TODO Auto-generated method stub
-
+	//GenericHID.HIDType	getType() Get the type of the HID.
+	public double getX(GenericHID.Hand hand) {
+		return masterController.getX(hand);
 	}
+	
+	public boolean getXButton() {
+		return masterController.getXButton() || secondaryController.getXButton();
+	}
+	
+	public double getY(GenericHID.Hand hand) {
+		return masterController.getY(hand);
+	}
+	public boolean getYButton() {
+		return masterController.getYButton() || secondaryController.getYButton();
+	}
+	//void	setOutput(int outputNumber, boolean value) Set a single HID output value for the HID.
+	//void	setOutputs(int value) Set all HID output values for the HID.
+	//void	setRumble(GenericHID.RumbleType type, double value) Set the rumble output for the HID.
 }
