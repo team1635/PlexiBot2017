@@ -7,6 +7,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 // WPILIB Imports
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -26,9 +27,12 @@ import org.usfirst.frc.team1635.robot.commands.ZeroOutNavX;
 import org.usfirst.frc.team1635.autonomous.AutoCenter;
 import org.usfirst.frc.team1635.autonomous.AutonomousLeft;
 import org.usfirst.frc.team1635.autonomous.AutonomousRight;
-import org.usfirst.frc.team1635.robot.commands.PopGear;
-import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
+import org.usfirst.frc.team1635.autonomous.AutonomousVisionCenter;
+import org.usfirst.frc.team1635.autonomous.AutonomousVisionLeft;
+import org.usfirst.frc.team1635.autonomous.AutonomousVisionRight;
+import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
 import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
+import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 //------------------------------------------------------------
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.subsystems.ChassisSubsystem;
@@ -59,9 +63,13 @@ public class Robot extends IterativeRobot {
 	public static WinchClimbSubsystem winchSystem = new WinchClimbSubsystem();
 	public static ElevatorSubsystem elevatorSystem = new ElevatorSubsystem();
 	public static OI oi;
-	Command autonomousCommand , autoLeft,  autoRight;
-	SendableChooser chooser; 
-	
+	Command autonomousCommand, autoLeft, autoRight, autoCenter, autoVisionCenter, autonomousVisionLeft,
+			autonomousVisionRight;
+	SendableChooser chooser;
+
+	boolean forwardCameraOn = true;
+	boolean processImage = true;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -69,37 +77,62 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 
-		SmartDashboard.putData(chassisSystem);
-		SmartDashboard.putData(elevatorSystem);
-		SmartDashboard.putData(pneumaticsSystem);
-		SmartDashboard.putData(winchSystem);
-		SmartDashboard.putData(Scheduler.getInstance());
+		forwardCameraOn = true;
+		processImage = false;
+
+		// SmartDashboard.putData(chassisSystem);
+		// SmartDashboard.putData(elevatorSystem);
+		// SmartDashboard.putData(pneumaticsSystem);
+		// SmartDashboard.putData(winchSystem);
+		// SmartDashboard.putData(Scheduler.getInstance());
+		//
+		// SmartDashboard.putData("Right: Drive To Turn", new
+		// TimeoutDriveWithCorrection(2.8)); // 2.8 perfect for driving straight
+		// SmartDashboard.putData("Right: Turn Left", new TurnToSetPointLi(55,
+		// false)); //True ClockWise, False Counter ClockWise
+		// SmartDashboard.putData("Right: Drive To Gear Holder ", new
+		// TimeoutDriveWithCorrection(2.5));
+		//
+		// SmartDashboard.putData("Center : Drive To Gear Holder", new
+		// TimeoutDriveWithCorrectionSlow(5.7,RobotMap.timeOutDriveCorrectionSlow
+		// ));
+		// SmartDashboard.putData("AutoCenter", new AutoCenter());
+		//
+		// SmartDashboard.putData("Left : Drive To Turn", new
+		// TimeoutDriveWithCorrection(2.43));
+		// SmartDashboard.putData("Left: Turn Right", new TurnToSetPointLi(56,
+		// true));
+		// SmartDashboard.putData("Left: Drive to Gear Holder", new
+		// TimeoutTankDriveParams(2.41));
+		//
+		// SmartDashboard.putData("Pop Gear With Flaps Down" , new
+		// PopGearWithFlapsDown());
+		// SmartDashboard.putData("Zero Out Nav X", new ZeroOutNavX());
+		//
+		// SmartDashboard.putData("Autonomous Left", new AutonomousLeft());
+		// SmartDashboard.putData("Autnomous Right", new AutonomousRight());
 		
-		SmartDashboard.putData("Right: Drive To Turn", new TimeoutDriveWithCorrection(2.8)); //  2.8 perfect for driving straight
-		SmartDashboard.putData("Right: Turn Left", new TurnToSetPointLi(55, false)); //True ClockWise, False Counter ClockWise 
-		SmartDashboard.putData("Right: Drive To Gear Holder ", new TimeoutDriveWithCorrection(2.5));
-		
-		SmartDashboard.putData("Center : Drive To Gear Holder", new TimeoutDriveWithCorrectionSlow(5.7,RobotMap.timeOutDriveCorrectionSlow ));
-		SmartDashboard.putData("AutoCenter", new AutoCenter());
-		
-		SmartDashboard.putData("Left : Drive To Turn", new TimeoutDriveWithCorrection(2.43));
-		SmartDashboard.putData("Left: Turn Right", new TurnToSetPointLi(56, true));
-		SmartDashboard.putData("Left: Drive to Gear Holder", new TimeoutTankDriveParams(2.41)); 
-		
-		SmartDashboard.putData("Pop Gear With Flaps Down" , new PopGearWithFlapsDown());
-		SmartDashboard.putData("Zero Out Nav X", new ZeroOutNavX());
-		
-		SmartDashboard.putData("Autonomous Left", new AutonomousLeft());
-		SmartDashboard.putData("Autnomous Right", new AutonomousRight());
-		
+		SmartDashboard.putData("DriveWithVision", new DriveWithVision());
+		SmartDashboard.putData("DriveWithConnSlow", new TimeoutDriveWithCorrectionSlow(RobotMap.autoVisionStraightSpeed, RobotMap.timeOutDriveCorrectionSlow));
+		SmartDashboard.putData("WiggleForward", new WiggleForward());
+
+		autoLeft = new AutonomousLeft();
+		autoRight = new AutonomousRight();
+		autoCenter = new AutoCenter();
+		autoVisionCenter = new AutonomousVisionCenter();
+		autonomousVisionLeft = new AutonomousVisionLeft();
+		autonomousVisionRight = new AutonomousVisionRight();
+
 		chooser = new SendableChooser();
 		chooser.addDefault("AutonomousLeft", autoLeft);
-		chooser.addObject("AutonomousRight" , autoRight);
-		
-		SmartDashboard.putData("Auto mode", chooser);
-		
-		autoLeft = new AutonomousLeft(); 
-		autoRight =  new AutonomousRight(); 
+		chooser.addObject("AutonomousRight", autoRight);
+		chooser.addObject("Autonomous Center", autoCenter);
+		chooser.addObject("AutoVision Left", autonomousVisionLeft);
+		chooser.addObject("AutoVision Center", autoVisionCenter);
+		chooser.addObject("AutoVision Right", autonomousVisionRight);
+
+		SmartDashboard.putData("Autonomous Mode", chooser);
+
 	}
 
 	public void disabledPeriodic() {
@@ -108,9 +141,19 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+
+		processImage = true;
+		SmartDashboard.putBoolean("processImage", processImage);
+
+		forwardCameraOn = true;
+		SmartDashboard.putBoolean("forwardCameraOn", forwardCameraOn);
+
+		autonomousCommand = (Command) chooser.getSelected();
+		autonomousCommand.start();
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+
+		// if (autonomousCommand != null)
+		// autonomousCommand.start();
 	}
 
 	/**
@@ -121,6 +164,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		processImage = false;
+		forwardCameraOn = true;
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -141,6 +186,18 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		Scheduler.getInstance().run();
+		if (Robot.oi.gameController.getBButton()) {
+			Timer.delay(0.2);
+			forwardCameraOn = !(forwardCameraOn);
+		}
+		SmartDashboard.putBoolean("forwardCameraOn", forwardCameraOn);
+		// if (Robot.oi.gameController.getXButton()) {
+		// Timer.delay(0.2);
+		// processImage = !(processImage);
+		// }
+		// SmartDashboard.putBoolean("processImage", processImage);
+
 		Scheduler.getInstance().run();
 
 	}

@@ -69,32 +69,30 @@ public class ElevatorSubsystem extends Subsystem {
 
 		if ((Robot.oi.StartController().getTriggerAxis(Hand.kLeft) > .3)) {
 			setElevatorSpeed(-0.7);
-			
 
 		} else if (Robot.oi.StartController().getTriggerAxis(Hand.kRight) > .3) {
 			setElevatorSpeed(0.7);
-			if(isElevatorAtSweetSpot()){ 
-				stopElevator();
-				Timer.delay(0.3);
-				System.out.println("Debug. SweetSpot Triggered");
-			}
-			if(isElevatorAtDangerSpot() && !getFlapState()){ 
-				stopElevator();
-				setFlapsDown(true);
-				Timer.delay(0.3);
-				System.out.println("Debug. DangerZone Triggered");
-			}
-			
+
+			// if(isElevatorAtSweetSpot()){
+			// stopElevator();
+			// Timer.delay(0.3);
+			// System.out.println("Debug. SweetSpot Triggered");
+			// }
+			// if(isElevatorAtDangerSpot() && !getFlapState()){
+			// stopElevator();
+			// setFlapsDown(true);
+			// Timer.delay(0.3);
+			// System.out.println("Debug. DangerZone Triggered");
+			// }
 
 		}
-		
+
 		else {
 			stopElevator();
 		}
 
 		if (flapsDown) {
 			moveFlapsDown();
-
 		} else {
 			moveFlapsUp();
 		}
@@ -132,10 +130,10 @@ public class ElevatorSubsystem extends Subsystem {
 	public void setRollerState(boolean status) {
 		if (status) {
 			elevatorRoller.set(1);
-			System.out.println("Debug. Roller Should be on");
+			
 		} else
 			elevatorRoller.set(0);
-		System.out.println("Debug. Roller Should Be off");
+		
 	}
 
 	public void setFlapsDown(boolean flapsDown) {
@@ -155,9 +153,10 @@ public class ElevatorSubsystem extends Subsystem {
 		Timer.delay(0.3);
 	}
 
-	public boolean getFlapState(){ 
+	public boolean getFlapState() {
 		return flapsDown;
 	}
+
 	public boolean isElevatorAtSweetSpot() {
 		if (Math.abs(getPotentiometerValue() - 384.0) <= 5) { // 388 is a bit
 																// high, 380 is

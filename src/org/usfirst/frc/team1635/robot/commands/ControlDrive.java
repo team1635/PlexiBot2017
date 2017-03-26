@@ -36,6 +36,7 @@ public class ControlDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.chassisSystem.drive();
+    	Robot.oi.masterToSecondary(Robot.oi.StartController(), Robot.oi.StartController2());
     	Robot.chassisSystem.log();
     	
     }

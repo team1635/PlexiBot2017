@@ -3,36 +3,38 @@ package org.usfirst.frc.team1635.robot.commands;
 import org.usfirst.frc.team1635.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class DeadToUs extends Command {
+public class DriveWithVision extends Command {
 
-    public DeadToUs() {
-        requires(Robot.elevatorSystem);
-        requires(Robot.pneumaticsSystem);
+    public DriveWithVision() {
+    	requires(Robot.chassisSystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
-    	Robot.elevatorSystem.moveFlapsUp();
+    	System.out.println("DriveWithVision begin");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevatorSystem.setElevatorSpeed(0.5);
+    	Robot.chassisSystem.driveWithVision();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.elevatorSystem.getTopLimit();
+        return Robot.chassisSystem.inTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elevatorSystem.stopElevator();
+    	Robot.chassisSystem.stop();
+    	System.out.println("DriveWithVision Done");
+		SmartDashboard.putBoolean("processImage", false);
+
     }
 
     // Called when another command which requires one or more of the same

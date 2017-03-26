@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Bogdan Bradu & Miguel Cruz ( @Acelogic_)
  *
  */
-public class ChassisSubsystem extends PIDSubsystem {
+public class ChassisSubsystem extends Subsystem {
 	private CANTalon frontLeftMotor;
 	private CANTalon frontRightMotor;
 	private CANTalon backLeftMotor;
@@ -44,20 +44,7 @@ public class ChassisSubsystem extends PIDSubsystem {
 	private RobotDrive drive;
 	AHRS navX;
 
-	double turnSpeed = .45;
-	private static final double kP = 0;
-	private static final double kI = 0;
-	private static final double kD = 0;
-	double kToleranceDegrees = 2.0f;
-
 	public ChassisSubsystem() {
-		super(kP, kI, kD);
-		setInputRange(-180.0f, 180.0f);
-		setOutputRange(-1.0, 1.0);
-		setAbsoluteTolerance(kToleranceDegrees);
-		PIDController myController = this.getPIDController();
-		myController.setContinuous(true);
-		LiveWindow.addActuator("ChassisSubsystem", "turnControllerPID", myController);
 
 		frontLeftMotor = new CANTalon(RobotMap.frontLeftMotorCANPort);
 		frontRightMotor = new CANTalon(RobotMap.frontRightMotorCANPort);
@@ -122,10 +109,14 @@ public class ChassisSubsystem extends PIDSubsystem {
 		SmartDashboard.putNumber("NavXPitch", getPitchValue());
 		SmartDashboard.putNumber("NavXyaw", getYawValue());
 		SmartDashboard.putNumber("NavXRoll", getRollValue());
-		SmartDashboard.putNumber("NavXDisplacement X", getXDisplacementValue());
-		SmartDashboard.putNumber("NavXDisplacement Y", getYDisplacementValue());
-		SmartDashboard.putNumber("NavXDisplacement X No Inches", getXDisplacementNoInches());
-		SmartDashboard.putNumber("NavxDisplacement Y No Inches", getYDisplacementValueNoInches());
+		// SmartDashboard.putNumber("NavXDisplacement X",
+		// getXDisplacementValue());
+		// SmartDashboard.putNumber("NavXDisplacement Y",
+		// getYDisplacementValue());
+		// SmartDashboard.putNumber("NavXDisplacement X No Inches",
+		// getXDisplacementNoInches());
+		// SmartDashboard.putNumber("NavxDisplacement Y No Inches",
+		// getYDisplacementValueNoInches());
 	}
 
 	public void driveWithParams(double left, double right) {
@@ -182,6 +173,16 @@ public class ChassisSubsystem extends PIDSubsystem {
 		navX.resetDisplacement();
 	}
 
+	public double getVisionDistance() {
+		double distance = SmartDashboard.getNumber("VisionDistance", 0.0); // mispelled
+		return distance;
+	}
+
+	public double getVisionError() {
+		double error = SmartDashboard.getNumber("VisionError", 0.0);
+		return error;
+	}
+
 	public void setRotation(double deg, boolean dir) {
 		resetYaw();
 		this.degrees = deg;
@@ -195,7 +196,8 @@ public class ChassisSubsystem extends PIDSubsystem {
 				drive.tankDrive(0, 0);
 				isGoalReached = true;
 			} else {
-				drive.tankDrive(0.4, -0.4);
+				//drive.tankDrive(0.4, -0.4);
+				drive.tankDrive(RobotMap.autoRotateSpeedLi, RobotMap.autoRotateSpeedLi * -1.0);
 			}
 		} else if (!direction) {// turn to the left
 			double inverted = -degrees;
@@ -203,7 +205,8 @@ public class ChassisSubsystem extends PIDSubsystem {
 				drive.tankDrive(0, 0);
 				isGoalReached = true;
 			} else {
-				drive.tankDrive(-0.4, 0.4);
+				//drive.tankDrive(-0.4, 0.4);
+				drive.tankDrive(RobotMap.autoRotateSpeedLi * -1.0, RobotMap.autoRotateSpeedLi);
 			}
 		}
 	}
@@ -220,20 +223,55 @@ public class ChassisSubsystem extends PIDSubsystem {
 		return isGoalReached;
 	}
 
-	public void driveStraight(double speed) {
+	public void driveStraightBob(double speed) {
 
 		double speedCorrection = .01 * getYawValue();
 		drive.tankDrive(speed - speedCorrection, speed + speedCorrection);
 	}
 
-	@Override
-	protected double returnPIDInput() {
-		return navX.pidGet();
+	public void wiggleForward() {
+
+		drive.tankDrive(RobotMap.autoWiggleBackSpeed, RobotMap.autoWiggleForwardSpeed); // 5
+																						// was
+																						// slow
+		Timer.delay(RobotMap.autoWiggleMoveTime); // 1 was too little //2 was
+													// way much
+		stop();
+		Timer.delay(RobotMap.autoWiggleStopTime);
+		drive.tankDrive(RobotMap.autoWiggleForwardSpeed, RobotMap.autoWiggleBackSpeed);
+		Timer.delay(RobotMap.autoWiggleMoveTime);
+		stop();
 	}
 
-	@Override
-	protected void usePIDOutput(double output) {
-		drive.arcadeDrive(0.0, turnSpeed * output);
+	public void driveWithVision() {
+		// When perfectly in target the bottom left corner of the left strip
+		// is about -50 (i.e. to the right) of the center, so we are adjusting
+		// to make sure we are aiming for 0;
+		double error = getVisionError();
+		System.out.println("Error we received from the pi = " + error);
+		error = error + RobotMap.autoErrorCorrection;
+		System.out.println("Error after we corrected it = " + error);
+		double direction = 0;
+
+		// We don't want to compensate direction for very small errors.
+		if (Math.abs(error) > RobotMap.autoErrorTolerance) {
+			// direction = error * -1.0 / Math.abs(error); //kept going the
+			// wrong way
+			direction = error / Math.abs(error);
+		} else {
+			direction = 0; // keep going straight
+		}
+
+		System.out.println("after correction and tolerance filter error = " + error);
+		System.out.println("direction = " + direction);
+		double rotateSpeed = RobotMap.autoRotateSpeed * direction;
+		System.out.println("robot spining at rotateSpeed = " + rotateSpeed);
+		drive.arcadeDrive(RobotMap.autoSpeed, rotateSpeed);
+	}
+
+	public boolean inTarget() {
+		System.out.println("VisionDistance = " + getVisionDistance());
+		return (getVisionDistance() > RobotMap.inTargetDistance);
 	}
 
 }

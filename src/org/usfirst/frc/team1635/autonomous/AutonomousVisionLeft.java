@@ -3,19 +3,25 @@ package org.usfirst.frc.team1635.autonomous;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.TurnToSetPointLi;
 import org.usfirst.frc.team1635.robot.commands.WiggleForward;
+import org.usfirst.frc.team1635.robot.commands.DriveWithVision;
 import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrection;
+import org.usfirst.frc.team1635.robot.commands.TimeoutDriveWithCorrectionSlow;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutonomousLeft extends CommandGroup {
+public class AutonomousVisionLeft extends CommandGroup {
 
-	public AutonomousLeft() {
+	public AutonomousVisionLeft() {
 		addSequential(new TimeoutDriveWithCorrection(RobotMap.autoLeftDriveToTurn));
 		addSequential(new TurnToSetPointLi(RobotMap.autoLeftTurnRight, true));
-		addSequential(new TimeoutDriveWithCorrection(RobotMap.autoLeftDriveToGearHolder));
+		addSequential(new DriveWithVision());
+		// next method takes double executionTime, double speed
+		addSequential(new TimeoutDriveWithCorrectionSlow(
+				RobotMap.autoVisionStraightTime
+				, RobotMap.autoVisionStraightSpeed));
 		addSequential(new WiggleForward());
 	}
 }

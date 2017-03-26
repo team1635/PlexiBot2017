@@ -3,7 +3,7 @@ package org.usfirst.frc.team1635.robot.subsystems;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.ControlPneumatics;
-import org.usfirst.frc.team1635.robot.commands.PopGearWithFlapsDown;
+
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
