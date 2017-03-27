@@ -187,7 +187,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		if (Robot.oi.gameController.getBButton()) {
+		if (Robot.oi.globalB) {
 			Timer.delay(0.2);
 			forwardCameraOn = !(forwardCameraOn);
 		}
