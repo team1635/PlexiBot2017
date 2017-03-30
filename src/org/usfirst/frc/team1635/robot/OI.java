@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1635.robot;
 
-import org.usfirst.frc.team1635.robot.commands.GusGearIntake;
+import org.usfirst.frc.team1635.robot.commands.BottomOutElevator;
+
 
 import org.usfirst.frc.team1635.robot.commands.ShootBalls;
 import org.usfirst.frc.team1635.robot.commands.WiggleForward;
@@ -96,8 +97,8 @@ public class OI {
 		dPadUp.whenPressed(new ShootBalls());
 		dPadUp2.whenPressed(new ShootBalls());
 
-		dPadDown.whenPressed(new GusGearIntake());
-		dPadDown2.whenPressed(new GusGearIntake());
+		dPadDown.whenPressed(new BottomOutElevator());
+		dPadDown2.whenPressed(new BottomOutElevator());
 		// dPadLeft.whenPressed(new PopGearWithFlapsDown());
 	}
 

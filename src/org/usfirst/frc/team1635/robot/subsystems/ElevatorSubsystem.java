@@ -68,10 +68,10 @@ public class ElevatorSubsystem extends Subsystem {
 	public void controlElevator() {
 
 		if ((Robot.oi.StartController().getTriggerAxis(Hand.kLeft) > .3)) {
-			setElevatorSpeed(-0.7);
+			setElevatorSpeed(-0.675);
 
 		} else if (Robot.oi.StartController().getTriggerAxis(Hand.kRight) > .3) {
-			setElevatorSpeed(0.7);
+			setElevatorSpeed(0.675);
 
 			// if(isElevatorAtSweetSpot()){
 			// stopElevator();
@@ -99,7 +99,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void elevatorRollerControl() {
-		if (Robot.oi.StartController().getXButton()) {
+		if (Robot.oi.globalX) {
 			elevatorRoller.set(1);
 
 		} else {
@@ -108,7 +108,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public void controlFlaps() {
-		if (Robot.oi.StartController().getStartButton()) {
+		if (Robot.oi.globalStartButton) {
 			moveFlapsDown();
 			Timer.delay(0.1);
 
@@ -130,10 +130,10 @@ public class ElevatorSubsystem extends Subsystem {
 	public void setRollerState(boolean status) {
 		if (status) {
 			elevatorRoller.set(1);
-			
+
 		} else
 			elevatorRoller.set(0);
-		
+
 	}
 
 	public void setFlapsDown(boolean flapsDown) {
@@ -174,6 +174,15 @@ public class ElevatorSubsystem extends Subsystem {
 			return false;
 		}
 
+	}
+	
+	public boolean IsElevatorBottomedOut(){ 
+		if(Math.abs(getPotentiometerValue() - 635.0) <=3 ){ 
+			return true; 
+		}
+		else{ 
+			return false; 
+		}
 	}
 
 	public double getPotentiometerValue() {
