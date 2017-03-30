@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1635.robot.commands;
+package org.usfirst.frc.team1635.robot.control;
 
 //Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;

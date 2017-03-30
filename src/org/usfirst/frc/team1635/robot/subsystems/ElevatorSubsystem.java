@@ -4,6 +4,7 @@ import java.math.*;
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
 import org.usfirst.frc.team1635.robot.commands.*;
+import org.usfirst.frc.team1635.robot.control.ControlElevator;
 import org.usfirst.frc.team1635.util.XboxControllerButton;
 
 import com.ctre.CANTalon;
@@ -71,20 +72,16 @@ public class ElevatorSubsystem extends Subsystem {
 			setElevatorSpeed(-0.675);
 
 		} else if (Robot.oi.StartController().getTriggerAxis(Hand.kRight) > .3) {
-			setElevatorSpeed(0.675);
+			if (isElevatorAtDangerSpot()) {
+				stopElevator();
+				Timer.delay(0.2);
+				setElevatorSpeed(-0.15);
+				Timer.delay(1.25);
+			}
 
-			// if(isElevatorAtSweetSpot()){
-			// stopElevator();
-			// Timer.delay(0.3);
-			// System.out.println("Debug. SweetSpot Triggered");
-			// }
-			// if(isElevatorAtDangerSpot() && !getFlapState()){
-			// stopElevator();
-			// setFlapsDown(true);
-			// Timer.delay(0.3);
-			// System.out.println("Debug. DangerZone Triggered");
-			// }
-
+			else {
+				setElevatorSpeed(0.675);
+			}
 		}
 
 		else {
@@ -140,10 +137,6 @@ public class ElevatorSubsystem extends Subsystem {
 		this.flapsDown = flapsDown;
 	}
 
-	public void moveFlapsForGears() {
-
-	}
-
 	public void moveFlapsUp() {
 		flapsSolenoid.set(false);
 	}
@@ -175,13 +168,12 @@ public class ElevatorSubsystem extends Subsystem {
 		}
 
 	}
-	
-	public boolean IsElevatorBottomedOut(){ 
-		if(Math.abs(getPotentiometerValue() - 635.0) <=3 ){ 
-			return true; 
-		}
-		else{ 
-			return false; 
+
+	public boolean IsElevatorBottomedOut() {
+		if (Math.abs(getPotentiometerValue() - 635.0) <= 3) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

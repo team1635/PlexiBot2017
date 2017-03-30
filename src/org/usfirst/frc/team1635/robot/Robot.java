@@ -187,11 +187,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		Robot.oi.masterToSecondary(Robot.oi.StartController(), Robot.oi.StartController2());
 		if (Robot.oi.globalB) {
 			Timer.delay(0.2);
 			forwardCameraOn = !(forwardCameraOn);
 		}
-	 	Robot.oi.masterToSecondary(Robot.oi.StartController(), Robot.oi.StartController2());
+	 	
 		SmartDashboard.putBoolean("forwardCameraOn", forwardCameraOn);
 		// if (Robot.oi.gameController.getXButton()) {
 		// Timer.delay(0.2);
