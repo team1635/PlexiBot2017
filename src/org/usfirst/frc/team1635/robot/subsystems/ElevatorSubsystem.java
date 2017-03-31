@@ -45,7 +45,7 @@ public class ElevatorSubsystem extends Subsystem {
 	public ElevatorSubsystem() {
 		super();
 		elevatorActuator = new CANTalon(RobotMap.elevatorMotorCANPort);
-		elevatorRoller = new CANTalon(RobotMap.elevatorRollerMotorCANPort);
+
 		limitSwitchTop = new DigitalInput(RobotMap.topLimitSwitchDioPort);
 		limitSwitchBottom = new DigitalInput(RobotMap.bottomLimitSwitchDioPort);
 		analogPot = new AnalogPotentiometer(RobotMap.potentiometerAnalogPort, 3600.0 / 5);
@@ -74,9 +74,6 @@ public class ElevatorSubsystem extends Subsystem {
 		} else if (Robot.oi.StartController().getTriggerAxis(Hand.kRight) > .3) {
 			if (isElevatorAtDangerSpot()) {
 				stopElevator();
-				Timer.delay(0.2);
-				setElevatorSpeed(-0.15);
-				Timer.delay(1.25);
 			}
 
 			else {
@@ -92,15 +89,6 @@ public class ElevatorSubsystem extends Subsystem {
 			moveFlapsDown();
 		} else {
 			moveFlapsUp();
-		}
-	}
-
-	public void elevatorRollerControl() {
-		if (Robot.oi.globalX) {
-			elevatorRoller.set(1);
-
-		} else {
-			elevatorRoller.set(0);
 		}
 	}
 
@@ -161,7 +149,7 @@ public class ElevatorSubsystem extends Subsystem {
 	}
 
 	public boolean isElevatorAtDangerSpot() {
-		if (Math.abs(getPotentiometerValue() - 520.0) <= 5) {
+		if (Math.abs(getPotentiometerValue() - 394.0) <= 5) {
 			return true;
 		} else {
 			return false;

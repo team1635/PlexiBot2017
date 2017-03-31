@@ -52,8 +52,8 @@ public class WinchClimbSubsystem extends Subsystem {
 	public void operateWinch() {
 
 		if (Robot.oi.globalBackButton) {
-			rollerTalonSR.set(-1);
-			rollerTalonSRx2.set(-1);
+			rollerTalonSR.set(1);
+			rollerTalonSRx2.set(1);
 		} else if (!Robot.oi.globalBackButton) {
 			stopWinch();
 		}

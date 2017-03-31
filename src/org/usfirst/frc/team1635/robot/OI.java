@@ -2,8 +2,6 @@ package org.usfirst.frc.team1635.robot;
 
 import org.usfirst.frc.team1635.robot.commands.BottomOutElevator;
 
-
-import org.usfirst.frc.team1635.robot.commands.ShootBalls;
 import org.usfirst.frc.team1635.robot.commands.WiggleForward;
 //Local Package Imports
 import org.usfirst.frc.team1635.util.XboxControllerButton;
@@ -52,8 +50,8 @@ public class OI {
 	DPadButton dPadLeft = new DPadButton(gameController, DPadButton.Direction.Left);
 	DPadButton dPadRight = new DPadButton(gameController, DPadButton.Direction.Right);
 
-// -----------------------------------------------------------------------------------
-// For DualControllers
+	// -----------------------------------------------------------------------------------
+	// For DualControllers
 	public boolean globalA;
 	public boolean globalB;
 	public boolean globalX;
@@ -87,15 +85,12 @@ public class OI {
 		this.globalStartButton = master.getStartButton() || secondary.getStartButton();
 	}
 
-// ---------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------
 
 	public OI() {
 		aButton.whenPressed(new WiggleForward());
 		aButton2.whenPressed(new WiggleForward());
 		// Don't use B - we switch camera with it.
-
-		dPadUp.whenPressed(new ShootBalls());
-		dPadUp2.whenPressed(new ShootBalls());
 
 		dPadDown.whenPressed(new BottomOutElevator());
 		dPadDown2.whenPressed(new BottomOutElevator());
