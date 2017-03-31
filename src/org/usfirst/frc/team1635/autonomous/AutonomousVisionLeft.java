@@ -19,9 +19,8 @@ public class AutonomousVisionLeft extends CommandGroup {
 		addSequential(new TurnToSetPointLi(RobotMap.autoLeftTurnRight, true));
 		addSequential(new DriveWithVision());
 		// next method takes double executionTime, double speed
-		addSequential(new TimeoutDriveWithCorrectionSlow(
-				RobotMap.autoVisionStraightTime
-				, RobotMap.autoVisionStraightSpeed));
+		addSequential(
+				new TimeoutDriveWithCorrectionSlow(RobotMap.autoVisionStraightTime, RobotMap.autoVisionStraightSpeed));
 		addSequential(new WiggleForward());
 	}
 }

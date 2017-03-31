@@ -19,9 +19,9 @@ public class RobotMap {
 	// ------------------------------------------------------------
 	// CAN IDs/Ports
 	public static int elevatorMotorCANPort = 3;
-	public static int elevatorRollerMotorCANPort = 2;
+	public static int elevatorRollerMotorCANPort;
 	// Drive
-	public static int frontLeftMotorCANPort = 4;
+	public static int frontLeftMotorCANPort = 2; // 4 Died Replacing with 2 
 	public static int frontRightMotorCANPort = 6;
 	public static int backLeftMotorCANPort = 1;
 	public static int backRightMotorCANPort = 5;

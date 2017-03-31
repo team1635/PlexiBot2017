@@ -3,8 +3,7 @@ package org.usfirst.frc.team1635.robot.subsystems;
 // Local Package Imports
 import org.usfirst.frc.team1635.robot.Robot;
 import org.usfirst.frc.team1635.robot.RobotMap;
-import org.usfirst.frc.team1635.robot.commands.ControlDrive;
-//------------------------------------------------------------
+import org.usfirst.frc.team1635.robot.control.ControlDrive;
 
 // CTRE Imports
 import com.ctre.CANTalon;
